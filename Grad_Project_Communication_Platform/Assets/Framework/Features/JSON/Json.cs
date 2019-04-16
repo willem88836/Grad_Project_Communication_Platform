@@ -59,10 +59,10 @@ namespace Framework.Features.Json
 
 					jsonBuilder.Append(OBJPREFIX);
 
-					FieldInfo[] fields = t.GetFields().Where(info => info.GetCustomAttribute(typeof(JsonIgnore)) == null).ToArray();
+					FieldInfo[] fields = t.GetFields().Where(info => info.GetCustomAttribute(typeof(JsonIgnore)) == null && !info.IsLiteral).ToArray();
 					SerializeFields(obj, fields);
 
-					PropertyInfo[] properties = t.GetProperties().Where(info => info.GetCustomAttribute(typeof(JsonIgnore)) == null).ToArray();
+					PropertyInfo[] properties = t.GetProperties().Where(info => info.GetCustomAttribute(typeof(JsonIgnore)) == null && info.CanWrite && info.CanRead).ToArray();
 					if (properties.Length > 0)
 						jsonBuilder.Append(OBJSEPARATOR);
 					SerializeProperties(obj, properties);
@@ -186,7 +186,9 @@ namespace Framework.Features.Json
 				StringBuilder nameBuilder = new StringBuilder();
 				StringBuilder valueBuilder = new StringBuilder();
 
-				if (json[i] == OBJPREFIX)
+				if (json[i] != OBJPREFIX)
+					return null;
+				else
 					i++;
 
 				for (char c; i < json.Length; i++)

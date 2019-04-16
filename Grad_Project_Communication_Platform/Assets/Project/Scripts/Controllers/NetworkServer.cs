@@ -11,6 +11,7 @@ public sealed class NetworkServer : NetworkManager
 
 	private List<Participant> activeUsers;
 
+
 	protected override void Awake()
 	{
 		base.Awake();
@@ -21,6 +22,7 @@ public sealed class NetworkServer : NetworkManager
 		NetworkMessage msg = new NetworkMessage(NetworkMessageType.Enqueue, "", "", "");
 		Enqueue(msg);
 	}
+
 
 	public void ConnectToServer(NetworkMessage message)
 	{

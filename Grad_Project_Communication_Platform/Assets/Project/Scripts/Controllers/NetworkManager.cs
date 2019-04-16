@@ -12,6 +12,7 @@ public abstract class NetworkManager : MonoBehaviour, INetworkListener
 
 	protected string Id;
 
+
 	protected virtual void Awake()
 	{
 		udpMaster = new UDPMaster<NetworkMessage>();

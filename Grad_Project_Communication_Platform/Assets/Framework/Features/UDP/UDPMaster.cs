@@ -70,7 +70,7 @@ namespace Framework.Features.UDP
 			byte[] messageByteArray = Encoding.ASCII.GetBytes(msg);
 			sendingSocket.SendTo(messageByteArray, sendingEndPoint);
 
-			LoggingUtilities.LogFormat("Sent message (\"{0}\") to ip ({1}) using port ({2})", message, sendingEndPoint.Address, sendingEndPoint.Port);
+			LoggingUtilities.LogFormat("Sent message (\"{0}\") to ip ({1}) using port ({2})", msg, sendingEndPoint.Address, sendingEndPoint.Port);
 		}
 		/// <summary>
 		///		Updates the current messaging target, and sends 

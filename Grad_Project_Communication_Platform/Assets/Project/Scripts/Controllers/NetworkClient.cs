@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public sealed class NetworkClient : NetworkManager
 {
-	private string clientId;
+	private string clientId; // TODO: Set client id to match phone number or something.
 
 
 	protected override void Awake()
@@ -14,12 +14,8 @@ public sealed class NetworkClient : NetworkManager
 		base.Awake();
 
 		NetworkMessage connectMsg = new NetworkMessage(NetworkMessageType.ConnectToServer, clientId);
-
-
-		UnityEngine.Debug.Log(Framework.Features.Json.JsonUtility.ToJson(connectMsg));
-		// TODO: Continue here with deserializing and such .
-
-		//SendMessage(connectMsg);
+		// TODO: Continue here with deserializing and such.
+		SendMessage(connectMsg);
 	}
 
 

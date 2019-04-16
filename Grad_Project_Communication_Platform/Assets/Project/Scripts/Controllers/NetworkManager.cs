@@ -15,7 +15,7 @@ public abstract class NetworkManager : MonoBehaviour, INetworkListener
 	protected virtual void Awake()
 	{
 		udpMaster = new UDPMaster<NetworkMessage>();
-		udpMaster.Initialize(PortIn, PortOut);
+		udpMaster.Initialize(PortOut, PortIn);
 		udpMaster.AddListener(this);
 	}
 

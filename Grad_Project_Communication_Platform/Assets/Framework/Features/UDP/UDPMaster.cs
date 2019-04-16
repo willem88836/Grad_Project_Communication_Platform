@@ -30,7 +30,7 @@ namespace Framework.Features.UDP
 		///		Sets the UDPMaster up for sending messages,
 		///		and start listening to messages. 
 		/// </summary>
-		public void Initialize(int sendingPort = 11000, int receivingPort = 11000)
+		public void Initialize(int sendingPort = 11000, int receivingPort = 11001)
 		{
 			this.receivingPort = receivingPort;
 			this.sendingPort = sendingPort;

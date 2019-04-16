@@ -28,22 +28,23 @@ public class NetworkMessage : UDPMessage
 }
 
 
-public enum NetworkMessageType
+public enum NetworkMessageType		// Content stored in message field
 {
-	Null,
+	Null,							// No content in message field
 	// Client -> Server
-	DisconnectFromServer,
-	Enqueue,
-    StoreFootage,
-    TransmitEvaluationTest,
-    RemoveConnection,
+	DisconnectFromServer,           // No content in message field
+	Enqueue,                        // Module in message field
+	Dequeue,                        // Module in message field
+	StoreFootage,					// 
+    TransmitEvaluationTest,			// Serialized Evaluation/test in message field
+    RemoveConnection,				// No content in message field
 	// Server -> Client
-	TransmitRoleplayDescription,
-    TransmitFinalEvaluation,
+	TransmitRoleplayDescription,	// RoleplayDescription in message field
+    TransmitFinalEvaluation,		// Final Evaluation in message field
 	// Client -> Client
-    TransmitFootage,
-    ForceEndCall,
-    ForceDisconnect,
+    TransmitFootage,				// Serialized Footage in message field 
+    ForceEndCall,					// No content in message field
+    ForceDisconnect,				// No content in message field
 	// Client <-> Server
-	ConnectToServer,
+	ConnectToServer,				// Name and Id in message field
 }

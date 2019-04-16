@@ -40,8 +40,14 @@ public sealed class NetworkServer : NetworkManager
 
 	public void Enqueue(NetworkMessage message)
 	{
-		Participant participant = activeUsers.Find((Participant p) => p.IP == message.SenderIP);
+		Participant participant = SelectParticipant(message);
 		matchmaker.Enqueue(participant, message.Message);
+	}
+
+	public void Dequeue(NetworkMessage message)
+	{
+		Participant participant = SelectParticipant(message);
+		matchmaker.Dequeue(participant, message.Message);
 	}
 
 	public void StoreFootage(NetworkMessage message)
@@ -57,5 +63,12 @@ public sealed class NetworkServer : NetworkManager
 	public void RemoveConnection(NetworkMessage message)
 	{
 
+	}
+
+
+
+	private Participant SelectParticipant(NetworkMessage message)
+	{
+		return activeUsers.Find((Participant p) => p.IP == message.SenderIP);
 	}
 }

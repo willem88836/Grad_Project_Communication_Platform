@@ -27,18 +27,19 @@ public class Matchmaker
 
 	public void Enqueue(Participant participant, string serializedModule)
 	{
-		RoleplayModule module = (RoleplayModule)Enum.Parse(typeof(RoleplayModule), serializedModule);
-
+		RoleplayModule module = ParseModule(serializedModule);
 		List<Participant> queue = queues[module];
 		queue.Add(participant);
 		FindMatch(module);
 	}
 
-	public void Dequeue(Participant participant, RoleplayModule module)
+	public void Dequeue(Participant participant, string serializedModule)
 	{
+		RoleplayModule module = ParseModule(serializedModule);
 		List<Participant> queue = queues[module];
 		queue.Remove(participant);
 	}
+
 
 
 	private void FindMatch(RoleplayModule module)
@@ -69,5 +70,12 @@ public class Matchmaker
 	{
 		NetworkMessage networkMessage = new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", receiver.Id, serializedRoleplayDescription);
 		networkServer.SendMessage(networkMessage);
+	}
+
+
+
+	private RoleplayModule ParseModule(string serializedModule)
+	{
+		return (RoleplayModule)Enum.Parse(typeof(RoleplayModule), serializedModule);
 	}
 }

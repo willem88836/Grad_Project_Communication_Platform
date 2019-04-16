@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Framework.Utils;
+using Framework.Features.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -6,62 +7,138 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Text;
 
-namespace Framework.UDP
+namespace Framework.Features.UDP
 {
 	/// <summary>
 	///		Responsible for sending and receiving messages. 
 	/// </summary>
-	public class UDPMaster
+	public sealed class UDPMaster<T> where T : UDPMessage
 	{
-		public static UDPMaster Instance;
+		private int sendingPort;
+		private Socket sendingSocket;
+		private IPAddress sendingAddress;
+		private IPEndPoint sendingEndPoint;
 
+		private int receivingPort;
+		private UdpClient receiver;
+		private IPEndPoint receivingEndPoint;
+		private Thread receiverThread;
 
-		public int Port = 11000;
+		private List<INetworkListener> networkListeners;
 
+		/// <summary>
+		///		Sets the UDPMaster up for sending messages,
+		///		and start listening to messages. 
+		/// </summary>
+		public void Initialize(int sendingPort = 11000, int receivingPort = 11000)
+		{
+			this.receivingPort = receivingPort;
+			this.sendingPort = sendingPort;
 
-		protected Socket sendingSocket;
-		protected IPAddress targetAddress;
-		protected IPEndPoint targetEndpoint;
+			sendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+			sendingAddress = GetLocalBroadcast();
+			sendingEndPoint = new IPEndPoint(sendingAddress, this.sendingPort);
 
-		protected IPEndPoint receivingEndPoint;
-		protected UdpClient listener;
+			receiver = new UdpClient(this.receivingPort);
+			receivingEndPoint = new IPEndPoint(IPAddress.Any, this.receivingPort);
 
-		protected List<INetworkListener> networkListeners;
+			networkListeners = new List<INetworkListener>();
+
+			StartReceivingMessages();
+
+			LoggingUtilities.LogFormat("UDPMaster initialized with ip ({0}) and sending port ({1}) receiving port ({2})", sendingEndPoint.Address, sendingPort, this.receivingPort);
+		}
+		/// <summary>
+		///		Closes used port and message receiving thread. 
+		/// </summary>
+		public void Kill()
+		{
+			LoggingUtilities.LogFormat("Killing UDPMaster");
+
+			receiverThread.Abort();
+			receiver.Close();
+			sendingSocket.Close();
+		}
 
 
 		/// <summary>
 		///		Sends a message across the network.
 		/// </summary>
-		public static void SendMessage(string message)
+		public void SendMessage(T message)
 		{
-			if (Instance == null)
-				throw new NullReferenceException("UDPMaster is not initialized");
+			string msg = JsonUtility.ToJson(message);
+			byte[] messageByteArray = Encoding.ASCII.GetBytes(msg);
+			sendingSocket.SendTo(messageByteArray, sendingEndPoint);
 
-			Instance.SendNetworkMessage(message);
+			LoggingUtilities.LogFormat("Sent message (\"{0}\") to ip ({1}) using port ({2})", message, sendingEndPoint.Address, sendingEndPoint.Port);
 		}
+		/// <summary>
+		///		Updates the current messaging target, and sends 
+		///		a message across the network.
+		/// </summary>
+		public void SendMessage(T message, string ipAddress)
+		{
+			sendingEndPoint.Address = IPAddress.Parse(ipAddress);
+			SendMessage(message);
+		}
+
+
+		/// <summary>
+		///		Creates a new thread dedicated to message receiving.
+		/// </summary>
+		private void StartReceivingMessages()
+		{
+			ThreadStart activity = new ThreadStart(() => { while (true) { ReceiveNetworkMessage(); } });
+			receiverThread = new Thread(activity);
+			receiverThread.Start();
+		}
+		/// <summary>
+		///		Receives network messages.
+		/// </summary>
+		private void ReceiveNetworkMessage()
+		{
+			try
+			{
+				byte[] messageByteArray = receiver.Receive(ref receivingEndPoint);
+				string message = Encoding.ASCII.GetString(messageByteArray);
+
+				LoggingUtilities.LogFormat("Received message (\"{0}\") from ip ({1}) using port ({2})", message, receivingEndPoint.Address, receivingPort);
+
+				UDPMessage udpMessage = (UDPMessage)JsonUtility.FromJson(message, typeof(T));
+
+				foreach (INetworkListener listener in networkListeners)
+				{
+					listener.OnMessageReceived(udpMessage);
+				}
+			}
+			catch (System.Exception ex)
+			{
+				LoggingUtilities.Log(ex.Message + " " + ex.StackTrace);
+			}
+		}
+
+
 		/// <summary>
 		///		Adds INetworkListener to the list of objects that 
 		///		is invoked once a message is received.
 		/// </summary>
-		public static void AddListener(INetworkListener listener)
+		public void AddListener(INetworkListener listener)
 		{
-			List<INetworkListener> networkListeners = UDPMaster.Instance.networkListeners;
 			if (!networkListeners.Contains(listener))
 			{
 				networkListeners.Add(listener);
 			}
 			else
 			{
-				Console.WriteLine("Can't add duplicate listener!");
+				LoggingUtilities.Log("Can't add duplicate listener!");
 			}
 		}
 		/// <summary>
 		///		Removes INetworkListener from the list of objects
 		///		that is invoked once a message is received.
 		/// </summary>
-		public static void RemoveListener(INetworkListener listener)
+		public void RemoveListener(INetworkListener listener)
 		{
-			List<INetworkListener> networkListeners = UDPMaster.Instance.networkListeners;
 			int index = networkListeners.IndexOf(listener);
 			if (index != -1)
 			{
@@ -69,93 +146,29 @@ namespace Framework.UDP
 			}
 			else
 			{
-				Console.WriteLine("Can't remove unlisted listener!");
+				LoggingUtilities.Log("Can't remove unlisted listener!");
 			}
 		}
 
 
-		public virtual void Initialize()
+		public void UpdateTargetIP(string ipAddress)
 		{
-			if (Instance != null)
-			{
-				throw new Exception("UDPMaster instance already existing. Can't have two instances running simultaneously.");
-			}
-
-			sendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-			targetAddress = GetTargetIP();
-			targetEndpoint = new IPEndPoint(targetAddress, Port);
-
-			listener = new UdpClient(Port);
-			receivingEndPoint = new IPEndPoint(IPAddress.Any, Port);
-
-			networkListeners = new List<INetworkListener>();
-
-			StartReceivingMessages();
-
-			Instance = this;
+			sendingEndPoint.Address = IPAddress.Parse(ipAddress);
+			LoggingUtilities.LogFormat("Updating target IP to: {0}", ipAddress);
 		}
 
-		/// <summary>
-		///		Returns the target IP address.
-		/// </summary>
-		protected virtual IPAddress GetTargetIP()
+		public IPAddress GetLocalBroadcast()
 		{
 			var host = Dns.GetHostEntry(Dns.GetHostName());
 			IEnumerable<IPAddress> ips = host.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork);
 			string finalIP = ips.ToArray()[0].ToString();
 
-			string[] ipSegments = finalIP.Split('.');
-			finalIP = finalIP.Substring(0, finalIP.Length - ipSegments[ipSegments.Length - 1].Length);
+			string[] ipChunks = finalIP.Split('.');
+			finalIP = finalIP.Substring(0, finalIP.Length - ipChunks[ipChunks.Length - 1].Length);
 			finalIP += "255";
 
 			return IPAddress.Parse(finalIP);
 		}
 
-		/// <summary>
-		///		Sends a message across the network.
-		/// </summary>
-		protected virtual void SendNetworkMessage(string message)
-		{
-			byte[] messageByteArray = Encoding.ASCII.GetBytes(message);
-			sendingSocket.SendTo(messageByteArray, targetEndpoint);
-			OnNetworkMessageSent(message);
-
-			Console.WriteLine(string.Format("Message (\"{0}\") sent to ip ({1}) using port ({2})", message, targetEndpoint.Address, targetEndpoint.Port));
-		}
-
-		/// <summary>
-		///		Creates a new thread dedicated to message receiving.
-		/// </summary>
-		protected virtual void StartReceivingMessages()
-		{
-			ThreadStart activity = new ThreadStart(() => { while (true) { ReceiveNetworkMessage(); } });
-			Thread messageThread = new Thread(activity);
-			messageThread.Start();
-		}
-		/// <summary>
-		///		Receives network messages.
-		/// </summary>
-		protected virtual void ReceiveNetworkMessage()
-		{
-			byte[] messageByteArray = listener.Receive(ref receivingEndPoint);
-			string message = Encoding.ASCII.GetString(messageByteArray);
-
-			foreach(INetworkListener listener in networkListeners)
-			{
-				listener.OnMessageReceived(message);
-			}
-
-			OnNetworkMessageReceived(message);
-			Console.WriteLine(string.Format("Received message (\"{0}\") from ip ({1}) using port ({2})", message, targetEndpoint.Address, Port));
-		}
-
-		/// <summary>
-		///		Is called after a message is received. 
-		/// </summary>
-		protected virtual void OnNetworkMessageReceived(string messsage) { }
-		/// <summary>
-		///		Is called after a message is sent.
-		/// </summary>
-		protected virtual void OnNetworkMessageSent(string message) { }
 	}
 }

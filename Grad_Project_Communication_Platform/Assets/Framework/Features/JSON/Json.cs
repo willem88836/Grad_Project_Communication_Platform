@@ -409,6 +409,20 @@ namespace Framework.Features.Json
 				throw new Exception("Json deserialization halted with error message: " + e.Message);
 			}
 		}
+		// TODO: Test this!!
+		public static object FromJson(string json, Type t)
+		{
+			try
+			{
+				JsonDeserializer jsonDeserializer = new JsonDeserializer();
+				int i = 0;
+				return jsonDeserializer.DeserializeObject(json, ref i, t);
+			}
+			catch (Exception e)
+			{
+				throw new Exception("Json deserialization halted with error message: " + e.Message);
+			}
+		}
 
 		public static string ToJson<T>(T obj)
 		{

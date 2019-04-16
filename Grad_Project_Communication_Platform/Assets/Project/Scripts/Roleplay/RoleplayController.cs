@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using UnityEngine;
 
-namespace Assets.Project.Scripts.Roleplay
+public class RoleplayController : MonoBehaviour
 {
-	class RoleplayController
+	private NetworkClient networkClient;
+
+	public void Initialize(NetworkClient networkClient)
 	{
+		this.networkClient = networkClient;
 	}
+
+
 }

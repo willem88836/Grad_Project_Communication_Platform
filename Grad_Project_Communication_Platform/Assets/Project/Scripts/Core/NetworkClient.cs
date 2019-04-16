@@ -1,20 +1,26 @@
 ﻿public sealed class NetworkClient : NetworkManager
 {
-	private string clientId; // TODO: Set client id to match phone number or something.
+	public RoleplayController RoleplayController;
+	public ModuleController ModuleController;
+
+
+	public string ClientId { get; private set; } // TODO: Set client id to match phone number or something.
 
 
 	protected override void Awake()
 	{
 		base.Awake();
 
-		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, clientId);
-		// TODO: Continue here with deserializing and such.
+		ModuleController.Initialize(this);
+		RoleplayController.Initialize(this);
+
+		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, ClientId);
 		SendMessage(connectMessage);
 	}
 
 	protected override void OnDestroy()
 	{
-		NetworkMessage disconnectMessage = new NetworkMessage(NetworkMessageType.DisconnectFromServer, clientId);
+		NetworkMessage disconnectMessage = new NetworkMessage(NetworkMessageType.DisconnectFromServer, ClientId);
 		SendMessage(disconnectMessage);
 		base.OnDestroy();
 	}

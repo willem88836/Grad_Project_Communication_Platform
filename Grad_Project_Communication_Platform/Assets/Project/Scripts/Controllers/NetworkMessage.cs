@@ -7,7 +7,7 @@ public class NetworkMessage : UDPMessage
 	public string SenderId = "";
 	public string ReceiverId = "";
 	public string Message = "";
-	public DateTime TimeStamp = DateTime.MinValue;
+	public string TimeStamp = "";
 
 	public NetworkMessage(NetworkMessageType type, string senderId, DateTime timestamp, string receiverId = "", string message = "")
 	{
@@ -15,7 +15,7 @@ public class NetworkMessage : UDPMessage
 		this.SenderId = senderId;
 		this.ReceiverId = receiverId;
 		this.Message = message;
-		this.TimeStamp = timestamp;
+		this.TimeStamp = timestamp.ToString();
 	}
 	public NetworkMessage(NetworkMessageType type, string senderId, string receiverId = "", string message = "")
 	{
@@ -23,7 +23,7 @@ public class NetworkMessage : UDPMessage
 		this.SenderId = senderId;
 		this.ReceiverId = receiverId;
 		this.Message = message;
-		this.TimeStamp = DateTime.Now;
+		this.TimeStamp = DateTime.Now.ToString();
 	}
 }
 

@@ -32,6 +32,7 @@ public enum NetworkMessageType
 {
 	Null,
 	// Client -> Server
+	DisconnectFromServer,
 	Enqueue,
     StoreFootage,
     TransmitEvaluationTest,
@@ -44,5 +45,5 @@ public enum NetworkMessageType
     ForceEndCall,
     ForceDisconnect,
 	// Client <-> Server
-	ConnectToServer
+	ConnectToServer,
 }

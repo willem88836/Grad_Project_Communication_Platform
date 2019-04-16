@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-public sealed class NetworkClient : NetworkManager
+﻿public sealed class NetworkClient : NetworkManager
 {
 	private string clientId; // TODO: Set client id to match phone number or something.
 
@@ -18,7 +12,12 @@ public sealed class NetworkClient : NetworkManager
 		SendMessage(connectMsg);
 	}
 
-
+	protected override void OnDestroy()
+	{
+		NetworkMessage disconnectMessage = new NetworkMessage(NetworkMessageType.DisconnectFromServer, clientId);
+		SendMessage(disconnectMessage);
+		base.OnDestroy();
+	}
 
 
 	public void ConnectToServer(NetworkMessage message)

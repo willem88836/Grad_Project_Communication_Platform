@@ -1,7 +1,7 @@
-﻿namespace Framework.UDP
+﻿namespace Framework.Features.UDP
 {
 	public interface INetworkListener
 	{
-		void OnMessageReceived(string message);
+		void OnMessageReceived(UDPMessage message);
 	}
 }

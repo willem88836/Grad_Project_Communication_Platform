@@ -59,10 +59,10 @@ namespace Framework.Features.Json
 
 					jsonBuilder.Append(OBJPREFIX);
 
-					FieldInfo[] fields = t.GetFields().Where(info => info.GetCustomAttribute(typeof(JsonIgnore)) == null).ToArray();
+					FieldInfo[] fields = t.GetFields().Where(info => info.GetCustomAttribute(typeof(JsonIgnore)) == null && !info.IsLiteral).ToArray();
 					SerializeFields(obj, fields);
 
-					PropertyInfo[] properties = t.GetProperties().Where(info => info.GetCustomAttribute(typeof(JsonIgnore)) == null).ToArray();
+					PropertyInfo[] properties = t.GetProperties().Where(info => info.GetCustomAttribute(typeof(JsonIgnore)) == null && info.CanWrite && info.CanRead).ToArray();
 					if (properties.Length > 0)
 						jsonBuilder.Append(OBJSEPARATOR);
 					SerializeProperties(obj, properties);
@@ -186,7 +186,9 @@ namespace Framework.Features.Json
 				StringBuilder nameBuilder = new StringBuilder();
 				StringBuilder valueBuilder = new StringBuilder();
 
-				if (json[i] == OBJPREFIX)
+				if (json[i] != OBJPREFIX)
+					return null;
+				else
 					i++;
 
 				for (char c; i < json.Length; i++)
@@ -403,6 +405,20 @@ namespace Framework.Features.Json
 				JsonDeserializer jsonDeserializer = new JsonDeserializer();
 				int i = 0;
 				return (T)jsonDeserializer.DeserializeObject(json, ref i, typeof(T));
+			}
+			catch (Exception e)
+			{
+				throw new Exception("Json deserialization halted with error message: " + e.Message);
+			}
+		}
+
+		public static object FromJson(string json, Type t)
+		{
+			try
+			{
+				JsonDeserializer jsonDeserializer = new JsonDeserializer();
+				int i = 0;
+				return jsonDeserializer.DeserializeObject(json, ref i, t);
 			}
 			catch (Exception e)
 			{

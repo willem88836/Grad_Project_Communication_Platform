@@ -46,5 +46,5 @@ public enum NetworkMessageType		// Content stored in message field
     ForceEndCall,					// No content in message field
     ForceDisconnect,				// No content in message field
 	// Client <-> Server
-	ConnectToServer,				// Name and Id in message field
+	ConnectToServer,				// Name and Id in message field (from client) OR nothing (from server)
 }

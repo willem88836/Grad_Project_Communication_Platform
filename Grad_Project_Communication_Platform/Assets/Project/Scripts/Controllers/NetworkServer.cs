@@ -30,6 +30,9 @@ public sealed class NetworkServer : NetworkManager
 		// TODO: Implement username.
 		Participant newUser = new Participant("", message.SenderIP, message.Message);
 		activeUsers.Add(newUser);
+
+		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, null);
+		SendMessage(connectMessage);
 	}
 
 	public void DisconnectFromServer(NetworkMessage message)

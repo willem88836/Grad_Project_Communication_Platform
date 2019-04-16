@@ -7,9 +7,9 @@
 	{
 		base.Awake();
 
-		NetworkMessage connectMsg = new NetworkMessage(NetworkMessageType.ConnectToServer, clientId);
+		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, clientId);
 		// TODO: Continue here with deserializing and such.
-		SendMessage(connectMsg);
+		SendMessage(connectMessage);
 	}
 
 	protected override void OnDestroy()
@@ -22,7 +22,9 @@
 
 	public void ConnectToServer(NetworkMessage message)
 	{
-
+		// TODO: store this somewhere properly when we have to switch between sending messages to server to client.
+		string serverIP = message.SenderIP;
+		udpMaster.UpdateTargetIP(serverIP);
 	}
 
 	public void TransmitRoleplayDescription(NetworkMessage message)

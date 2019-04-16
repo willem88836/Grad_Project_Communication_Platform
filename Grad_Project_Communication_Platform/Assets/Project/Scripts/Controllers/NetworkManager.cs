@@ -7,9 +7,7 @@ public abstract class NetworkManager : MonoBehaviour, INetworkListener
 	public int PortIn = 11000;
 	public int PortOut = 11001;
 
-	private UDPMaster<NetworkMessage> udpMaster;
-
-	protected string Id;
+	protected UDPMaster<NetworkMessage> udpMaster;
 
 
 	protected virtual void Awake()

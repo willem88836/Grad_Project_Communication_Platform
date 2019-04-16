@@ -1,5 +1,6 @@
 ﻿using Framework.Features.UDP;
 using System;
+using System.Reflection;
 using UnityEngine;
 
 public abstract class NetworkManager : MonoBehaviour, INetworkListener
@@ -27,7 +28,11 @@ public abstract class NetworkManager : MonoBehaviour, INetworkListener
 
 	public void OnMessageReceived(UDPMessage message)
 	{
-		throw new NotImplementedException();
+		// Calls the function corresponding with the message's type.
+		NetworkMessage netMsg = (NetworkMessage)message;
+		string methodName = netMsg.Type.ToString();
+		MethodInfo method = GetType().GetMethod(methodName);
+		method.Invoke(this, new object[] { netMsg });
 	}
 
 	public void SendMessage(NetworkMessage message)

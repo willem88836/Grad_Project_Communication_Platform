@@ -49,3 +49,20 @@ public enum NetworkMessageType		// Content stored in message field
 	// Client <-> Server
 	ConnectToServer,				// Name and Id in message field (from client) OR nothing (from server)
 }
+
+
+/* NetworkMessageType Foo messages. 
+ * Null: 
+ * DisconnectFromServer: 
+ * Enqueue:								{Type:{value__:2},SenderId:"123456789",ReceiverId:"",Message:"Paraphrasing",TimeStamp:"4/17/2019 11:56:58 AM",SenderIP:"145.37.144.101"}
+ * Dequeue: 
+ * StoreFootage: 
+ * TransmitEvaluationTest:
+ * RemoveConnection: 
+ * TransmitRoleplayDescription: 
+ * TransmitFinalEvaluation: 
+ * TransmitFootage: 
+ * ForceEndCall: 
+ * ForceDisconnect:		
+ * ConnectToServer:						{Type:{value__:12},SenderId:"123456789",ReceiverId:"",Message:"Steve",TimeStamp:"4/17/2019 11:56:58 AM",SenderIP:"145.37.144.101"}
+ */

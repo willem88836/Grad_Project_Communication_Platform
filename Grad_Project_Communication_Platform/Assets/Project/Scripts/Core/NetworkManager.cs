@@ -9,12 +9,18 @@ public abstract class NetworkManager : MonoBehaviour, INetworkListener
 
 	protected UDPMaster<NetworkMessage> udpMaster;
 
+	private NetworkLogger<NetworkMessage> networkLogger; 
+
 
 	protected virtual void Awake()
 	{
 		udpMaster = new UDPMaster<NetworkMessage>();
 		udpMaster.Initialize(PortOut, PortIn);
 		udpMaster.AddListener(this);
+
+
+		networkLogger = new NetworkLogger<NetworkMessage>() { LogFileName = "NetworkLogs"};
+		networkLogger.Initialize(udpMaster);
 	}
 
 	protected virtual void OnDestroy()

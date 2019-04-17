@@ -9,6 +9,7 @@ public class NetworkMessage : UDPMessage
 	public string Message = "";
 	public string TimeStamp = "";
 
+	public NetworkMessage() { }
 	public NetworkMessage(NetworkMessageType type, string senderId, DateTime timestamp, string receiverId = "", string message = "")
 	{
 		this.Type = type;

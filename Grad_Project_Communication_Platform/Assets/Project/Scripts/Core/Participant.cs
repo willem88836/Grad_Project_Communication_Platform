@@ -1,4 +1,7 @@
-﻿public class Participant
+﻿using System;
+
+[Serializable]
+public class Participant
 {
 	public string Name;
 	public string IP;

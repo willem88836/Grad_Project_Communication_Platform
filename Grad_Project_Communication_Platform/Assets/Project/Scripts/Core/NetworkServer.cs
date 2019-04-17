@@ -18,21 +18,16 @@ public sealed class NetworkServer : NetworkManager
 
 		activeUsers = new List<Participant>();
 		matchmaker = new Matchmaker();
-
-		NetworkMessage msg = new NetworkMessage(NetworkMessageType.Enqueue, "", "", "");
-		Enqueue(msg);
 	}
 
 
 	public void ConnectToServer(NetworkMessage message)
 	{
-		// TODO: Double check if sender iP is actually set.
-		// TODO: Implement username.
-		Participant newUser = new Participant("", message.SenderIP, message.Message);
+		Participant newUser = new Participant(message.Message, message.SenderIP, message.SenderId);
 		activeUsers.Add(newUser);
 
 		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, null);
-		SendMessage(connectMessage);
+		SendMessage(connectMessage, message.SenderIP);
 	}
 
 	public void DisconnectFromServer(NetworkMessage message)

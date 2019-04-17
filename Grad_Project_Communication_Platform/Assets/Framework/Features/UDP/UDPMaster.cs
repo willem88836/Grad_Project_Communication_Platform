@@ -170,5 +170,12 @@ namespace Framework.Features.UDP
 			return IPAddress.Parse(finalIP);
 		}
 
+		public IPAddress GetLocalIP()
+		{
+			var host = Dns.GetHostEntry(Dns.GetHostName());
+			IEnumerable<IPAddress> ips = host.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+			string finalIP = ips.ToArray()[0].ToString();
+			return IPAddress.Parse(finalIP);
+		}
 	}
 }

@@ -35,7 +35,16 @@ public abstract class NetworkManager : MonoBehaviour, INetworkListener
 
 	public void SendMessage(NetworkMessage message)
 	{
+		// TODO: this is probably quite intensive. aka, fix this. 
+		message.SenderIP = udpMaster.GetLocalIP().ToString(); 
+
 		// TODO: do something with selecting Server IP or client IP here.
 		udpMaster.SendMessage(message);
+	}
+
+	public void SendMessage(NetworkMessage message, string targetIP)
+	{
+		udpMaster.UpdateTargetIP(targetIP);
+		SendMessage(message);
 	}
 }

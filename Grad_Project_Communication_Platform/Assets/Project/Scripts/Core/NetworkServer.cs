@@ -26,7 +26,7 @@ public sealed class NetworkServer : NetworkManager
 		Participant newUser = new Participant(message.Message, message.SenderIP, message.SenderId);
 		activeUsers.Add(newUser);
 
-		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, null);
+		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, "", newUser.Id);
 		SendMessage(connectMessage, message.SenderIP);
 	}
 

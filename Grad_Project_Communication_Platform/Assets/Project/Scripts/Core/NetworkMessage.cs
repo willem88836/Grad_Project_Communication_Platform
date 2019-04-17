@@ -55,7 +55,7 @@ public enum NetworkMessageType		// Content stored in message field
  * Null: 
  * DisconnectFromServer: 
  * Enqueue:								{Type:{value__:2},SenderId:"123456789",ReceiverId:"",Message:"Paraphrasing",TimeStamp:"4/17/2019 11:56:58 AM",SenderIP:"145.37.144.101"}
- * Dequeue: 
+ * Dequeue:								{Type:{value__:3},SenderId:"123456789",ReceiverId:"",Message:"Paraphrasing",TimeStamp:"4/17/2019 11:56:58 AM",SenderIP:"145.37.144.101"}
  * StoreFootage: 
  * TransmitEvaluationTest:
  * RemoveConnection: 
@@ -65,4 +65,5 @@ public enum NetworkMessageType		// Content stored in message field
  * ForceEndCall: 
  * ForceDisconnect:		
  * ConnectToServer:						{Type:{value__:12},SenderId:"123456789",ReceiverId:"",Message:"Steve",TimeStamp:"4/17/2019 11:56:58 AM",SenderIP:"145.37.144.101"}
+ *										{Type:{value__:12},SenderId:"",ReceiverId:"123456789",Message:"",TimeStamp:"4/17/2019 11:59:17 AM",SenderIP:"145.37.144.101"}
  */

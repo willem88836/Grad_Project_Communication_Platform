@@ -80,6 +80,11 @@ public class ScreenController : MonoBehaviour
 	{
 		SwitchScreenTo(ScreenTypes.Social);
 	}
+
+	public void SwitchScreenToInQueue()
+	{
+		SwitchScreenTo(ScreenTypes.InQueue);
+	}
 }
 
 public enum ScreenTypes
@@ -95,5 +100,6 @@ public enum ScreenTypes
 	History,
 	CompleteEvaluation,
 	VideoReplay,
-	Social
+	Social,
+	InQueue
 }

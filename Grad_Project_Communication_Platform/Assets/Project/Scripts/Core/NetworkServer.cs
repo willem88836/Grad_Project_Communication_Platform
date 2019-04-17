@@ -18,11 +18,15 @@ public sealed class NetworkServer : NetworkManager
 
 		activeUsers = new List<Participant>();
 		matchmaker = new Matchmaker();
+		matchmaker.Initialize(this);
 	}
 
 
 	public void ConnectToServer(NetworkMessage message)
 	{
+		if (SelectParticipant(message) != null)
+			return;
+
 		Participant newUser = new Participant(message.Message, message.SenderIP, message.SenderId);
 		activeUsers.Add(newUser);
 
@@ -32,7 +36,11 @@ public sealed class NetworkServer : NetworkManager
 
 	public void DisconnectFromServer(NetworkMessage message)
 	{
-		Participant participant = activeUsers.Find((Participant p) => p.IP == message.SenderIP);
+		Participant participant = SelectParticipant(message);
+
+		if (SelectParticipant(message) == null)
+			return;
+
 		activeUsers.Remove(participant);
 	}
 

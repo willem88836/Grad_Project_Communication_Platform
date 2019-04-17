@@ -6,6 +6,7 @@ public class ModuleController : MonoBehaviour
 {
 	public GameObject ModuleButtonPrefab;
 	public Transform ButtonContainer;
+	public int textIndex;
 
 	private NetworkClient networkClient;
 	private RoleplayModule selectedModule = RoleplayModule.None;
@@ -24,7 +25,7 @@ public class ModuleController : MonoBehaviour
 		{
 			GameObject newButton = Instantiate(ModuleButtonPrefab, ButtonContainer);
 
-			Text textField = newButton.transform.GetChild(0).GetComponent<Text>();
+			Text textField = newButton.transform.GetChild(textIndex).GetComponent<Text>();
 			textField.text = module.ToString();
 
 			Button button = newButton.GetComponent<Button>();

@@ -7,10 +7,17 @@ public class ScreenController : MonoBehaviour
 	private int currentScreenIndex;
 
 
+	public void ExitApplication()
+	{
+		Application.Quit();
+	}
+
+
     public void SwitchScreenTo(ScreenTypes screen)
 	{
 		Screens[currentScreenIndex].SetActive(false);
-		Screens[(int)screen].SetActive(true);
+		currentScreenIndex = (int)screen;
+		Screens[currentScreenIndex].SetActive(true);
 	}
 
 

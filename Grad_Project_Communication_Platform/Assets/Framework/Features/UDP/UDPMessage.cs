@@ -6,6 +6,9 @@ namespace Framework.Features.UDP
 	{
 		public string SenderIP = "";
 
+
+		public UDPMessage() { }
+
 		public string Serialize()
 		{
 			return JsonUtility.ToJson(this);

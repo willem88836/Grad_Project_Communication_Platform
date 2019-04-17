@@ -5,6 +5,7 @@ using Framework.Utils;
 namespace Framework.Variables
 {
 	using System;
+	using System.Reflection;
 	using UnityEditor;
 
 	[CustomPropertyDrawer(typeof(RangeAttribute))]
@@ -35,7 +36,11 @@ namespace Framework.Variables
 			float max = rangeAttribute.max;
 
 			object targetObject = property.serializedObject.targetObject;
-			object o = targetObject.GetType().GetField(property.propertyPath).GetValue(targetObject);
+			FieldInfo fi = targetObject.GetType().GetField(property.propertyPath);
+			if (fi == null)
+				return;
+
+			object o = fi.GetValue(targetObject);
 
 			Type t = o.GetType();
 

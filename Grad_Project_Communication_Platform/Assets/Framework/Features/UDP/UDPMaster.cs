@@ -30,7 +30,7 @@ namespace Framework.Features.UDP
 		///		Sets the UDPMaster up for sending messages,
 		///		and start listening to messages. 
 		/// </summary>
-		public void Initialize(int sendingPort = 11000, int receivingPort = 11000)
+		public void Initialize(int sendingPort = 11000, int receivingPort = 11001)
 		{
 			this.receivingPort = receivingPort;
 			this.sendingPort = sendingPort;
@@ -170,5 +170,12 @@ namespace Framework.Features.UDP
 			return IPAddress.Parse(finalIP);
 		}
 
+		public IPAddress GetLocalIP()
+		{
+			var host = Dns.GetHostEntry(Dns.GetHostName());
+			IEnumerable<IPAddress> ips = host.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork);
+			string finalIP = ips.ToArray()[0].ToString();
+			return IPAddress.Parse(finalIP);
+		}
 	}
 }

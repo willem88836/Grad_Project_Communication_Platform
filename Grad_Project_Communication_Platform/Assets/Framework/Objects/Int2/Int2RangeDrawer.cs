@@ -22,7 +22,12 @@ namespace Framework.Variables
 		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 		{
 			object targetObject = property.serializedObject.targetObject;
-			object o = targetObject.GetType().GetField(property.propertyPath).GetValue(targetObject);
+
+			FieldInfo fi = targetObject.GetType().GetField(property.propertyPath);
+			if (fi == null)
+				return 0; 
+
+			object o = fi.GetValue(targetObject);
 
 			return o.GetType() == typeof(Int2)
 				? base.GetPropertyHeight(property, label) * 2 + 20

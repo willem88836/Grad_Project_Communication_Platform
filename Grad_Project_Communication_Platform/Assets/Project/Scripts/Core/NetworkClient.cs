@@ -1,10 +1,17 @@
-﻿public sealed class NetworkClient : NetworkManager
+﻿using Framework.ScriptableObjects.Variables;
+using UnityEngine;
+
+public sealed class NetworkClient : NetworkManager
 {
+	[SerializeField] private SharedString AccountName;
+	[SerializeField] private SharedString AccountPhone;
+
 	public RoleplayController RoleplayController;
 	public ModuleController ModuleController;
 
 
-	public string ClientId { get; private set; } // TODO: Set client id to match phone number or something.
+	public string ClientId { get { return AccountPhone.Value; } } 
+	public string ClientName { get { return AccountName.Value; } }
 
 
 	protected override void Awake()
@@ -14,7 +21,7 @@
 		ModuleController.Initialize(this);
 		RoleplayController.Initialize(this);
 
-		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, ClientId);
+		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, AccountName.Value, "", AccountName.Value);
 		SendMessage(connectMessage);
 	}
 

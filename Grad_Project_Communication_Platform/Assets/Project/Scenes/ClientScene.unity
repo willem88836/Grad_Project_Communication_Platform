@@ -509,7 +509,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000030517578, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &239524111
@@ -1678,6 +1678,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PortIn: 11000
   PortOut: 11001
+  AccountName: {fileID: 11400000, guid: 7a8e78cd778edaf4b904211eb7fa3b59, type: 2}
+  AccountPhone: {fileID: 11400000, guid: 6ca433a0175023347975d7ece75e34bc, type: 2}
   RoleplayController: {fileID: 2130893183}
   ModuleController: {fileID: 1577687968}
 --- !u!1 &847453501
@@ -3976,7 +3978,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000030517578, y: -0.000061035156}
+  m_AnchoredPosition: {x: 0, y: -0.000061035156}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1935387326

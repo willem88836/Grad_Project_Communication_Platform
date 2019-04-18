@@ -1,7 +1,11 @@
-﻿using System;
+﻿using Framework.ScriptableObjects.Variables;
+using System;
 
+[Serializable]
 public class RoleplayDescriptionGenerator
 {
+	public SharedInt LastCaseId; 
+
 	private Random random = new Random();
 
 	internal RoleplayDescription Generate(Participant participantA, Participant participantB, RoleplayModule module)
@@ -11,8 +15,8 @@ public class RoleplayDescriptionGenerator
 
 		RoleplayDescription roleplayDescription;
 
-		// TODO: Add proper Id generation.
-		string id = "";
+		string id = LastCaseId.Value.ToString();
+		LastCaseId.Value++;
 
 		int rnd = random.Next(0, 2);
 		if (rnd % 2 == 0)

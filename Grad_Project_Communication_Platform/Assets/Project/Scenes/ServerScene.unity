@@ -226,6 +226,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PortIn: 11001
   PortOut: 11000
+  matchmaker:
+    roleplayDescriptionGenerator:
+      LastCaseId: {fileID: 11400000, guid: a7a6df4851078f941af80581015fb653, type: 2}
 --- !u!1 &1952562973
 GameObject:
   m_ObjectHideFlags: 0

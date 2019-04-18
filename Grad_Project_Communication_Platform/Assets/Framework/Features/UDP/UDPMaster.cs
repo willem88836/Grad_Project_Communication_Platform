@@ -157,6 +157,7 @@ namespace Framework.Features.UDP
 			LoggingUtilities.LogFormat("Updating target IP to: {0}", ipAddress);
 		}
 
+		//TODO: This does not always return the right IP address..
 		public IPAddress GetLocalBroadcast()
 		{
 			var host = Dns.GetHostEntry(Dns.GetHostName());

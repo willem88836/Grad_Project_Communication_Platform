@@ -1,4 +1,5 @@
 ﻿using Framework.Features.UDP;
+using Framework.Storage;
 using System.Reflection;
 using UnityEngine;
 
@@ -14,6 +15,9 @@ public abstract class NetworkManager : MonoBehaviour, INetworkListener
 
 	protected virtual void Awake()
 	{
+		SaveLoad.SavePath = Application.persistentDataPath;
+		SaveLoad.EncryptData = false;
+
 		udpMaster = new UDPMaster<NetworkMessage>();
 		udpMaster.Initialize(PortOut, PortIn);
 		udpMaster.AddListener(this);

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public sealed class NetworkServer : NetworkManager
 {
-	private Matchmaker matchmaker;
+	[SerializeField] private Matchmaker matchmaker;
 
 
 	private List<Participant> activeUsers;
@@ -13,7 +14,6 @@ public sealed class NetworkServer : NetworkManager
 		base.Awake();
 
 		activeUsers = new List<Participant>();
-		matchmaker = new Matchmaker();
 		matchmaker.Initialize(this);
 	}
 

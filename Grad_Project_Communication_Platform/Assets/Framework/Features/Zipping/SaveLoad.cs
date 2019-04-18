@@ -6,7 +6,8 @@ namespace Framework.Storage
 	public static class SaveLoad
 	{
 		public static string SavePath;
-		public static string Extention;
+		public static string Extention = "";
+		public static bool EncryptData = true;
 
 
 		/// <summary>
@@ -32,7 +33,7 @@ namespace Framework.Storage
 			if (!Directory.Exists(SavePath))
 				Directory.CreateDirectory(SavePath);
 
-			FileEncryption.Encrypt(ref data);
+			if (EncryptData) FileEncryption.Encrypt(ref data);
 			string path = Path.Combine(SavePath, name);
 			path = Path.ChangeExtension(path, Extention);
 			File.WriteAllBytes(path, data);
@@ -50,9 +51,10 @@ namespace Framework.Storage
 			if (!Directory.Exists(SavePath))
 				Directory.CreateDirectory(SavePath);
 
-			FileEncryption.Encrypt(ref data);
+			if (EncryptData) FileEncryption.Encrypt(ref data);
 			string path = Path.Combine(SavePath, name);
 			path = Path.ChangeExtension(path, Extention);
+
 			File.WriteAllText(path, data);
 
 			LoggingUtilities.LogFormat("Saved at: {0}", path);

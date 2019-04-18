@@ -53,17 +53,17 @@ public enum NetworkMessageType		// Content stored in message field
 
 /* NetworkMessageType Foo messages. 
  * Null: 
- * DisconnectFromServer: 
+ * DisconnectFromServer:				{Type:{value__:1},SenderId:"123456789",ReceiverId:"",Message:"",TimeStamp:"4/18/2019 2:44:43 PM",SenderIP:"10.102.37.150"}
  * Enqueue:								{Type:{value__:2},SenderId:"123456789",ReceiverId:"",Message:"Paraphrasing",TimeStamp:"4/17/2019 11:56:58 AM",SenderIP:"145.37.144.101"}
  * Dequeue:								{Type:{value__:3},SenderId:"123456789",ReceiverId:"",Message:"Paraphrasing",TimeStamp:"4/17/2019 11:56:58 AM",SenderIP:"145.37.144.101"}
- * StoreFootage: 
- * TransmitEvaluationTest:
- * RemoveConnection: 
- * TransmitRoleplayDescription: 
- * TransmitFinalEvaluation: 
- * TransmitFootage: 
- * ForceEndCall: 
- * ForceDisconnect:		
+ * StoreFootage:						
+ * TransmitEvaluationTest:				
+ * RemoveConnection:					
+ * TransmitRoleplayDescription:			
+ * TransmitFinalEvaluation:				
+ * TransmitFootage:						
+ * ForceEndCall:						
+ * ForceDisconnect:						
  * ConnectToServer:						{Type:{value__:12},SenderId:"123456789",ReceiverId:"",Message:"Steve",TimeStamp:"4/17/2019 11:56:58 AM",SenderIP:"145.37.144.101"}
  *										{Type:{value__:12},SenderId:"",ReceiverId:"123456789",Message:"",TimeStamp:"4/17/2019 11:59:17 AM",SenderIP:"145.37.144.101"}
  */

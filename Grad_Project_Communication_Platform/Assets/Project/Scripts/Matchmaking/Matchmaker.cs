@@ -1,20 +1,22 @@
-﻿using System;
+﻿using Framework.Storage;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 using JsonUtility = Framework.Features.Json.JsonUtility;
 
+[Serializable]
 public class Matchmaker
 {
 	private NetworkServer networkServer;
 
 	private Dictionary<RoleplayModule, List<Participant>> queues;
-	private RoleplayDescriptionGenerator roleplayDescriptionGenerator;
+	[SerializeField] private RoleplayDescriptionGenerator roleplayDescriptionGenerator;
+
 
 
 	public void Initialize(NetworkServer networkServer)
 	{
 		this.networkServer = networkServer;
-
-		roleplayDescriptionGenerator = new RoleplayDescriptionGenerator();
 
 		queues = new Dictionary<RoleplayModule, List<Participant>>();
 		Array modules = Enum.GetValues(typeof(RoleplayModule));
@@ -61,6 +63,8 @@ public class Matchmaker
 	{
 		RoleplayDescription roleplayDescription = roleplayDescriptionGenerator.Generate(participantA, participantB, module);
 		string json = JsonUtility.ToJson(roleplayDescription);
+
+		SaveLoad.Save(json, string.Format("RoleplayDescriptionCase_{0}.cas", roleplayDescription.Id));
 
 		SendRoleplayDescription(json, participantA);
 		SendRoleplayDescription(json, participantB);

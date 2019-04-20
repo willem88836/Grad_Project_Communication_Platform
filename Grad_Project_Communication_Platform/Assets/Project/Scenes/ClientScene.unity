@@ -1680,6 +1680,7 @@ MonoBehaviour:
   PortOut: 11001
   AccountName: {fileID: 11400000, guid: 7a8e78cd778edaf4b904211eb7fa3b59, type: 2}
   AccountPhone: {fileID: 11400000, guid: 6ca433a0175023347975d7ece75e34bc, type: 2}
+  Videocall: {fileID: 1394719552}
   RoleplayController: {fileID: 2130893183}
   ModuleController: {fileID: 1577687968}
 --- !u!1 &847453501
@@ -2945,6 +2946,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PortA: 11002
   PortB: 11003
+  StreamingResolutionScale: {fileID: 11400000, guid: c87c5c056ffae8d47b171a6d3e8e4da7,
+    type: 2}
+  StreamingFramerate: {fileID: 11400000, guid: 39f2984dfe65d354f90250ffa9868b1e, type: 2}
   imageOut: {fileID: 1383175341}
 --- !u!1 &1421111963
 GameObject:

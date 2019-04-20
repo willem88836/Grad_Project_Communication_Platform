@@ -56,7 +56,7 @@ public class ScreenController : MonoBehaviour
 		SwitchScreenTo(ScreenTypes.ConversationEvaluation);
 	}
 
-	public void SwitchScreenToConversationChallengeTestu()
+	public void SwitchScreenToConversationChallengeTest()
 	{
 		SwitchScreenTo(ScreenTypes.ConversationChallengeTest);
 	}

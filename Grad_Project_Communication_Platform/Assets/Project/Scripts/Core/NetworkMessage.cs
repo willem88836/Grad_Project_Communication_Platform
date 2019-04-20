@@ -59,7 +59,7 @@ public enum NetworkMessageType		// Content stored in message field
  * StoreFootage:						
  * TransmitEvaluationTest:				
  * RemoveConnection:					
- * TransmitRoleplayDescription:			
+ * TransmitRoleplayDescription:			{Type:{value__:7},SenderId:"",ReceiverId:"123456788",Message:"{Id:"0",Client:{Name:"Steve",IP:"145.37.144.11",Id:"123456789"},Professional:{Name:"Stevette",IP:"145.37.144.12",Id:"123456788"},Case:{ClientCharacteristics:[],Assignments:[],Module:{value__:1}}}",TimeStamp:"4/20/2019 2:53:18 PM",SenderIP:"192.168.2.11"}
  * TransmitFinalEvaluation:				
  * TransmitFootage:						
  * ForceEndCall:						

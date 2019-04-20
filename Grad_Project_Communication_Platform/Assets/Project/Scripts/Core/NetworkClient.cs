@@ -1,14 +1,18 @@
 ﻿using Framework.ScriptableObjects.Variables;
+using Framework.Variables;
 using UnityEngine;
 
 public sealed class NetworkClient : NetworkManager
 {
+	[Space]
 	[SerializeField] private SharedString AccountName;
 	[SerializeField] private SharedString AccountPhone;
 
+	[Space]
+	public ScreenController ScreenController;
+	public Videocall Videocall;
 	public RoleplayController RoleplayController;
 	public ModuleController ModuleController;
-
 
 	public string ClientId { get { return AccountPhone.Value; } } 
 	public string ClientName { get { return AccountName.Value; } }
@@ -18,6 +22,7 @@ public sealed class NetworkClient : NetworkManager
 	{
 		base.Awake();
 
+		Videocall.Initialize(this);
 		ModuleController.Initialize(this);
 		RoleplayController.Initialize(this);
 
@@ -42,7 +47,14 @@ public sealed class NetworkClient : NetworkManager
 
 	public void TransmitRoleplayDescription(NetworkMessage message)
 	{
+		RoleplayDescription roleplayDescription = JsonUtility.FromJson<RoleplayDescription>(message.Message); 
 
+		bool isClient = roleplayDescription.Client.Id == ClientId; 
+		string targetIP = isClient 
+			? roleplayDescription.Client.IP 
+			: roleplayDescription.Professional.IP; 
+
+		Videocall.StartCalling(isClient, targetIP); 
 	}
 
 	public void TransmitFinalEvaluation(NetworkMessage message)
@@ -57,7 +69,10 @@ public sealed class NetworkClient : NetworkManager
 
 	public void ForceEndCall(NetworkMessage message)
 	{
+		Videocall.ForceEndCalling();
 
+		// TODO: Switch to the right screen. 
+		ScreenController.SwitchScreenToConversationChallengeTest();
 	}
 
 	public void ForceDisconnect(NetworkMessage message)

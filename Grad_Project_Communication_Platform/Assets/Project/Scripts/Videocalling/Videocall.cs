@@ -1,5 +1,6 @@
 ﻿using Framework.Features.UDP;
-using Framework.Variables;
+using Framework.ScriptableObjects.Variables;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,49 +9,32 @@ public class Videocall : MonoBehaviour, INetworkListener
 	public int PortA = 11002;
 	public int PortB = 11003;
 
+	[Space]
+	public SharedFloat StreamingResolutionScale;
+	public SharedInt StreamingFramerate;
+
+	[Space]
 	public RawImage imageOut;
 	private Texture2D textureOut;
 
 	private UDPMaster<VideoMessage> udpMaster;
+	private NetworkClient networkClient;
 
+	private Participant other;
 
-	private void Awake()
+	public void Initialize(NetworkClient networkClient)
 	{
+		this.networkClient = networkClient;
 		udpMaster = new UDPMaster<VideoMessage>();
-
-
-
-
-
-
-		// DEBUG CODE.
-		int w = 256;
-		int h = 256;
-
-		StartCalling(false, new Int2(w, h));
-
-		Color32[] clrs = new Color32[w * h];
-
-
-		for (int i = 0; i < w; i++)
-		{
-			for (int j = 0; j < h; j++)
-			{
-				clrs[i * w + j] = new Color32((byte)i, (byte)j, 0, 255);
-			}
-		}
-
-		VideoMessage vidmsg = new VideoMessage(clrs, w, h);
-
-		Debug.Log(Framework.Features.Json.JsonUtility.ToJson(vidmsg));
-
-		OnMessageReceived(vidmsg);
 	}
 
 
-	public void StartCalling(bool swappedPorts, Int2 videoDimensions)
+	public void StartCalling(bool swappedPorts, Participant other)
 	{
-		textureOut = new Texture2D(videoDimensions.X, videoDimensions.Y);
+		this.other = other;
+
+		// TODO: load video streaming settings.
+		textureOut = new Texture2D(600, 900);
 		imageOut.texture = textureOut;
 
 		if (swappedPorts)
@@ -58,15 +42,31 @@ public class Videocall : MonoBehaviour, INetworkListener
 		else
 			udpMaster.Initialize(PortB, PortA);
 
+		udpMaster.UpdateTargetIP(other.IP);
+
 		udpMaster.AddListener(this);
+
+		StopCoroutine(CameraStream());
+		StartCoroutine(CameraStream());
 	}
 
 	public void StopCalling()
 	{
+		NetworkMessage forceEndCallMessage = new NetworkMessage(NetworkMessageType.ForceEndCall, networkClient.ClientId, other.Id);
+		networkClient.SendMessage(forceEndCallMessage, other.IP);
+		networkClient.ForceEndCall(forceEndCallMessage);
+	}
+
+	public void ForceEndCalling()
+	{
+		StopCoroutine(CameraStream());
+
 		udpMaster.RemoveListener(this);
 		udpMaster.Kill();
 
 		textureOut = null;
+
+		networkClient.ForceEndCall(null);
 	}
 
 
@@ -75,5 +75,12 @@ public class Videocall : MonoBehaviour, INetworkListener
 		VideoMessage videoMessage = (VideoMessage)message;
 		Color32[] colors = videoMessage.Colors;
 		textureOut.SetPixels32(colors);
+		textureOut.Apply();
+	}
+
+
+	private IEnumerator<WaitForSeconds> CameraStream()
+	{
+		yield return new WaitForSeconds(1);
 	}
 }

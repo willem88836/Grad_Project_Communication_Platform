@@ -15,6 +15,15 @@ public sealed class NetworkServer : NetworkManager
 
 		activeUsers = new List<Participant>();
 		matchmaker.Initialize(this);
+
+
+
+
+		OnMessageReceived(new NetworkMessage(NetworkMessageType.ConnectToServer, "123456789", "", "Steve") { SenderIP = "145.37.144.11"});
+		OnMessageReceived(new NetworkMessage(NetworkMessageType.ConnectToServer, "123456788", "", "Stevette") { SenderIP = "145.37.144.12" });
+
+		OnMessageReceived(new NetworkMessage(NetworkMessageType.Enqueue, "123456789", "", "Paraphrasing") { SenderIP = "145.37.144.11" });
+		OnMessageReceived(new NetworkMessage(NetworkMessageType.Enqueue, "123456788", "", "Paraphrasing") { SenderIP = "145.37.144.12" });
 	}
 
 

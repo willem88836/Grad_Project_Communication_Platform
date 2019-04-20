@@ -7,6 +7,8 @@ using Framework.Utils;
 
 namespace Framework.Features.Json
 {
+	// TODO: Serializing Arrays does not work. 
+	// TODO: Serializing Arrays with multiple dimensions does not work. 
 	public static class JsonUtility
 	{
 		private class Json
@@ -435,7 +437,7 @@ namespace Framework.Features.Json
 			}
 			catch(Exception e)
 			{
-				throw new Exception("Json serialization halted with error message: " + e.Message);
+				throw new Exception("Json serialization halted with error message: " + e.Message + "\n" + e.StackTrace);
 			}
 		}
 	}

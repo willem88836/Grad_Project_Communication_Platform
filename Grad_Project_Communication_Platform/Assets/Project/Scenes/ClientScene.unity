@@ -3763,7 +3763,8 @@ MonoBehaviour:
   StreamingResolutionScale: {fileID: 11400000, guid: c87c5c056ffae8d47b171a6d3e8e4da7,
     type: 2}
   StreamingFramerate: {fileID: 11400000, guid: 39f2984dfe65d354f90250ffa9868b1e, type: 2}
-  imageOut: {fileID: 2100000, guid: 4dc2fc87f641d0742a0def45ebc62603, type: 2}
+  OwnFootageOut: {fileID: 2100000, guid: 4dc2fc87f641d0742a0def45ebc62603, type: 2}
+  OtherFootageOut: {fileID: 2100000, guid: fe263a2cf2256bc49b31d7fd02024147, type: 2}
 --- !u!1 &1421111963
 GameObject:
   m_ObjectHideFlags: 0
@@ -3967,7 +3968,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1534114815
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4312,7 +4313,7 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: fe263a2cf2256bc49b31d7fd02024147, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:

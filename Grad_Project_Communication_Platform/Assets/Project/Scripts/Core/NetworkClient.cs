@@ -31,9 +31,12 @@ public sealed class NetworkClient : NetworkManager
 	}
 
 	// FOO
-	private void Start()
+	private void Update()
 	{
-		Videocall.StartCalling(true, null);
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			Videocall.StartCalling(true, new Participant("a", "1.1.1.1", "asdf"), new Participant("b", "1.1.1.1", "98765"));
+		}
 	}
 
 	protected override void OnDestroy()
@@ -55,12 +58,23 @@ public sealed class NetworkClient : NetworkManager
 	{
 		RoleplayDescription roleplayDescription = JsonUtility.FromJson<RoleplayDescription>(message.Message);
 
-		bool isClient = roleplayDescription.Client.Id == ClientId; 
-		Participant other = isClient
-			? roleplayDescription.Professional
-			: roleplayDescription.Client;
+		bool isClient = roleplayDescription.Client.Id == ClientId;
 
-		Videocall.StartCalling(isClient, other); 
+		Participant other;
+		Participant self; 
+
+		if (isClient)
+		{
+			other = roleplayDescription.Professional;
+			self = roleplayDescription.Client;
+		}
+		else
+		{
+			other = roleplayDescription.Client;
+			self = roleplayDescription.Professional;
+		}
+
+		Videocall.StartCalling(isClient, other, self); 
 	}
 
 	public void TransmitFinalEvaluation(NetworkMessage message)

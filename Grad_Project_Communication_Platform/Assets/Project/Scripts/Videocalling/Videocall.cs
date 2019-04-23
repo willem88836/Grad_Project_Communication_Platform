@@ -1,5 +1,6 @@
 ﻿using Framework.Features.UDP;
 using Framework.ScriptableObjects.Variables;
+using Framework.Utils;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,13 +16,14 @@ public class Videocall : MonoBehaviour, INetworkListener
 	public SharedInt StreamingFramerate;
 
 	[Space]
-	public Material imageOut;
-	private Texture2D textureOut;
+	public Material OwnFootageOut;
+	public Material OtherFootageOut;
 
 	private UDPMaster<VideoMessage> udpMaster;
 	private NetworkClient networkClient;
 
 	private Participant other;
+	private Participant self;
 
 
 	public void Initialize(NetworkClient networkClient)
@@ -31,11 +33,13 @@ public class Videocall : MonoBehaviour, INetworkListener
 	}
 
 
-	public void StartCalling(bool swappedPorts, Participant other)
+	public void StartCalling(bool swappedPorts, Participant other, Participant self)
 	{
 		this.other = other;
+		this.self = self;
 
 		InitializeWebcam();
+
 		InitializeUDP(swappedPorts, other.IP);
 
 		StopCoroutine(CameraStream());
@@ -60,7 +64,7 @@ public class Videocall : MonoBehaviour, INetworkListener
 		WebCamDevice frontCam = WebCamTexture.devices.Where((WebCamDevice d) => d.isFrontFacing).ToArray()[0];
 		WebCamTexture textureOut = new WebCamTexture(frontCam.name);
 		textureOut.Play();
-		imageOut.mainTexture = textureOut;
+		OwnFootageOut.mainTexture = textureOut;
 	}
 
 
@@ -78,7 +82,7 @@ public class Videocall : MonoBehaviour, INetworkListener
 		udpMaster.RemoveListener(this);
 		udpMaster.Kill();
 
-		textureOut = null;
+		OtherFootageOut = null;
 
 		networkClient.ForceEndCall(null);
 	}
@@ -88,13 +92,50 @@ public class Videocall : MonoBehaviour, INetworkListener
 	{
 		VideoMessage videoMessage = (VideoMessage)message;
 		Color32[] colors = videoMessage.Colors;
-		textureOut.SetPixels32(colors);
-		textureOut.Apply();
+		Texture2D videoOut = new Texture2D(videoMessage.Width, videoMessage.Height);
+		videoOut.SetPixels32(colors);
+		OtherFootageOut.mainTexture = videoOut;
 	}
 
 
-	private IEnumerator<WaitForSeconds> CameraStream()
+	private IEnumerator<YieldInstruction> CameraStream()
 	{
-		yield return new WaitForSeconds(1);
+		System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+		float targetDeltaTime = 1f / StreamingFramerate.Value;
+		Debug.LogFormat("Target DeltaTime = {0}", targetDeltaTime);
+
+		while (true)
+		{
+			stopwatch.Reset();
+			stopwatch.Start();
+
+			WebCamTexture texture2D = OwnFootageOut.mainTexture as WebCamTexture;
+
+			VideoMessage videoMessage = new VideoMessage(
+				self.IP, 
+				texture2D.GetPixels32(), 
+				texture2D.width, 
+				texture2D.height);
+
+			//System.Text.Encoding.ASCII.GetBytes(videoMessage.Colors);
+
+			byte[] videoByteArray = videoMessage.Colors.ToByteArray();
+
+
+			//object o = System.Convert.ChangeType(videoMessage.Colors, typeof(byte[]));
+			Debug.Log(videoByteArray);
+			break;
+			//Debug.Log(Framework.Features.Json.JsonUtility.ToJson(videoMessage));
+
+			//OnMessageReceived(videoMessage);
+
+			stopwatch.Stop();
+			float timeLeft = targetDeltaTime - stopwatch.Elapsed.Seconds;
+			Debug.LogFormat("Finished with {0} seconds left", timeLeft);
+			timeLeft = Mathf.Clamp(timeLeft, 0, timeLeft);
+			Debug.LogFormat("Completed early! Waiting for {0} seconds", timeLeft.ToString());
+			yield return new WaitForSeconds(timeLeft);
+			break;
+		}
 	}
 }

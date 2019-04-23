@@ -10,6 +10,15 @@ public class NetworkMessage : UDPMessage
 	public string TimeStamp = "";
 
 	public NetworkMessage() { }
+	public NetworkMessage(string senderIP, NetworkMessageType type, string senderId, DateTime timestamp, string receiverId = "", string message = "")
+	{
+		this.SenderIP = senderIP;
+		this.Type = type;
+		this.SenderId = senderId;
+		this.ReceiverId = receiverId;
+		this.Message = message;
+		this.TimeStamp = timestamp.ToString();
+	}
 	public NetworkMessage(NetworkMessageType type, string senderId, DateTime timestamp, string receiverId = "", string message = "")
 	{
 		this.Type = type;

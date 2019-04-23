@@ -3,6 +3,7 @@ using Framework.ScriptableObjects.Variables;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Videocall : MonoBehaviour, INetworkListener
 {
@@ -14,13 +15,14 @@ public class Videocall : MonoBehaviour, INetworkListener
 	public SharedInt StreamingFramerate;
 
 	[Space]
-	public RawImage imageOut;
+	public Material imageOut;
 	private Texture2D textureOut;
 
 	private UDPMaster<VideoMessage> udpMaster;
 	private NetworkClient networkClient;
 
 	private Participant other;
+
 
 	public void Initialize(NetworkClient networkClient)
 	{
@@ -33,10 +35,15 @@ public class Videocall : MonoBehaviour, INetworkListener
 	{
 		this.other = other;
 
-		// TODO: load video streaming settings.
-		textureOut = new Texture2D(600, 900);
-		imageOut.texture = textureOut;
+		InitializeWebcam();
+		InitializeUDP(swappedPorts, other.IP);
 
+		StopCoroutine(CameraStream());
+		StartCoroutine(CameraStream());
+	}
+
+	private void InitializeUDP(bool swappedPorts, string targetIP)
+	{
 		if (swappedPorts)
 			udpMaster.Initialize(PortA, PortB);
 		else
@@ -45,10 +52,17 @@ public class Videocall : MonoBehaviour, INetworkListener
 		udpMaster.UpdateTargetIP(other.IP);
 
 		udpMaster.AddListener(this);
-
-		StopCoroutine(CameraStream());
-		StartCoroutine(CameraStream());
 	}
+	
+	private void InitializeWebcam()
+	{
+		// HACK: This will most definitely break at some point. 
+		WebCamDevice frontCam = WebCamTexture.devices.Where((WebCamDevice d) => d.isFrontFacing).ToArray()[0];
+		WebCamTexture textureOut = new WebCamTexture(frontCam.name);
+		textureOut.Play();
+		imageOut.mainTexture = textureOut;
+	}
+
 
 	public void StopCalling()
 	{

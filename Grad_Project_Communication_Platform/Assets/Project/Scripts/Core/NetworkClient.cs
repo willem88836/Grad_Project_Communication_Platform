@@ -30,6 +30,12 @@ public sealed class NetworkClient : NetworkManager
 		SendMessage(connectMessage);
 	}
 
+	// FOO
+	private void Start()
+	{
+		Videocall.StartCalling(true, null);
+	}
+
 	protected override void OnDestroy()
 	{
 		NetworkMessage disconnectMessage = new NetworkMessage(NetworkMessageType.DisconnectFromServer, ClientId);
@@ -47,14 +53,14 @@ public sealed class NetworkClient : NetworkManager
 
 	public void TransmitRoleplayDescription(NetworkMessage message)
 	{
-		RoleplayDescription roleplayDescription = JsonUtility.FromJson<RoleplayDescription>(message.Message); 
+		RoleplayDescription roleplayDescription = JsonUtility.FromJson<RoleplayDescription>(message.Message);
 
 		bool isClient = roleplayDescription.Client.Id == ClientId; 
-		string targetIP = isClient 
-			? roleplayDescription.Client.IP 
-			: roleplayDescription.Professional.IP; 
+		Participant other = isClient
+			? roleplayDescription.Professional
+			: roleplayDescription.Client;
 
-		Videocall.StartCalling(isClient, targetIP); 
+		Videocall.StartCalling(isClient, other); 
 	}
 
 	public void TransmitFinalEvaluation(NetworkMessage message)

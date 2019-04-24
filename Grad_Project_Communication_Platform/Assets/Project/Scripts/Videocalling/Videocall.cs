@@ -1,12 +1,10 @@
-﻿using Framework.Features.UDP;
-using Framework.ScriptableObjects.Variables;
-using Framework.Utils;
+﻿using Framework.ScriptableObjects.Variables;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Linq;
+using Framework.Features.UDP.Applied;
 
-public class Videocall : MonoBehaviour, INetworkListener
+public class Videocall : MonoBehaviour, IAppliedNetworkListener
 {
 	public int PortA = 11002;
 	public int PortB = 11003;
@@ -19,7 +17,7 @@ public class Videocall : MonoBehaviour, INetworkListener
 	public Material OwnFootageOut;
 	public Material OtherFootageOut;
 
-	private UDPMaster<VideoMessage> udpMaster;
+	private AppliedUDPMaster<VideoMessage> udpMaster;
 	private NetworkClient networkClient;
 
 	private Participant other;
@@ -29,7 +27,7 @@ public class Videocall : MonoBehaviour, INetworkListener
 	public void Initialize(NetworkClient networkClient)
 	{
 		this.networkClient = networkClient;
-		udpMaster = new UDPMaster<VideoMessage>();
+		udpMaster = new AppliedUDPMaster<VideoMessage>();
 	}
 
 

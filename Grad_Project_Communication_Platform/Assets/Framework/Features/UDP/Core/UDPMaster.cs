@@ -1,36 +1,35 @@
 ﻿using Framework.Utils;
-using Framework.Features.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Text;
 
 namespace Framework.Features.UDP
 {
 	/// <summary>
 	///		Responsible for sending and receiving messages. 
 	/// </summary>
-	public sealed class UDPMaster<T> where T : UDPMessage
+	public class UDPMaster
 	{
-		private int sendingPort;
-		private Socket sendingSocket;
-		private IPAddress sendingAddress;
-		private IPEndPoint sendingEndPoint;
+		protected int sendingPort;
+		protected Socket sendingSocket;
+		protected IPAddress sendingAddress;
+		protected IPEndPoint sendingEndPoint;
 
-		private int receivingPort;
-		private UdpClient receiver;
-		private IPEndPoint receivingEndPoint;
-		private Thread receiverThread;
+		protected int receivingPort;
+		protected UdpClient receiver;
+		protected IPEndPoint receivingEndPoint;
+		protected Thread receiverThread;
 
 		private List<INetworkListener> networkListeners;
+
 
 		/// <summary>
 		///		Sets the UDPMaster up for sending messages,
 		///		and start listening to messages. 
 		/// </summary>
-		public void Initialize(int sendingPort = 11000, int receivingPort = 11001)
+		public virtual void Initialize(int sendingPort = 11000, int receivingPort = 11001)
 		{
 			this.receivingPort = receivingPort;
 			this.sendingPort = sendingPort;
@@ -60,33 +59,27 @@ namespace Framework.Features.UDP
 			sendingSocket.Close();
 		}
 
-
 		/// <summary>
 		///		Sends a message across the network.
 		/// </summary>
-		public void SendMessage(T message)
+		public void SendMessage(byte[] message)
 		{
-			string msg = JsonUtility.ToJson(message);
-			byte[] messageByteArray = Encoding.ASCII.GetBytes(msg);
-			sendingSocket.SendTo(messageByteArray, sendingEndPoint);
-
-			LoggingUtilities.LogFormat("Sent message (\"{0}\") to ip ({1}) using port ({2})", msg, sendingEndPoint.Address, sendingEndPoint.Port);
+			sendingSocket.SendTo(message, sendingEndPoint);
 		}
 		/// <summary>
 		///		Updates the current messaging target, and sends 
 		///		a message across the network.
 		/// </summary>
-		public void SendMessage(T message, string ipAddress)
+		public void SendMessage(byte[] message, string targetIP)
 		{
-			sendingEndPoint.Address = IPAddress.Parse(ipAddress);
+			sendingEndPoint.Address = IPAddress.Parse(targetIP);
 			SendMessage(message);
 		}
-
 
 		/// <summary>
 		///		Creates a new thread dedicated to message receiving.
 		/// </summary>
-		private void StartReceivingMessages()
+		protected void StartReceivingMessages()
 		{
 			ThreadStart activity = new ThreadStart(() => { while (true) { ReceiveNetworkMessage(); } });
 			receiverThread = new Thread(activity);
@@ -95,21 +88,18 @@ namespace Framework.Features.UDP
 		/// <summary>
 		///		Receives network messages.
 		/// </summary>
-		private void ReceiveNetworkMessage()
+		protected virtual void ReceiveNetworkMessage()
 		{
 			try
 			{
 				byte[] messageByteArray = receiver.Receive(ref receivingEndPoint);
-				string message = Encoding.ASCII.GetString(messageByteArray);
 
-				LoggingUtilities.LogFormat("Received message (\"{0}\") from ip ({1}) using port ({2})", message, receivingEndPoint.Address, receivingPort);
-
-				UDPMessage udpMessage = (UDPMessage)JsonUtility.FromJson(message, typeof(T));
-
-				foreach (INetworkListener listener in networkListeners)
+				foreach(INetworkListener networkListener in networkListeners)
 				{
-					listener.OnMessageReceived(udpMessage);
+					networkListener.OnMessageReceived(messageByteArray);
 				}
+				
+				LoggingUtilities.LogFormat("Received message (\"{0}\") from ip ({1}) using port ({2})", messageByteArray.ToString(), receivingEndPoint.Address, receivingPort);
 			}
 			catch (System.Exception ex)
 			{

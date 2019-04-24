@@ -2,6 +2,6 @@
 {
 	public interface INetworkListener
 	{
-		void OnMessageReceived(UDPMessage message);
+		void OnMessageReceived(byte[] message);
 	}
 }

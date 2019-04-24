@@ -1,6 +1,6 @@
 ﻿using Framework.Features.Json;
 
-namespace Framework.Features.UDP
+namespace Framework.Features.UDP.Applied
 {
 	public abstract class UDPMessage
 	{

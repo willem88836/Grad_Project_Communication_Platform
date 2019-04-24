@@ -134,18 +134,24 @@ public class Videocall : MonoBehaviour, INetworkListener
 			List<byte> byteList = new List<byte>();
 
 			Color32[] colors = webCamTexture.GetPixels32();
-			for (int i = 0; i < colors.Length; i++)
+			float stepSize = 1f / StreamingResolutionScale.Value;
+			Debug.Log(colors.Length / stepSize);
+			for (float i = 0; i < webCamTexture.width; i += stepSize)
 			{
-				Color32 clr = colors[i];
+				for (float j = 0; j < webCamTexture.height; j += stepSize)
+				{
+					int k = Mathf.FloorToInt(j) * webCamTexture.width + (int)i;
+					Color32 clr = colors[k];
 
-				byteList.Add(clr.r);
-				byteList.Add(clr.g);
-				byteList.Add(clr.b);
+					byteList.Add(clr.r);
+					byteList.Add(clr.g);
+					byteList.Add(clr.b);
+				}
 			}
 
 			// Adds width and height of the webcamtexture.
-			byteList.AddRange(((short)webCamTexture.width).ToByteArray());
-			byteList.AddRange(((short)webCamTexture.height).ToByteArray());
+			byteList.AddRange(((short)(webCamTexture.width * StreamingResolutionScale.Value)).ToByteArray());
+			byteList.AddRange(((short)(webCamTexture.height * StreamingResolutionScale.Value)).ToByteArray());
 
 			byte[] videoByteArray = byteList.ToArray();
 
@@ -155,7 +161,6 @@ public class Videocall : MonoBehaviour, INetworkListener
 			float timeLeft = targetDeltaTime - stopwatch.Elapsed.Seconds;
 			Debug.LogFormat("Finished with {0} seconds left", timeLeft);
 			timeLeft = Mathf.Clamp(timeLeft, 0, timeLeft);
-			Debug.LogFormat("Completed early! Waiting for {0} seconds", timeLeft.ToString());
 
 			yield return new WaitForSeconds(timeLeft);
 		}

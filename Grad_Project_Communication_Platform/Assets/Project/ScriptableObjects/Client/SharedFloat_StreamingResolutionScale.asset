@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd0bee7e0856c44bbd2c84f29f69c49, type: 3}
   m_Name: SharedFloat_StreamingResolutionScale
   m_EditorClassIdentifier: 
-  value: 0
+  value: 0.25

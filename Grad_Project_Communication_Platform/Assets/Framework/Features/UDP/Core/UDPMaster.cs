@@ -64,6 +64,7 @@ namespace Framework.Features.UDP
 		/// </summary>
 		public void SendMessage(byte[] message)
 		{
+			// Note to self. The message buffer size is: 65536
 			LoggingUtilities.LogFormat("Sending Message of Size: ({0})", message.Length);
 			sendingSocket.SendTo(message, sendingEndPoint);
 		}

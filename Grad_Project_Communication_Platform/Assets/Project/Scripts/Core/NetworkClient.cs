@@ -30,13 +30,25 @@ public sealed class NetworkClient : NetworkManager
 		SendMessage(connectMessage);
 	}
 
+	private void Start()
+	{
+		caller = gameObject.AddComponent<Videocaller>();
+	}
+
+
 	// FOO
+	Videocaller caller;
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			Videocall.StartCalling(true, new Participant("a", "1.1.1.1", "asdf"), new Participant("b", "1.1.1.1", "98765"));
+			caller.Initialize();
 		}
+		else if (Input.GetKeyDown(KeyCode.A))
+		{
+			caller.StartCalling("1.1.1.1", 24, 0.5f);
+		}
+
 	}
 
 	protected override void OnDestroy()

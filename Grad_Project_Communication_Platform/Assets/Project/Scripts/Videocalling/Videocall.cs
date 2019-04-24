@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Framework.Features.UDP;
-using Framework.Variables;
 using Framework.Utils;
 
 public class Videocall : MonoBehaviour, INetworkListener
 {
 	private const int SHORT_BYTELENGTH = 52;
+	private const int INT_BYTELENGTH = 54;
 
 	public int PortA = 11002;
 	public int PortB = 11003;
@@ -94,22 +94,25 @@ public class Videocall : MonoBehaviour, INetworkListener
 	public void OnMessageReceived(byte[] message)
 	{
 		// Grabs the width and height from the array and converts them to height. 
-		int width = message.SubArray(message.Length - (2 * SHORT_BYTELENGTH), SHORT_BYTELENGTH).ToObject<int>();
-		int height = message.SubArray(message.Length - SHORT_BYTELENGTH, SHORT_BYTELENGTH).ToObject<int>();
+		short width = message.SubArray(message.Length - (2 * SHORT_BYTELENGTH) - INT_BYTELENGTH, SHORT_BYTELENGTH).ToObject<short>();
+		short height = message.SubArray(message.Length - SHORT_BYTELENGTH - INT_BYTELENGTH, SHORT_BYTELENGTH).ToObject<short>();
+		int startIndex = message.SubArray(message.Length - INT_BYTELENGTH, INT_BYTELENGTH).ToObject<int>();
 		Texture2D videoOut = new Texture2D(width, height);
 		
 
 		List<Color32> colors = new List<Color32>();
 
-		for (int i = 0; i < message.Length - (2 * SHORT_BYTELENGTH); i += 3)
+		int length = message.Length - ((2 * SHORT_BYTELENGTH) + INT_BYTELENGTH);
+		for (int i = 0; i < length; i += 3)
 		{
+			int j = startIndex + i;
 			Color32 pixel = new Color32(
 				message[i], 
 				message[i + 1], 
 				message[i + 2], 
 				byte.MaxValue);
 
-			colors.Add(pixel);
+			colors[j] = pixel;
 		}
 
 		Color32[] colorArray = colors.ToArray();
@@ -151,21 +154,25 @@ public class Videocall : MonoBehaviour, INetworkListener
 			}
 
 			// Adds width and height of the webcamtexture.
-			byteList.AddRange(((short)(webCamTexture.width * StreamingResolutionScale.Value)).ToByteArray());
-			byteList.AddRange(((short)(webCamTexture.height * StreamingResolutionScale.Value)).ToByteArray());
+			byte[] width = ((short)(webCamTexture.width * StreamingResolutionScale.Value)).ToByteArray();
+			byte[] height = ((short)(webCamTexture.height * StreamingResolutionScale.Value)).ToByteArray();
 
-			byte[] videoByteArray = byteList.ToArray();
 
 			int bufferSize = udpMaster.MessageBufferSize;
-			int chunkCount = Mathf.CeilToInt((float)videoByteArray.Length / bufferSize);
+			int chunkCount = Mathf.CeilToInt((float)byteList.Count / bufferSize);
 			for (int i = 0; i < chunkCount; i++)
 			{
 				int startIndex = i * bufferSize;
-				int length = startIndex + bufferSize >= videoByteArray.Length 
-					? videoByteArray.Length - startIndex 
+				int length = startIndex + bufferSize >= byteList.Count
+					? byteList.Count - startIndex 
 					: bufferSize;
-				byte[] byteSubArray = videoByteArray.SubArray(startIndex, length);
-				udpMaster.SendMessage(byteSubArray, other.IP);
+				List<byte> byteSubList = byteList.GetRange(startIndex, length);
+				byteSubList.AddRange(width);
+				byteSubList.AddRange(height);
+				byteSubList.AddRange((i * bufferSize).ToByteArray());
+
+				OnMessageReceived(byteSubList.ToArray());
+				//udpMaster.SendMessage(byteSubList.ToArray(), other.IP);
 			}
 
 			stopwatch.Stop();

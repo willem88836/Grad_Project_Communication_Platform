@@ -33,6 +33,12 @@ namespace Framework.Variables
 			a.Y *= b;
 			return a;
 		}
+		public static Int2 operator *(Int2 a, float b)
+		{
+			a.X = (int)((float)a.X * b);
+			a.Y = (int)((float)a.Y * b);
+			return a;
+		}
 		public static Int2 operator /(Int2 a, int b)
 		{
 			a.X /= b;

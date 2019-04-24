@@ -39,6 +39,10 @@ namespace Framework.Utils
 			return obj;
 		}
 
+		public static T ToObject<T>(this byte[] byteArray) 
+		{
+			return (T)ToObject(byteArray);
+		}
 
 		public static bool IsNumber(this object obj)
 		{

@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Framework.Features.UDP.Applied;
+using Framework.Features.UDP;
+using Framework.Variables;
+using Framework.Utils;
 
-public class Videocall : MonoBehaviour, IAppliedNetworkListener
+public class Videocall : MonoBehaviour, INetworkListener
 {
+	private const int SHORT_BYTELENGTH = 52;
+
 	public int PortA = 11002;
 	public int PortB = 11003;
 
@@ -17,17 +21,18 @@ public class Videocall : MonoBehaviour, IAppliedNetworkListener
 	public Material OwnFootageOut;
 	public Material OtherFootageOut;
 
-	private AppliedUDPMaster<VideoMessage> udpMaster;
+	private UDPMaster udpMaster;
 	private NetworkClient networkClient;
 
 	private Participant other;
 	private Participant self;
 
 
+
 	public void Initialize(NetworkClient networkClient)
 	{
 		this.networkClient = networkClient;
-		udpMaster = new AppliedUDPMaster<VideoMessage>();
+		udpMaster = new UDPMaster();
 	}
 
 
@@ -86,13 +91,31 @@ public class Videocall : MonoBehaviour, IAppliedNetworkListener
 	}
 
 
-	public void OnMessageReceived(UDPMessage message)
+	public void OnMessageReceived(byte[] message)
 	{
-		VideoMessage videoMessage = (VideoMessage)message;
-		Color32[] colors = videoMessage.Colors;
-		Texture2D videoOut = new Texture2D(videoMessage.Width, videoMessage.Height);
-		videoOut.SetPixels32(colors);
+		// Grabs the width and height from the array and converts them to height. 
+		int width = message.SubArray(message.Length - (2 * SHORT_BYTELENGTH), SHORT_BYTELENGTH).ToObject<int>();
+		int height = message.SubArray(message.Length - SHORT_BYTELENGTH, SHORT_BYTELENGTH).ToObject<int>();
+		Texture2D videoOut = new Texture2D(width, height);
+		
+
+		List<Color32> colors = new List<Color32>();
+
+		for (int i = 0; i < message.Length - (2 * SHORT_BYTELENGTH); i += 3)
+		{
+			Color32 pixel = new Color32(
+				message[i], 
+				message[i + 1], 
+				message[i + 2], 
+				byte.MaxValue);
+
+			colors.Add(pixel);
+		}
+
+		Color32[] colorArray = colors.ToArray();
+		videoOut.SetPixels32(colorArray);
 		OtherFootageOut.mainTexture = videoOut;
+		videoOut.Apply();
 	}
 
 
@@ -107,17 +130,10 @@ public class Videocall : MonoBehaviour, IAppliedNetworkListener
 			stopwatch.Reset();
 			stopwatch.Start();
 
-			WebCamTexture texture2D = OwnFootageOut.mainTexture as WebCamTexture;
-
-			VideoMessage videoMessage = new VideoMessage(
-				self.IP, 
-				texture2D.GetPixels32(), 
-				texture2D.width, 
-				texture2D.height);
-
+			WebCamTexture webCamTexture = OwnFootageOut.mainTexture as WebCamTexture;
 			List<byte> byteList = new List<byte>();
 
-			Color32[] colors = videoMessage.Colors;
+			Color32[] colors = webCamTexture.GetPixels32();
 			for (int i = 0; i < colors.Length; i++)
 			{
 				Color32 clr = colors[i];
@@ -127,10 +143,13 @@ public class Videocall : MonoBehaviour, IAppliedNetworkListener
 				byteList.Add(clr.b);
 			}
 
+			// Adds width and height of the webcamtexture.
+			byteList.AddRange(((short)webCamTexture.width).ToByteArray());
+			byteList.AddRange(((short)webCamTexture.height).ToByteArray());
+
 			byte[] videoByteArray = byteList.ToArray();
 
-
-			// todo: send message here. 
+			udpMaster.SendMessage(videoByteArray, other.IP);
 
 			stopwatch.Stop();
 			float timeLeft = targetDeltaTime - stopwatch.Elapsed.Seconds;

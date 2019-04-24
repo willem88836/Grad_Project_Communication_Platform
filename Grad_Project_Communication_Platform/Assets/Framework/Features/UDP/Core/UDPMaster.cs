@@ -12,6 +12,8 @@ namespace Framework.Features.UDP
 	/// </summary>
 	public class UDPMaster
 	{
+		public int MessageBufferSize { get { return sendingSocket.SendBufferSize - 100; } } // HACK: This feels like the definition of a hack. Figure out why it doesn't work with the actual value.
+
 		protected int sendingPort;
 		protected Socket sendingSocket;
 		protected IPAddress sendingAddress;

@@ -130,12 +130,13 @@ public class Videocall : MonoBehaviour, INetworkListener
 			stopwatch.Reset();
 			stopwatch.Start();
 
+			// TODO: See if this can be threaded. 
+			// TODO: Do something to reduce the RAM use.
 			WebCamTexture webCamTexture = OwnFootageOut.mainTexture as WebCamTexture;
 			List<byte> byteList = new List<byte>();
 
 			Color32[] colors = webCamTexture.GetPixels32();
 			float stepSize = 1f / StreamingResolutionScale.Value;
-			Debug.Log(colors.Length / stepSize);
 			for (float i = 0; i < webCamTexture.width; i += stepSize)
 			{
 				for (float j = 0; j < webCamTexture.height; j += stepSize)
@@ -155,11 +156,20 @@ public class Videocall : MonoBehaviour, INetworkListener
 
 			byte[] videoByteArray = byteList.ToArray();
 
-			udpMaster.SendMessage(videoByteArray, other.IP);
+			int bufferSize = udpMaster.MessageBufferSize;
+			int chunkCount = Mathf.CeilToInt((float)videoByteArray.Length / bufferSize);
+			for (int i = 0; i < chunkCount; i++)
+			{
+				int startIndex = i * bufferSize;
+				int length = startIndex + bufferSize >= videoByteArray.Length 
+					? videoByteArray.Length - startIndex 
+					: bufferSize;
+				byte[] byteSubArray = videoByteArray.SubArray(startIndex, length);
+				udpMaster.SendMessage(byteSubArray, other.IP);
+			}
 
 			stopwatch.Stop();
 			float timeLeft = targetDeltaTime - stopwatch.Elapsed.Seconds;
-			Debug.LogFormat("Finished with {0} seconds left", timeLeft);
 			timeLeft = Mathf.Clamp(timeLeft, 0, timeLeft);
 
 			yield return new WaitForSeconds(timeLeft);

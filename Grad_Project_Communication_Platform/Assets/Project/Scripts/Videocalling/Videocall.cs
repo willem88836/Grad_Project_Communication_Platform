@@ -117,25 +117,30 @@ public class Videocall : MonoBehaviour, INetworkListener
 				texture2D.width, 
 				texture2D.height);
 
-			//System.Text.Encoding.ASCII.GetBytes(videoMessage.Colors);
+			List<byte> byteList = new List<byte>();
 
-			byte[] videoByteArray = videoMessage.Colors.ToByteArray();
+			Color32[] colors = videoMessage.Colors;
+			for (int i = 0; i < colors.Length; i++)
+			{
+				Color32 clr = colors[i];
+
+				byteList.Add(clr.r);
+				byteList.Add(clr.g);
+				byteList.Add(clr.b);
+			}
+
+			byte[] videoByteArray = byteList.ToArray();
 
 
-			//object o = System.Convert.ChangeType(videoMessage.Colors, typeof(byte[]));
-			Debug.Log(videoByteArray);
-			break;
-			//Debug.Log(Framework.Features.Json.JsonUtility.ToJson(videoMessage));
-
-			//OnMessageReceived(videoMessage);
+			// todo: send message here. 
 
 			stopwatch.Stop();
 			float timeLeft = targetDeltaTime - stopwatch.Elapsed.Seconds;
 			Debug.LogFormat("Finished with {0} seconds left", timeLeft);
 			timeLeft = Mathf.Clamp(timeLeft, 0, timeLeft);
 			Debug.LogFormat("Completed early! Waiting for {0} seconds", timeLeft.ToString());
+
 			yield return new WaitForSeconds(timeLeft);
-			break;
 		}
 	}
 }

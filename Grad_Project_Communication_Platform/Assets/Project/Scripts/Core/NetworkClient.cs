@@ -48,6 +48,10 @@ public sealed class NetworkClient : NetworkManager
 		{
 			caller.StartCalling("1.1.1.1", 24, 0.5f);
 		}
+		else if (Input.GetKeyDown(KeyCode.D))
+		{
+			caller.StopCalling();
+		}
 
 	}
 

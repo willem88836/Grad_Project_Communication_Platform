@@ -18,9 +18,7 @@ public class Videocaller : MonoBehaviour, INetworkListener
 	private UDPMaster udpMaster;
 
 	// Sending
-	public WebCamTexture OwnFootage;
-
-	private Thread senderThread;
+	public WebCamTexture OwnFootage { get; private set; }
 	private Stopwatch stopwatch = new Stopwatch();
 
 	private string targetIP;
@@ -117,9 +115,10 @@ public class Videocaller : MonoBehaviour, INetworkListener
 
 	public void StopCalling()
 	{
+		udpMaster.SendMessage(new byte[0]);
 		StopAllCoroutines();
-		senderThread.Abort();
 		udpMaster.Kill();
+		OwnFootage.Stop();
 	}
 
 

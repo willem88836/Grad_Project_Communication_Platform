@@ -27,9 +27,6 @@ public class Videocaller : MonoBehaviour, INetworkListener
 	private int frameRate;
 	private float resolutionScale;
 
-	//private int targetDeltaTimeInMilliseconds;
-	//private int videoChunkCount;
-
 
 	// Receiving
 	//public Texture2D OtherFootage;
@@ -47,29 +44,16 @@ public class Videocaller : MonoBehaviour, INetworkListener
 		OwnFootage.Play();
 	}
 
+
 	public void StartCalling(string targetIP, int frameRate, float resolutionScale)
 	{
 		this.targetIP = targetIP;
 		this.frameRate = frameRate;
 		this.resolutionScale = resolutionScale;
 
-		//this.targetDeltaTimeInMilliseconds = (int)((1f / frameRate) * 1000);
-		//this.videoChunkCount = Mathf.CeilToInt(((OwnFootage.width / resolutionScale) + (OwnFootage.height / resolutionScale)) / udpMaster.MessageBufferSize);
-
 		udpMaster.UpdateTargetIP(targetIP);
 
-		StartSendingFootage();
-	}
-
-	public void StopCalling()
-	{
-		senderThread.Abort();
-		udpMaster.Kill();
-	}
-
-
-	private void StartSendingFootage()
-	{
+		StopAllCoroutines();
 		StartCoroutine(SendFootage());
 	}
 
@@ -128,6 +112,14 @@ public class Videocaller : MonoBehaviour, INetworkListener
 			timeLeft = Mathf.Min(0, timeLeft);
 			yield return new WaitForEndOfFrame();
 		}
+	}
+
+
+	public void StopCalling()
+	{
+		StopAllCoroutines();
+		senderThread.Abort();
+		udpMaster.Kill();
 	}
 
 

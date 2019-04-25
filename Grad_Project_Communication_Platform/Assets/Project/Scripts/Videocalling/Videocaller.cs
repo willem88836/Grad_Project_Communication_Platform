@@ -12,7 +12,7 @@ using UnityEngine;
 public class Videocaller : MonoBehaviour, INetworkListener
 {
 	public Action OnCallEnded;
-	//HACK: This should not be necessary, however, changing the width/height of a Texture2D is not supported yet.
+	//HACK: Changing the width/height of a Texture2D is not supported yet.
 	public Action<Texture2D> OnOtherFootageApplied; 
 
 	// Networking locals.
@@ -24,7 +24,6 @@ public class Videocaller : MonoBehaviour, INetworkListener
 
 	// Sending Locals
 	public WebCamTexture OwnFootage { get; private set; }
-	private Stopwatch stopwatch = new Stopwatch();
 
 	private string targetIP;
 	private int frameRate;
@@ -77,30 +76,20 @@ public class Videocaller : MonoBehaviour, INetworkListener
 	/// </summary>
 	private IEnumerator<YieldInstruction> SendFootage()
 	{
-		int targetDeltaTimeInMilliseconds = (int)((1f / frameRate) * 1000);
-
+		// TODO: Do this on a different thread (framerate and such)?
 		while (true)
 		{
-			// TODO: remove the stopwatch.
-			stopwatch.Restart();
-
-			Color32[] pixels = OwnFootage.GetPixels32();
-
-
-			// TODO: Do this on a different thread (framerate and such)?
-
 			// Converts the width and height to byte array and sends it across the network.
 			List<byte> resolutionByteList = new List<byte>();
-			// TODO: Double check whether this should be ceil or something different.
 			int videoWidth = Mathf.FloorToInt(OwnFootage.width * resolutionScale);
 			int videoHeight = Mathf.FloorToInt(OwnFootage.height * resolutionScale);
 			resolutionByteList.AddRange(videoWidth.ToByteArray());
 			resolutionByteList.AddRange(videoHeight.ToByteArray());
 			udpMaster.SendMessage(resolutionByteList.ToArray());
 
-
-			// Lowers the resolution.
-			List<Color32> filteredPixels = new List<Color32>();
+			// Lowers the resolution of the video frame.
+			Color32[] frame = OwnFootage.GetPixels32();
+			List<Color32> lowResFrame = new List<Color32>();
 			for (float i = 0; i < OwnFootage.height * resolutionScale; i++)
 			{
 				for (float j = 0; j < OwnFootage.width * resolutionScale; j++)
@@ -110,42 +99,36 @@ public class Videocaller : MonoBehaviour, INetworkListener
 
 					int k = y * OwnFootage.width + x;
 
-					Color32 pixel = pixels[k];
-					filteredPixels.Add(pixel);
+					Color32 pixel = frame[k];
+					lowResFrame.Add(pixel);
 				}
 			}
 			
-
+			// Sends the low resolution frame in chunks across the network.
+			// Color32 contains 3 byte values (RGB). Therefore, everything is done in 3s.
 			int colorBufferSize = Mathf.FloorToInt(udpMaster.MessageBufferSize / 3f);
-			// one color contains 3 bytes (rgb); 3 will recur during this method a few times. 
-			int chunkCount = Mathf.CeilToInt((float)filteredPixels.Count / colorBufferSize);
+			int chunkCount = Mathf.CeilToInt((float)lowResFrame.Count / colorBufferSize);
 			for (int i = 0; i < chunkCount; i++)
 			{
+				// Establishes the message size. 
 				int j = i * colorBufferSize;
-				int length = i == chunkCount - 1 // is the last chunk.
-					? filteredPixels.Count - j
+				int length = i == chunkCount - 1 // Is the last chunk.
+					? lowResFrame.Count - j
 					: colorBufferSize; 
 
-
-				// TODO: remove this sublist. Just iterate from the right indices.
-				List<Color32> pixelSubList = filteredPixels.SubList(j, length);
-				byte[] byteArray = new byte[pixelSubList.Count * 3];
-
-				for (int k = 0; k < pixelSubList.Count; k++)
+				// Creates the message.
+				byte[] byteArray = new byte[lowResFrame.Count * 3];
+				for (int k = 0; k < length; k++)
 				{
-					int l = k * 3;
-					byteArray[l] = pixelSubList[k].r;
-					byteArray[l + 1] = pixelSubList[k].g;
-					byteArray[l + 2] = pixelSubList[k].b;
+					int l = j + k * 3;
+					byteArray[l] = lowResFrame[k].r;
+					byteArray[l + 1] = lowResFrame[k].g;
+					byteArray[l + 2] = lowResFrame[k].b;
 				}
 
 				udpMaster.SendMessage(byteArray);
 				yield return new WaitForEndOfFrame();
 			}
-
-			stopwatch.Stop();
-			int timeLeft = targetDeltaTimeInMilliseconds - stopwatch.Elapsed.Milliseconds;
-			timeLeft = Mathf.Min(0, timeLeft);
 			yield return new WaitForEndOfFrame();
 		}
 	}
@@ -166,19 +149,22 @@ public class Videocaller : MonoBehaviour, INetworkListener
 	/// <inheritdoc />
 	public void OnMessageReceived(byte[] message)
 	{
-		// means the end of the conversation. Is sent in "StopCalling"
+		// An empty array means that the call is ended.
+		// This message is only sent in the StopCalling method. 
 		if (message.Length == 0)
 		{
-			StopCalling(); // TODO: this is not proper solution as other classes cannot hook to it. 
+			StopCalling();
 			return;
 		}
 
-		// if they aren't they are set. 
+		// if the dimensions aren't established yet, 
+		// it means the message contains that information.
 		if (!dimensionsEstablished)
 		{
-			int INT_BYTEARRAYLENGTH = ObjectUtilities.INT_BYTEARRAYLENGTH; 
-			int width = message.SubArray(0, INT_BYTEARRAYLENGTH).ToObject<int>();
-			int height = message.SubArray(INT_BYTEARRAYLENGTH, INT_BYTEARRAYLENGTH).ToObject<int>();
+			// Converts the byte array to two values.
+			int intByteArrayLength = ObjectUtilities.INT_BYTEARRAYLENGTH; 
+			int width = message.SubArray(0, intByteArrayLength).ToObject<int>();
+			int height = message.SubArray(intByteArrayLength, intByteArrayLength).ToObject<int>();
 
 			// Creates the texture.
 			OtherFootage = new Texture2D(width, height);
@@ -188,10 +174,10 @@ public class Videocaller : MonoBehaviour, INetworkListener
 			return;
 		}
 
-		// Applies the colors.
+		// Applies the colors to the texture.
 		for (int i = 0; i < message.Length; i+= 3)
 		{
-			// converts the byte info to a Color32 and sets it.
+			// Converts the byte info to Color32.
 			byte r = message[i];
 			byte g = message[i + 1];
 			byte b = message[i + 2];
@@ -202,7 +188,7 @@ public class Videocaller : MonoBehaviour, INetworkListener
 			int k = Mathf.FloorToInt(((processedColors + i) / 3f) / OtherFootage.width);
 			OtherFootage.SetPixel(j, k, color);
 
-
+			// Applies the new texture if it is the final chunk.
 			if (k == OtherFootage.height - 1 && j == OtherFootage.width - 1)
 			{
 				OtherFootage.Apply();

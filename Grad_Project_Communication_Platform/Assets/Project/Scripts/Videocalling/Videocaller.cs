@@ -179,6 +179,7 @@ public class Videocaller : MonoBehaviour, INetworkListener
 
 		// Applies the colors to the texture.
 		int otherFootageWidth = OtherFootage.width;
+		int otherFootageHeight = OtherFootage.height;
 		for (int i = 0; i < message.Length; i+= 3)
 		{
 			// Converts the byte info to Color32.
@@ -193,7 +194,7 @@ public class Videocaller : MonoBehaviour, INetworkListener
 			OtherFootage.SetPixel(j, k, color);
 
 			// Applies the new texture if it is the final chunk.
-			if (k == OtherFootage.height - 1 && j == otherFootageWidth - 1)
+			if (k == otherFootageHeight - 1 && j == otherFootageWidth - 1)
 			{
 				OtherFootage.Apply();
 				dimensionsEstablished = false;

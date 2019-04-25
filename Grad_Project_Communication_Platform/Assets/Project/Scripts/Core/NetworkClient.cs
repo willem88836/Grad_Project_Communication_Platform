@@ -31,7 +31,7 @@ public sealed class NetworkClient : NetworkManager
 
 	private void Start()
 	{
-		TransmitRoleplayDescription(new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, JsonUtility.ToJson(new RoleplayDescription("", new Participant("Steve", "1.1.1.1", "123456"), new Participant("Stevette", "1.1.1.1", "123456"), new CaseDescription(new int[0], new int[0], RoleplayModule.Paraphrasing)))));
+		TransmitRoleplayDescription(new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, JsonUtility.ToJson(new RoleplayDescription("", new Participant("Steve", "127.16.24.24", "123456"), new Participant("Stevette", "127.16.24.24", "123456"), new CaseDescription(new int[0], new int[0], RoleplayModule.Paraphrasing)))));
 	}
 
 	protected override void OnDestroy()

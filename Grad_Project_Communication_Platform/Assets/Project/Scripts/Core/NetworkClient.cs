@@ -10,7 +10,7 @@ public sealed class NetworkClient : NetworkManager
 
 	[Space]
 	public ScreenController ScreenController;
-	public Videocall Videocall;
+	public RoleplayCall RoleplayCall;
 	public RoleplayController RoleplayController;
 	public ModuleController ModuleController;
 
@@ -22,7 +22,6 @@ public sealed class NetworkClient : NetworkManager
 	{
 		base.Awake();
 
-		Videocall.Initialize(this);
 		ModuleController.Initialize(this);
 		RoleplayController.Initialize(this);
 
@@ -32,27 +31,7 @@ public sealed class NetworkClient : NetworkManager
 
 	private void Start()
 	{
-		caller = gameObject.AddComponent<Videocaller>();
-	}
-
-
-	// FOO
-	Videocaller caller;
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.Space))
-		{
-			caller.Initialize();
-		}
-		else if (Input.GetKeyDown(KeyCode.A))
-		{
-			caller.StartCalling("1.1.1.1", 24, 0.5f);
-		}
-		else if (Input.GetKeyDown(KeyCode.D))
-		{
-			caller.StopCalling();
-		}
-
+		TransmitRoleplayDescription(new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, JsonUtility.ToJson(new RoleplayDescription("", new Participant("Steve", "1.1.1.1", "123456"), new Participant("Stevette", "1.1.1.1", "123456"), new CaseDescription(new int[0], new int[0], RoleplayModule.Paraphrasing)))));
 	}
 
 	protected override void OnDestroy()
@@ -90,7 +69,9 @@ public sealed class NetworkClient : NetworkManager
 			self = roleplayDescription.Professional;
 		}
 
-		Videocall.StartCalling(isClient, other, self); 
+		RoleplayCall.Initialize(isClient, other, self);
+
+		ScreenController.SwitchScreenToModuleBriefing();
 	}
 
 	public void TransmitFinalEvaluation(NetworkMessage message)
@@ -101,14 +82,6 @@ public sealed class NetworkClient : NetworkManager
 	public void TransmitFootage(NetworkMessage message)
 	{
 
-	}
-
-	public void ForceEndCall(NetworkMessage message)
-	{
-		Videocall.ForceEndCalling();
-
-		// TODO: Switch to the right screen. 
-		ScreenController.SwitchScreenToConversationChallengeTest();
 	}
 
 	public void ForceDisconnect(NetworkMessage message)

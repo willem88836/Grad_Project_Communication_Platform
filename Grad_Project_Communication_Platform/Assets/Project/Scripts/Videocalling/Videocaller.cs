@@ -1,13 +1,21 @@
 ﻿using Framework.Features.UDP;
 using Framework.Utils;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
-
+/// <summary>
+///		Is used for videocalling with someone across the network in Unity.
+/// </summary>
 public class Videocaller : MonoBehaviour, INetworkListener
 {
+	public Action OnCallEnded;
+	//HACK: This should not be necessary, however, changing the width/height of a Texture2D is not supported yet.
+	public Action<Texture2D> OnOtherFootageApplied; 
+
+	// Networking locals.
 	public int PortA = 11002;
 	public int PortB = 11003;
 
@@ -24,13 +32,16 @@ public class Videocaller : MonoBehaviour, INetworkListener
 
 
 	// Receiving Locals
-	public Texture2D OtherFootage;
+	public Texture2D OtherFootage { get; private set; }
 
 	private int colorStartIndexX = 0;
 	private int colorStartIndexY = 0;
 	private bool dimensionsEstablished = false;
 
 
+	/// <summary>
+	///		Initializes the network connection.
+	/// </summary>
 	public void Initialize(int portA = 11002, int portB = 11003)
 	{
 		resolutionScale = Mathf.Clamp01(resolutionScale);
@@ -46,7 +57,9 @@ public class Videocaller : MonoBehaviour, INetworkListener
 		OwnFootage.Play();
 	}
 
-
+	/// <summary>
+	///		Starts a videocall.
+	/// </summary>
 	public void StartCalling(string targetIP, int frameRate, float resolutionScale)
 	{
 		this.targetIP = targetIP;
@@ -59,12 +72,17 @@ public class Videocaller : MonoBehaviour, INetworkListener
 		StartCoroutine(SendFootage());
 	}
 
+	/// <summary>
+	///		Collects the own video footage, reduces resolution, 
+	///		and sends it across the network. 
+	/// </summary>
 	private IEnumerator<YieldInstruction> SendFootage()
 	{
 		int targetDeltaTimeInMilliseconds = (int)((1f / frameRate) * 1000);
 
 		while (true)
 		{
+			// TODO: remove the stopwatch.
 			stopwatch.Restart();
 
 			Color32[] pixels = OwnFootage.GetPixels32();
@@ -125,7 +143,9 @@ public class Videocaller : MonoBehaviour, INetworkListener
 		}
 	}
 
-
+	/// <summary>
+	///		Ends the videocall. 
+	/// </summary>
 	public void StopCalling()
 	{
 		udpMaster.SendMessage(new byte[0]);
@@ -133,9 +153,10 @@ public class Videocaller : MonoBehaviour, INetworkListener
 		udpMaster.Kill();
 		OwnFootage.Stop();
 		dimensionsEstablished = false;
+		OnCallEnded.SafeInvoke();
 	}
 
-
+	/// <inheritdoc />
 	public void OnMessageReceived(byte[] message)
 	{
 		// means the end of the conversation. Is sent in "StopCalling"
@@ -181,6 +202,7 @@ public class Videocaller : MonoBehaviour, INetworkListener
 					// Should this be called only at the end? UDP messages can get lost..
 					OtherFootage.Apply();
 					dimensionsEstablished = false;
+					OnOtherFootageApplied.SafeInvoke(OtherFootage);
 				}
 			}
 		}

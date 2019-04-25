@@ -14,6 +14,10 @@ namespace Framework.Features.UDP
 	{
 		public int MessageBufferSize { get { return sendingSocket.SendBufferSize - 100; } } // HACK: This feels like the definition of a hack. Figure out why it doesn't work with the actual value.
 
+		#if UNITY_EDITOR
+			public bool LocalHost = false;
+		#endif
+
 		protected int sendingPort;
 		protected Socket sendingSocket;
 		protected IPAddress sendingAddress;
@@ -66,6 +70,13 @@ namespace Framework.Features.UDP
 		/// </summary>
 		public void SendMessage(byte[] message)
 		{
+			#if UNITY_EDITOR
+				if (LocalHost)
+				{
+					DistributeMessage(message);
+					return;
+				}
+			#endif
 			sendingSocket.SendTo(message, sendingEndPoint);
 		}
 		/// <summary>
@@ -94,19 +105,27 @@ namespace Framework.Features.UDP
 		{
 			try
 			{
+				// TODO: This throws an error when killing the network connection.
 				byte[] messageByteArray = receiver.Receive(ref receivingEndPoint);
-
-				foreach(INetworkListener networkListener in networkListeners)
-				{
-					networkListener.OnMessageReceived(messageByteArray);
-				}
-				
-				LoggingUtilities.LogFormat("Received message (\"{0}\") from ip ({1}) using port ({2})", messageByteArray.ToString(), receivingEndPoint.Address, receivingPort);
+				DistributeMessage(messageByteArray);
 			}
 			catch (System.Exception ex)
 			{
 				LoggingUtilities.Log(ex.Message + " " + ex.StackTrace);
 			}
+		}
+
+		/// <summary>
+		///		Calls the networkListeners.
+		/// </summary>
+		protected virtual void DistributeMessage(byte[] message)
+		{
+			foreach (INetworkListener networkListener in networkListeners)
+			{
+				networkListener.OnMessageReceived(message);
+			}
+
+			LoggingUtilities.LogFormat("Received message (\"{0}\") from ip ({1}) using port ({2})", message.ToString(), receivingEndPoint.Address, receivingPort);
 		}
 
 

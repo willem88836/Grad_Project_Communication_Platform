@@ -9,6 +9,11 @@ namespace Framework.Utils
 	/// </summary>
 	public static class ObjectUtilities
 	{
+		// The array length of these variables is always the same.
+		public const int INT_BYTEARRAYLENGTH = 54;
+		public const int SHORT_BYTEARRAYLENGTH = 52;
+
+
 		/// <summary>
 		///		Convert an object to a byte array.
 		/// </summary>

@@ -28,12 +28,7 @@ public sealed class NetworkClient : NetworkManager
 		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, AccountName.Value, "", AccountName.Value);
 		SendMessage(connectMessage);
 	}
-
-	private void Start()
-	{
-		TransmitRoleplayDescription(new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, JsonUtility.ToJson(new RoleplayDescription("", new Participant("Steve", "127.16.24.24", "123456"), new Participant("Stevette", "127.16.24.24", "123456"), new CaseDescription(new int[0], new int[0], RoleplayModule.Paraphrasing)))));
-	}
-
+	
 	protected override void OnDestroy()
 	{
 		NetworkMessage disconnectMessage = new NetworkMessage(NetworkMessageType.DisconnectFromServer, ClientId);

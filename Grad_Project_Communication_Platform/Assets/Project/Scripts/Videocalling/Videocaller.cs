@@ -48,7 +48,6 @@ public class Videocaller : MonoBehaviour, INetworkListener
 		udpMaster = new UDPMaster();
 		udpMaster.Initialize(PortA, PortB);
 		udpMaster.AddListener(this);
-		udpMaster.LocalHost = true; //TODO don't forget to remove this.
 
 		// HACK: This will most definitely break at some point. 
 		WebCamDevice frontCam = WebCamTexture.devices.Where((WebCamDevice d) => d.isFrontFacing).ToArray()[0];
@@ -100,71 +99,22 @@ public class Videocaller : MonoBehaviour, INetworkListener
 			udpMaster.SendMessage(resolutionByteList.ToArray());
 
 
-
+			// Lowers the resolution.
 			List<Color32> filteredPixels = new List<Color32>();
-			for (float i = 0; i < OwnFootage.width * resolutionScale; i++)
+			for (float i = 0; i < OwnFootage.height * resolutionScale; i++)
 			{
-				for (float j = 0; j < OwnFootage.height * resolutionScale; j++)
+				for (float j = 0; j < OwnFootage.width * resolutionScale; j++)
 				{
-					int x = (int)(i * resolutionScale);
-					int y = (int)(j * resolutionScale);
+					int x = (int)(j / resolutionScale);
+					int y = (int)(i / resolutionScale);
 
-					Color32 pixel = OwnFootage.GetPixel(x, y);
+					int k = y * OwnFootage.width + x;
+
+					Color32 pixel = pixels[k];
 					filteredPixels.Add(pixel);
 				}
 			}
-
-
-
-			//List<Color32> filteredPixels = new List<Color32>();
-			//int stepSize = (int)(1f / resolutionScale);
-
-			//for (int i = 0; i < OwnFootage.width; i += 1)
-			//{
-			//	for (int j = 0; j < OwnFootage.height; j += 1)
-			//	{
-			//		Color32 pixel = OwnFootage.GetPixel(i, j);
-			//		filteredPixels.Add(pixel);
-			//	}
-			//}
-
-
-			// this works, so the original array is not broken..
-			//List<Color32> filteredPixels = new List<Color32>(OwnFootage.GetPixels32());
 			
-
-			// Reduces the resolution by the resolutionScale.
-
-			//for (int i = 0; i < videoWidth; i++)
-			//{
-			//	int x = (int)(((float)i / videoWidth) * OwnFootage.width);
-			//	for (int j = 0; j < videoHeight; j++)
-			//	{
-			//		int y = (int)(((float)j / videoHeight) * OwnFootage.height);
-			//		//int k = (x * videoHeight + y) * 4;
-
-			//		Color32 pixel = OwnFootage.GetPixel(x, y);
-
-			//		// y * w + x
-			//		//int k = Mathf.RoundToInt((i * stepSize) * videoHeight + (j * stepSize));
-			//		//Color32 pixel = pixels[k];
-			//		filteredPixels.Add(pixel);
-			//	}
-			//}
-
-
-			OtherFootage = new Texture2D(videoWidth, videoHeight);
-			OtherFootage.SetPixels32(filteredPixels.ToArray());
-			OtherFootage.Apply();
-			dimensionsEstablished = false;
-			OnOtherFootageApplied.SafeInvoke(OtherFootage);
-			yield return new WaitForEndOfFrame();
-			continue;	
-
-
-
-
-
 
 			int colorBufferSize = Mathf.FloorToInt(udpMaster.MessageBufferSize / 3f);
 			// one color contains 3 bytes (rgb); 3 will recur during this method a few times. 
@@ -216,7 +166,6 @@ public class Videocaller : MonoBehaviour, INetworkListener
 	/// <inheritdoc />
 	public void OnMessageReceived(byte[] message)
 	{
-		return;
 		// means the end of the conversation. Is sent in "StopCalling"
 		if (message.Length == 0)
 		{

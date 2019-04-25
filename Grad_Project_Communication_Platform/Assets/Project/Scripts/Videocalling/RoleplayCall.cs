@@ -31,8 +31,8 @@ public class RoleplayCall : MonoBehaviour
 		else
 			Videocaller.Initialize();
 
-		ownFootage.texture = Videocaller.OwnFootage;
-		otherFootage.texture = Videocaller.OtherFootage;
+		ownFootage.material.mainTexture = Videocaller.OwnFootage;
+		otherFootage.material.mainTexture = Videocaller.OtherFootage;
 
 		Videocaller.OnCallEnded += OnCallEnded;
 		Videocaller.OnOtherFootageApplied += OnOtherFootageApplied;

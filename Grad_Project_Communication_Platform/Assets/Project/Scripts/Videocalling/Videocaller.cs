@@ -34,8 +34,7 @@ public class Videocaller : MonoBehaviour, INetworkListener
 	// Receiving Locals
 	public Texture2D OtherFootage { get; private set; }
 
-	private int colorStartIndexX = 0;
-	private int colorStartIndexY = 0;
+	private int processedColors = 0;
 	private bool dimensionsEstablished = false;
 
 
@@ -54,6 +53,7 @@ public class Videocaller : MonoBehaviour, INetworkListener
 		// HACK: This will most definitely break at some point. 
 		WebCamDevice frontCam = WebCamTexture.devices.Where((WebCamDevice d) => d.isFrontFacing).ToArray()[0];
 		OwnFootage = new WebCamTexture(frontCam.name);
+		OwnFootage.name = "Webcamfootage_Self";
 		OwnFootage.Play();
 	}
 
@@ -92,8 +92,8 @@ public class Videocaller : MonoBehaviour, INetworkListener
 			// Converts the width and height to byte array and sends it across the network.
 			List<byte> resolutionByteList = new List<byte>();
 			// TODO: Double check whether this should be ceil or something different.
-			resolutionByteList.AddRange(Mathf.CeilToInt(OwnFootage.width * resolutionScale).ToByteArray());
-			resolutionByteList.AddRange(Mathf.CeilToInt(OwnFootage.height * resolutionScale).ToByteArray());
+			resolutionByteList.AddRange(Mathf.FloorToInt(OwnFootage.width * resolutionScale).ToByteArray());
+			resolutionByteList.AddRange(Mathf.FloorToInt(OwnFootage.height * resolutionScale).ToByteArray());
 			udpMaster.SendMessage(resolutionByteList.ToArray());
 			
 			// Reduces the resolution by the resolutionScale.
@@ -175,7 +175,9 @@ public class Videocaller : MonoBehaviour, INetworkListener
 
 			// Creates the texture.
 			OtherFootage = new Texture2D(width, height);
+			OtherFootage.name = "Webcamfootage_Other";
 			dimensionsEstablished = true;
+			processedColors = 0;
 			return;
 		}
 
@@ -188,23 +190,20 @@ public class Videocaller : MonoBehaviour, INetworkListener
 			byte b = message[i + 2];
 			Color32 color = new Color32(r, g, b, byte.MaxValue);
 
-			OtherFootage.SetPixel(colorStartIndexX, colorStartIndexY, color);
+			// Determines the x and y coordinates of the color.
+			int j = Mathf.FloorToInt(((processedColors + i) / 3f) % OtherFootage.width);
+			int k = Mathf.FloorToInt(((processedColors + i) / 3f) / OtherFootage.width);
+			OtherFootage.SetPixel(j, k, color);
 
-			colorStartIndexX++;
-			if (colorStartIndexX >= OtherFootage.width)
+
+			if (k == OtherFootage.height - 1 && j == OtherFootage.width - 1)
 			{
-				colorStartIndexX = 0;
-				colorStartIndexY++;
-
-				if (colorStartIndexY >= OtherFootage.height)
-				{
-					colorStartIndexY = 0;
-					// Should this be called only at the end? UDP messages can get lost..
-					OtherFootage.Apply();
-					dimensionsEstablished = false;
-					OnOtherFootageApplied.SafeInvoke(OtherFootage);
-				}
+				OtherFootage.Apply();
+				dimensionsEstablished = false;
+				OnOtherFootageApplied.SafeInvoke(OtherFootage);
 			}
 		}
+
+		processedColors += message.Length;
 	}
 }

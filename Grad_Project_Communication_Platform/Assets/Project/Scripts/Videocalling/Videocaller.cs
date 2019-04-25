@@ -27,8 +27,8 @@ public class Videocaller : MonoBehaviour, INetworkListener
 	private int frameRate;
 	private float resolutionScale;
 
-	private int targetDeltaTimeInMilliseconds;
-	private int videoChunkCount;
+	//private int targetDeltaTimeInMilliseconds;
+	//private int videoChunkCount;
 
 
 	// Receiving
@@ -53,8 +53,8 @@ public class Videocaller : MonoBehaviour, INetworkListener
 		this.frameRate = frameRate;
 		this.resolutionScale = resolutionScale;
 
-		this.targetDeltaTimeInMilliseconds = (int)((1f / frameRate) * 1000);
-		this.videoChunkCount = Mathf.CeilToInt(((OwnFootage.width / resolutionScale) + (OwnFootage.height / resolutionScale)) / udpMaster.MessageBufferSize);
+		//this.targetDeltaTimeInMilliseconds = (int)((1f / frameRate) * 1000);
+		//this.videoChunkCount = Mathf.CeilToInt(((OwnFootage.width / resolutionScale) + (OwnFootage.height / resolutionScale)) / udpMaster.MessageBufferSize);
 
 		udpMaster.UpdateTargetIP(targetIP);
 
@@ -71,35 +71,52 @@ public class Videocaller : MonoBehaviour, INetworkListener
 	private void StartSendingFootage()
 	{
 		StartCoroutine(SendFootage());
-		//senderThread = new Thread(activity);
-		//senderThread.Start();
 	}
 
 	private IEnumerator<YieldInstruction> SendFootage()
 	{
-		while(true)
+		int targetDeltaTimeInMilliseconds = (int)((1f / frameRate) * 1000);
+
+		while (true)
 		{
 			stopwatch.Restart();
 
 			Color32[] pixels = OwnFootage.GetPixels32();
 
-			for (int i = 0; i < videoChunkCount; i++)
+			// Reduces the resolution by the resolutionScale.
+			List<Color32> filteredPixels = new List<Color32>();
+			float stepSize = 1f / resolutionScale;
+			for (float i = 0; i < OwnFootage.width; i += stepSize)
 			{
-				int j = i * udpMaster.MessageBufferSize;
-				int length = i == videoChunkCount - 1
-					? pixels.Length - j
-					: udpMaster.MessageBufferSize;
+				for (float j = 0; j < OwnFootage.height; j += stepSize)
+				{
+					int k = Mathf.RoundToInt(i * OwnFootage.height + j);
+					Color32 pixel = pixels[k];
+					filteredPixels.Add(pixel);
+				}
+			}
+
+			int colorBufferSize = Mathf.FloorToInt(udpMaster.MessageBufferSize / 3f);
+			// one color contains 3 bytes (rgb); 3 will recur during this method a few times. 
+			int chunkCount = Mathf.CeilToInt((float)filteredPixels.Count / colorBufferSize);
+			for (int i = 0; i < chunkCount; i++)
+			{
+				int j = i * colorBufferSize;
+				int length = i == chunkCount - 1 // is the last chunk.
+					? filteredPixels.Count - j
+					: colorBufferSize; // ^ ditto
 
 
-				Color32[] pixelSubArray = pixels.SubArray(j, length);
-				byte[] byteArray = new byte[pixelSubArray.Length * 3];
+				// TODO: remove this sublist. Just iterate from the right indices.
+				List<Color32> pixelSubList = filteredPixels.SubList(j, length);
+				byte[] byteArray = new byte[pixelSubList.Count * 3];
 
-				for (int k = 0; k < pixelSubArray.Length; k++)
+				for (int k = 0; k < pixelSubList.Count; k++)
 				{
 					int l = k * 3;
-					byteArray[l] = pixelSubArray[k].r;
-					byteArray[l + 1] = pixelSubArray[k].g;
-					byteArray[l + 2] = pixelSubArray[k].b;
+					byteArray[l] = pixelSubList[k].r;
+					byteArray[l + 1] = pixelSubList[k].g;
+					byteArray[l + 2] = pixelSubList[k].b;
 				}
 
 				udpMaster.SendMessage(byteArray);
@@ -109,7 +126,6 @@ public class Videocaller : MonoBehaviour, INetworkListener
 			stopwatch.Stop();
 			int timeLeft = targetDeltaTimeInMilliseconds - stopwatch.Elapsed.Milliseconds;
 			timeLeft = Mathf.Min(0, timeLeft);
-			//Thread.Sleep(timeLeft);
 			yield return new WaitForEndOfFrame();
 		}
 	}

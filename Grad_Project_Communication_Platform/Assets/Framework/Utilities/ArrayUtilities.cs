@@ -58,5 +58,20 @@ namespace Framework.Utils
 			startIndex += length;
 			return subArray;
 		}
+		public static List<T> SubList<T>(this List<T> list, int startIndex, int length)
+		{
+			List<T> subList = new List<T>();
+			for (int i = 0; i < length; i++)
+			{
+				subList.Add(list[startIndex + i]);
+			}
+			return subList;
+		}
+		public static List<T> SubList<T>(this List<T> list, ref int startIndex, int length)
+		{
+			List<T> subList = SubList(list, startIndex, length);
+			startIndex += length;
+			return subList;
+		}
 	}
 }

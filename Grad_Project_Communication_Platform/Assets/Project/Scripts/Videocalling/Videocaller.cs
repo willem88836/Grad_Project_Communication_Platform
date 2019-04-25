@@ -79,10 +79,13 @@ public class Videocaller : MonoBehaviour, INetworkListener
 		// TODO: Do this on a different thread (framerate and such)?
 		while (true)
 		{
+			int ownFootageWidth = OwnFootage.width;
+			int ownFootageHeight = OwnFootage.height;
+
 			// Converts the width and height to byte array and sends it across the network.
 			List<byte> resolutionByteList = new List<byte>();
-			int videoWidth = Mathf.FloorToInt(OwnFootage.width * resolutionScale);
-			int videoHeight = Mathf.FloorToInt(OwnFootage.height * resolutionScale);
+			int videoWidth = (int)(ownFootageWidth * resolutionScale);
+			int videoHeight = (int)(ownFootageHeight * resolutionScale);
 			resolutionByteList.AddRange(videoWidth.ToByteArray());
 			resolutionByteList.AddRange(videoHeight.ToByteArray());
 			udpMaster.SendMessage(resolutionByteList.ToArray());
@@ -90,14 +93,14 @@ public class Videocaller : MonoBehaviour, INetworkListener
 			// Lowers the resolution of the video frame.
 			Color32[] frame = OwnFootage.GetPixels32();
 			List<Color32> lowResFrame = new List<Color32>();
-			for (float i = 0; i < OwnFootage.height * resolutionScale; i++)
+			for (float i = 0; i < videoHeight; i++)
 			{
-				for (float j = 0; j < OwnFootage.width * resolutionScale; j++)
+				for (float j = 0; j < videoWidth; j++)
 				{
 					int x = (int)(j / resolutionScale);
 					int y = (int)(i / resolutionScale);
 
-					int k = y * OwnFootage.width + x;
+					int k = y * ownFootageWidth + x;
 
 					Color32 pixel = frame[k];
 					lowResFrame.Add(pixel);
@@ -106,7 +109,7 @@ public class Videocaller : MonoBehaviour, INetworkListener
 			
 			// Sends the low resolution frame in chunks across the network.
 			// Color32 contains 3 byte values (RGB). Therefore, everything is done in 3s.
-			int colorBufferSize = Mathf.FloorToInt(udpMaster.MessageBufferSize / 3f);
+			int colorBufferSize = (int)(udpMaster.MessageBufferSize / 3f);
 			int chunkCount = Mathf.CeilToInt((float)lowResFrame.Count / colorBufferSize);
 			for (int i = 0; i < chunkCount; i++)
 			{
@@ -175,6 +178,7 @@ public class Videocaller : MonoBehaviour, INetworkListener
 		}
 
 		// Applies the colors to the texture.
+		int otherFootageWidth = OtherFootage.width;
 		for (int i = 0; i < message.Length; i+= 3)
 		{
 			// Converts the byte info to Color32.
@@ -184,12 +188,12 @@ public class Videocaller : MonoBehaviour, INetworkListener
 			Color32 color = new Color32(r, g, b, byte.MaxValue);
 
 			// Determines the x and y coordinates of the color.
-			int j = Mathf.FloorToInt(((processedColors + i) / 3f) % OtherFootage.width);
-			int k = Mathf.FloorToInt(((processedColors + i) / 3f) / OtherFootage.width);
+			int j = (int)(((processedColors + i) / 3f) % otherFootageWidth);
+			int k = (int)(((processedColors + i) / 3f) / otherFootageWidth);
 			OtherFootage.SetPixel(j, k, color);
 
 			// Applies the new texture if it is the final chunk.
-			if (k == OtherFootage.height - 1 && j == OtherFootage.width - 1)
+			if (k == OtherFootage.height - 1 && j == otherFootageWidth - 1)
 			{
 				OtherFootage.Apply();
 				dimensionsEstablished = false;

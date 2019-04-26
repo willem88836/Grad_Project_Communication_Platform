@@ -286,7 +286,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &84223169
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2480,6 +2480,7 @@ MonoBehaviour:
   PortOut: 11001
   AccountName: {fileID: 11400000, guid: 7a8e78cd778edaf4b904211eb7fa3b59, type: 2}
   AccountPhone: {fileID: 11400000, guid: 6ca433a0175023347975d7ece75e34bc, type: 2}
+  ServerIP: {fileID: 11400000, guid: d83c40adda8ec6f429500751685dbc99, type: 2}
   ScreenController: {fileID: 896843415}
   RoleplayCall: {fileID: 1394719552}
   RoleplayController: {fileID: 2130893183}

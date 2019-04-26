@@ -7,6 +7,7 @@ public sealed class NetworkClient : NetworkManager
 	[Space]
 	[SerializeField] private SharedString AccountName;
 	[SerializeField] private SharedString AccountPhone;
+	[SerializeField] private SharedString ServerIP;
 
 	[Space]
 	public ScreenController ScreenController;
@@ -22,6 +23,8 @@ public sealed class NetworkClient : NetworkManager
 	{
 		base.Awake();
 
+		udpMaster.UpdateTargetIP(ServerIP.Value);
+
 		ModuleController.Initialize(this);
 		RoleplayController.Initialize(this);
 
@@ -36,6 +39,12 @@ public sealed class NetworkClient : NetworkManager
 		base.OnDestroy();
 	}
 
+
+	private void Start()
+	{
+		//udpMaster.UpdateTargetIP("145.37.144.87");
+		//TransmitRoleplayDescription(new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, JsonUtility.ToJson(new RoleplayDescription("", new Participant("Steve", "145.37.144.87", "123456"), new Participant("Stevette", "145.37.144.87", "123456"), new CaseDescription(new int[0], new int[0], RoleplayModule.Paraphrasing)))));
+	}
 
 	public void ConnectToServer(NetworkMessage message)
 	{

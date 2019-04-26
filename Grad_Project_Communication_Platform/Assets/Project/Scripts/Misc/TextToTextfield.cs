@@ -9,5 +9,6 @@ public class TextToTextfield : MonoBehaviour
 	public void Start()
 	{
 		TextField.text = TextFile.text;
+		Debug.Log(TextFile.text);
 	}
 }

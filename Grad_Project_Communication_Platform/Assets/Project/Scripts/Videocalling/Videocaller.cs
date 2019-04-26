@@ -47,7 +47,7 @@ public class Videocaller : MonoBehaviour, INetworkListener
 		udpMaster = new UDPMaster();
 		udpMaster.Initialize(PortA, PortB);
 		udpMaster.AddListener(this);
-
+		//udpMaster.LocalHost = true;
 		// HACK: This will most definitely break at some point. 
 		WebCamDevice frontCam = WebCamTexture.devices.Where((WebCamDevice d) => d.isFrontFacing).ToArray()[0];
 		OwnFootage = new WebCamTexture(frontCam.name);

@@ -1,9 +1,13 @@
 
+Designed and developed by Willem Meijer in cooperation with Isabell Drewes
+A project initiated by Hanze University of Applied Sciences, Groningen - School of Social Studies
+
 Icons acquired from www.flaticon.com are made by 
 Freepik, Smashicons, Chanut, Dave Gandy
 
-Designed and developed by Willem Meijer in cooperation with Isabell Drewes
-A project initiated by Hanze University of Applied Sciences, Groningen - School of Social Studies
+Interface design acquired from www.behance.net and made by Md. Shahadat Hussain
+
+This application may not be used for commercial purposes
 
 (c) 2019 Willem Meijer All Rights Reserved
 

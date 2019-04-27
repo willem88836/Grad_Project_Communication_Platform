@@ -2,10 +2,10 @@
 Designed and developed by Willem Meijer in cooperation with Isabell Drewes
 A project initiated by Hanze University of Applied Sciences, Groningen - School of Social Studies
 
-Icons acquired from www.flaticon.com are made by 
+Icons are acquired from www.flaticon.com and made by: 
 Freepik, Smashicons, Chanut, Dave Gandy
 
-Interface design acquired from www.behance.net and made by Md. Shahadat Hussain
+Interface design is acquired from www.behance.net and made by Md. Shahadat Hussain
 
 This application may not be used for commercial purposes
 

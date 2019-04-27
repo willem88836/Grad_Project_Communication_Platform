@@ -95,11 +95,5 @@ namespace Framework.Utils
 				|| t == typeof(ushort)
 				|| t == typeof(string);
 		}
-
-
-		public static object Parse(string s, Type t)
-		{
-			return null;
-		}
 	}
 }

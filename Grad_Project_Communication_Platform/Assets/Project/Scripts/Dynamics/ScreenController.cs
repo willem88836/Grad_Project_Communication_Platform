@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScreenController : MonoBehaviour
 {
+	public string MainMenuSceneName;
 	public GameObject[] Screens;
 
 	private int currentScreenIndex;
@@ -12,6 +14,10 @@ public class ScreenController : MonoBehaviour
 		Application.Quit();
 	}
 
+	public void RestartApplication()
+	{
+		SceneManager.LoadScene(MainMenuSceneName);
+	}
 
     public void SwitchScreenTo(ScreenTypes screen)
 	{

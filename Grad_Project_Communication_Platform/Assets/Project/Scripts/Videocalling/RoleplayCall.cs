@@ -11,6 +11,7 @@ public class RoleplayCall : MonoBehaviour
 	[Space]
 	public SharedFloat StreamingResolutionScale;
 	public SharedInt StreamingFramerate;
+	public SharedInt MicrophoneSampleSize;
 
 	[Space]
 	public RawImage ownFootage;
@@ -26,6 +27,8 @@ public class RoleplayCall : MonoBehaviour
 		this.isClient = isClient;
 		this.self = self;
 		this.other = other;
+
+		Videocaller.Microphone.SampleLength = MicrophoneSampleSize.Value;
 
 		if (isClient)
 			Videocaller.Initialize(Videocaller.PortB, Videocaller.PortA);

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cd0bee7e0856c44bbd2c84f29f69c49, type: 3}
-  m_Name: SharedFloat_StreamingResolutionScale
+  m_Script: {fileID: 11500000, guid: b6279564dfaf67b4b9060edc4f301a59, type: 3}
+  m_Name: SharedString_ServerIP
   m_EditorClassIdentifier: 
-  value: 0.25
+  value: 145.37.144.87

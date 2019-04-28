@@ -9,6 +9,11 @@ namespace Framework.Utils
 	/// </summary>
 	public static class ObjectUtilities
 	{
+		// The array length of these variables is always the same.
+		public const int INT_BYTEARRAYLENGTH = 54;
+		public const int SHORT_BYTEARRAYLENGTH = 52;
+
+
 		/// <summary>
 		///		Convert an object to a byte array.
 		/// </summary>
@@ -39,6 +44,10 @@ namespace Framework.Utils
 			return obj;
 		}
 
+		public static T ToObject<T>(this byte[] byteArray) 
+		{
+			return (T)ToObject(byteArray);
+		}
 
 		public static bool IsNumber(this object obj)
 		{
@@ -85,12 +94,6 @@ namespace Framework.Utils
 				|| t == typeof(short)
 				|| t == typeof(ushort)
 				|| t == typeof(string);
-		}
-
-
-		public static object Parse(string s, Type t)
-		{
-			return null;
 		}
 	}
 }

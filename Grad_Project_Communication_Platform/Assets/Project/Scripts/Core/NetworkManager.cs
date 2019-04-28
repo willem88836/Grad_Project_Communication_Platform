@@ -1,14 +1,14 @@
-﻿using Framework.Features.UDP;
+﻿using Framework.Features.UDP.Applied;
 using Framework.Storage;
 using System.Reflection;
 using UnityEngine;
 
-public abstract class NetworkManager : MonoBehaviour, INetworkListener
+public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 {
 	public int PortIn = 11000;
 	public int PortOut = 11001;
 
-	protected UDPMaster<NetworkMessage> udpMaster;
+	protected AppliedUDPMaster<NetworkMessage> udpMaster;
 
 	private NetworkLogger<NetworkMessage> networkLogger; 
 
@@ -18,7 +18,7 @@ public abstract class NetworkManager : MonoBehaviour, INetworkListener
 		SaveLoad.SavePath = Application.persistentDataPath;
 		SaveLoad.EncryptData = false;
 
-		udpMaster = new UDPMaster<NetworkMessage>();
+		udpMaster = new AppliedUDPMaster<NetworkMessage>();
 		udpMaster.Initialize(PortOut, PortIn);
 		udpMaster.AddListener(this);
 

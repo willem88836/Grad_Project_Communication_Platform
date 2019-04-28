@@ -1,16 +1,16 @@
-﻿using Framework.Features.UDP;
+﻿using Framework.Features.UDP.Applied;
 using System;
 using System.IO;
 using UnityEngine;
 
 [Serializable]
-public sealed class NetworkLogger<T> : INetworkListener where T : UDPMessage
+public sealed class NetworkLogger<T> : IAppliedNetworkListener where T : UDPMessage
 {
 	public string LogFileName;
 	private string storagePath;
 	
 
-	public void Initialize(UDPMaster<T> udpMaster)
+	public void Initialize(AppliedUDPMaster<T> udpMaster)
 	{
 		CreateLog();
 		udpMaster.AddListener(this);

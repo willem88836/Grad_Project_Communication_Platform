@@ -7,10 +7,11 @@ public sealed class NetworkClient : NetworkManager
 	[Space]
 	[SerializeField] private SharedString AccountName;
 	[SerializeField] private SharedString AccountPhone;
+	[SerializeField] private SharedString ServerIP;
 
 	[Space]
 	public ScreenController ScreenController;
-	public Videocall Videocall;
+	public RoleplayCall RoleplayCall;
 	public RoleplayController RoleplayController;
 	public ModuleController ModuleController;
 
@@ -22,20 +23,15 @@ public sealed class NetworkClient : NetworkManager
 	{
 		base.Awake();
 
-		Videocall.Initialize(this);
+		udpMaster.UpdateTargetIP(ServerIP.Value);
+
 		ModuleController.Initialize(this);
 		RoleplayController.Initialize(this);
 
 		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, AccountName.Value, "", AccountName.Value);
 		SendMessage(connectMessage);
 	}
-
-	// FOO
-	private void Start()
-	{
-		Videocall.StartCalling(true, null);
-	}
-
+	
 	protected override void OnDestroy()
 	{
 		NetworkMessage disconnectMessage = new NetworkMessage(NetworkMessageType.DisconnectFromServer, ClientId);
@@ -43,6 +39,12 @@ public sealed class NetworkClient : NetworkManager
 		base.OnDestroy();
 	}
 
+
+	private void Start()
+	{
+		//udpMaster.UpdateTargetIP("145.37.144.87");
+		//TransmitRoleplayDescription(new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, JsonUtility.ToJson(new RoleplayDescription("", new Participant("Steve", "145.37.144.87", "123456"), new Participant("Stevette", "145.37.144.87", "123456"), new CaseDescription(new int[0], new int[0], RoleplayModule.Paraphrasing)))));
+	}
 
 	public void ConnectToServer(NetworkMessage message)
 	{
@@ -55,12 +57,25 @@ public sealed class NetworkClient : NetworkManager
 	{
 		RoleplayDescription roleplayDescription = JsonUtility.FromJson<RoleplayDescription>(message.Message);
 
-		bool isClient = roleplayDescription.Client.Id == ClientId; 
-		Participant other = isClient
-			? roleplayDescription.Professional
-			: roleplayDescription.Client;
+		bool isClient = roleplayDescription.Client.Id == ClientId;
 
-		Videocall.StartCalling(isClient, other); 
+		Participant other;
+		Participant self; 
+
+		if (isClient)
+		{
+			other = roleplayDescription.Professional;
+			self = roleplayDescription.Client;
+		}
+		else
+		{
+			other = roleplayDescription.Client;
+			self = roleplayDescription.Professional;
+		}
+
+		RoleplayCall.Initialize(isClient, other, self);
+
+		ScreenController.SwitchScreenToModuleBriefing();
 	}
 
 	public void TransmitFinalEvaluation(NetworkMessage message)
@@ -71,14 +86,6 @@ public sealed class NetworkClient : NetworkManager
 	public void TransmitFootage(NetworkMessage message)
 	{
 
-	}
-
-	public void ForceEndCall(NetworkMessage message)
-	{
-		Videocall.ForceEndCalling();
-
-		// TODO: Switch to the right screen. 
-		ScreenController.SwitchScreenToConversationChallengeTest();
 	}
 
 	public void ForceDisconnect(NetworkMessage message)

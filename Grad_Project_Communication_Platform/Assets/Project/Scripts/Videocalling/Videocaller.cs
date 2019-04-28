@@ -211,8 +211,8 @@ namespace Project.Videocalling
 				Color32 color = new Color32(r, g, b, byte.MaxValue);
 
 				// Determines the x and y coordinates of the color.
-				int j = (int)(((processedColors + i) / 3f) % otherFootageWidth);
-				int k = (int)(((processedColors + i) / 3f) / otherFootageWidth);
+				int j = (int)((processedColors + i) / 3f % otherFootageWidth);
+				int k = (int)((processedColors + i) / 3f / otherFootageWidth);
 				OtherFootage.SetPixel(j, k, color);
 
 				// Applies the new texture if it is the final chunk.

@@ -6,7 +6,12 @@ using System.Text;
 
 namespace Framework.Features.UDP.Applied
 {
-	// TODO: rename this thing.. I don't know what to call this right now. 
+	/// <summary>
+	///		Does the same thing as UDPMaster.
+	///		However, uses UDPMessages instead of byte[] 
+	///		and has its own NetworkListener interface.
+	///		User's Note: This is easier to use than UDPMaster, but far slower.
+	/// </summary>
 	public sealed class AppliedUDPMaster<T> : UDPMaster, INetworkListener where T : UDPMessage
 	{
 		private List<IAppliedNetworkListener> networkListeners;
@@ -60,14 +65,7 @@ namespace Framework.Features.UDP.Applied
 		/// </summary>
 		public void AddListener(IAppliedNetworkListener listener)
 		{
-			if (!networkListeners.Contains(listener))
-			{
-				networkListeners.Add(listener);
-			}
-			else
-			{
-				LoggingUtilities.Log("Can't add duplicate listener!");
-			}
+			networkListeners.SafeAdd(listener);
 		}
 		/// <summary>
 		///		Removes INetworkListener from the list of objects
@@ -75,15 +73,7 @@ namespace Framework.Features.UDP.Applied
 		/// </summary>
 		public void RemoveListener(IAppliedNetworkListener listener)
 		{
-			int index = networkListeners.IndexOf(listener);
-			if (index != -1)
-			{
-				networkListeners.RemoveAt(index);
-			}
-			else
-			{
-				LoggingUtilities.Log("Can't remove unlisted listener!");
-			}
+			networkListeners.SafeRemove(listener);
 		}
 	}
 }

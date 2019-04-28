@@ -12,7 +12,8 @@ namespace Framework.Features.UDP
 	/// </summary>
 	public class UDPMaster
 	{
-		public int MessageBufferSize { get { return sendingSocket.SendBufferSize - 100; } } // HACK: This feels like the definition of a hack. Figure out why it doesn't work with the actual value.
+		// HACK: This feels like the definition of a hack. Figure out why it doesn't work with the actual value.
+		public int MessageBufferSize { get { return sendingSocket.SendBufferSize - 100; } } 
 
 		#if UNITY_EDITOR
 			public bool LocalHost = false;
@@ -135,14 +136,7 @@ namespace Framework.Features.UDP
 		/// </summary>
 		public void AddListener(INetworkListener listener)
 		{
-			if (!networkListeners.Contains(listener))
-			{
-				networkListeners.Add(listener);
-			}
-			else
-			{
-				LoggingUtilities.Log("Can't add duplicate listener!");
-			}
+			networkListeners.SafeAdd(listener);
 		}
 		/// <summary>
 		///		Removes INetworkListener from the list of objects
@@ -150,15 +144,7 @@ namespace Framework.Features.UDP
 		/// </summary>
 		public void RemoveListener(INetworkListener listener)
 		{
-			int index = networkListeners.IndexOf(listener);
-			if (index != -1)
-			{
-				networkListeners.RemoveAt(index);
-			}
-			else
-			{
-				LoggingUtilities.Log("Can't remove unlisted listener!");
-			}
+			networkListeners.SafeRemove(listener);
 		}
 
 

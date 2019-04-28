@@ -235,7 +235,8 @@ AudioSource:
   m_GameObject: {fileID: 1451887654}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243368609838232802, guid: 94691ff88a63e1d45938a8157d5af4d7,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -337,7 +338,6 @@ MonoBehaviour:
   AudioMixer: {fileID: 24100000, guid: 94691ff88a63e1d45938a8157d5af4d7, type: 2}
   AudioSource: {fileID: 1451887656}
   MicrophoneVolume: -80
-  AudioMixerMicrophoneGroupName: Microphone
   AudioMixerMicrophoneVolumeName: MicrophoneVolume
   SampleLength: 1024
   RecordingLength: 1
@@ -353,6 +353,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2028253496}
   - component: {fileID: 2028253497}
+  - component: {fileID: 2028253498}
   m_Layer: 0
   m_Name: VideoCallAudio
   m_TagString: Untagged
@@ -383,7 +384,8 @@ AudioSource:
   m_GameObject: {fileID: 2028253495}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243231174304899088, guid: 94691ff88a63e1d45938a8157d5af4d7,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -470,3 +472,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2028253498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028253495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6bc5c72a86165479515c15a17a8ca5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioSource: {fileID: 2028253497}
+  Microphone: {fileID: 1451887657}
+  AudioName: MicrophoneOut

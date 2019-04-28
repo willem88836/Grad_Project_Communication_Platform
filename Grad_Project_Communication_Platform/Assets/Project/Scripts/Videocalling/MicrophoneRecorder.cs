@@ -1,60 +1,103 @@
 ﻿using Framework.Utils;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class MicrophoneRecorder : MonoBehaviour
+namespace Project.Videocalling
 {
-	[Header("Scene References")]
-	public AudioMixer AudioMixer;
-	public AudioSource AudioSource;
-
-	[Header("Mixer Settings")]
-	[Range(-80, 20)] public int MicrophoneVolume = -80;
-	public string AudioMixerMicrophoneGroupName = "Microphone";
-	public string AudioMixerMicrophoneVolumeName = "MicrophoneVolume";
-
-	[Header("Recording Settings")]
-	public int SampleLength = 1024;
-	public int RecordingLength = 1;
-	public int RecordingFrequency = 48000;
-	public int RecordingChannel = 0;
-
-	public Action<float[]> OnAudioAcquired;
-
-	private AudioClip outputClip;
-	private float[] samples;
-
-	// TODO: Add a stop & start recording method. 
-	private void Start()
+	/// <summary>
+	///		Records the device's microphone.
+	/// </summary>
+	public class MicrophoneRecorder : MonoBehaviour
 	{
-		// Mutes the Audiomixer.
-		AudioMixer.SetFloat(AudioMixerMicrophoneVolumeName, MicrophoneVolume);
+		[Header("Scene References")]
+		public AudioMixer AudioMixer;
+		public AudioSource AudioSource;
 
-		// Adds the audiosource to a AudioMixerGroup (if it exists).
-		AudioMixerGroup[] audioMixerGroups = AudioMixer.FindMatchingGroups(AudioMixerMicrophoneGroupName);
-		if (audioMixerGroups.Length == 0)
-			throw new KeyNotFoundException("Referenced AudioMixer Group doesn't exist");
-		AudioSource.outputAudioMixerGroup = audioMixerGroups[0];
+		[Header("Mixer Settings")]
+		[Range(-80, 20)] public int MicrophoneVolume = -80;
+		public string AudioMixerMicrophoneVolumeName = "MicrophoneVolume";
 
-		// Prepares the AudioSource to play Microphone sounds.
-		outputClip = Microphone.Start(null, true, RecordingLength, RecordingFrequency);
-		AudioSource.clip = outputClip;
-		AudioSource.loop = true;
+		[Header("Recording Settings")]
+		public int SampleLength = 1024;
+		public int RecordingLength = 1;
+		public int RecordingFrequency = 48000;
+		public int RecordingChannel = 0;
 
-		samples = new float[SampleLength];
+		private AudioClip outputClip;
+		private float[] samples;
 
-		// Waits until the Microphone has start to avoid stutter.
-		while (Microphone.GetPosition(null) <= 0)
-		{ }
 
-		AudioSource.Play();
-	}
+		private bool isRecording = false;
+		private List<IMicrophoneListener> listeners = new List<IMicrophoneListener>();
 
-	private void Update()
-	{
-		AudioSource.GetOutputData(samples, RecordingChannel);
-		OnAudioAcquired.SafeInvoke(samples);
+
+		public void Initialize()
+		{
+			// Mutes the Audiomixer.
+			AudioMixer.SetFloat(AudioMixerMicrophoneVolumeName, MicrophoneVolume);
+
+			// Prepares the AudioSource to play Microphone sounds.
+			outputClip = Microphone.Start(null, true, RecordingLength, RecordingFrequency);
+			AudioSource.clip = outputClip;
+			AudioSource.loop = true;
+
+			samples = new float[SampleLength];
+
+			// Waits until the Microphone has start to avoid stutter.
+			while (Microphone.GetPosition(null) <= 0) { }
+		}
+
+		/// <summary>
+		///		Acquires the microphone input every frame
+		///		and distributes it to the MicrophoneListeners.
+		/// </summary>
+		private IEnumerator<YieldInstruction> Record()
+		{
+			while (true)
+			{
+				AudioSource.GetOutputData(samples, RecordingChannel);
+				foreach (IMicrophoneListener listener in listeners)
+					listener.OnSamplesAcquired(samples);
+				
+				yield return new WaitForEndOfFrame();
+			}
+		}
+
+
+		public void StartRecording()
+		{
+			if (isRecording)
+				return;
+
+			AudioSource.Play();
+			isRecording = true;
+			StartCoroutine(Record());
+		}
+		public void StopRecording()
+		{
+			if (!isRecording)
+				return;
+
+			AudioSource.Stop();
+			isRecording = false;
+			StopCoroutine(Record());
+		}
+		public void ToggleRecording()
+		{
+			if (isRecording)
+				StopRecording();
+			else
+				StartRecording();
+		}
+
+		public void AddListener(IMicrophoneListener listener)
+		{
+			listeners.SafeAdd(listener);
+		}
+		public void RemoveListener(IMicrophoneListener listener)
+		{
+			listeners.SafeRemove(listener);
+		}
 	}
 }

@@ -39,9 +39,28 @@ namespace Framework.Utils
 			startIndex += range.Count;
 		}
 
-		
 		/// <summary>
-		///		Returns a subarray from the provided array.
+		///		Removes the element from the given list 
+		///		only if it exists.
+		/// </summary>
+		public static void SafeRemove<T>(this List<T> list, T obj)
+		{
+			int i = list.IndexOf(obj);
+			if (i != -1)
+				list.Remove(obj);
+		}
+		/// <summary>
+		///		Adds the object to the given list
+		///		only if it hasn't been added already. 
+		/// </summary>
+		public static void SafeAdd<T>(this List<T> list, T obj)
+		{
+			if (!list.Contains(obj))
+				list.Add(obj);
+		}
+
+		/// <summary>
+		///		Returns a segment of the provided array.
 		/// </summary>
 		public static T[] SubArray<T>(this T[] array, int startIndex, int length)
 		{
@@ -58,6 +77,9 @@ namespace Framework.Utils
 			startIndex += length;
 			return subArray;
 		}
+		/// <summary>
+		///		Returns a segment of the provided list.
+		/// </summary>
 		public static List<T> SubList<T>(this List<T> list, int startIndex, int length)
 		{
 			List<T> subList = new List<T>();

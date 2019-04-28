@@ -10,7 +10,7 @@ namespace Project.Videocalling
 	/// <summary>
 	///		Is used for videocalling with someone across the network in Unity.
 	/// </summary>
-	public class Videocaller : MonoBehaviour, INetworkListener
+	public class Videocaller : MonoBehaviour, INetworkListener, IMicrophoneListener
 	{
 		public Action OnCallEnded;
 		//HACK: Changing the width/height of a Texture2D is not supported yet.
@@ -24,6 +24,8 @@ namespace Project.Videocalling
 
 
 		// Sending Locals
+		[Space]
+		public MicrophoneRecorder Microphone;
 		public WebCamTexture OwnFootage { get; private set; }
 
 		private string targetIP;
@@ -34,6 +36,9 @@ namespace Project.Videocalling
 		// Receiving Locals
 		public Texture2D OtherFootage { get; private set; }
 
+		public AudioSource AudioSource;
+		private AudioClip audioClipOut;
+
 		private int processedColors = 0;
 		private bool dimensionsEstablished = false;
 
@@ -43,12 +48,23 @@ namespace Project.Videocalling
 		/// </summary>
 		public void Initialize(int portA = 11002, int portB = 11003)
 		{
+			// Makes sure the resolutionscale is not out of bounds.
 			resolutionScale = Mathf.Clamp01(resolutionScale);
 
+			// Initializes the Networking.
 			udpMaster = new UDPMaster();
 			udpMaster.Initialize(PortA, PortB);
 			udpMaster.AddListener(this);
 			//udpMaster.LocalHost = true;
+
+			// Initializes voice recording.
+			Microphone.Initialize();
+			Microphone.AddListener(this);
+
+			// Initializes audio output for peers' microphone input.
+			audioClipOut = AudioClip.Create("OtherMicrophoneAudio", Microphone.SampleLength, 1, Microphone.RecordingFrequency, false);
+			AudioSource.clip = audioClipOut;
+
 			// HACK: This will most definitely break at some point. 
 			WebCamDevice frontCam = WebCamTexture.devices.Where((WebCamDevice d) => d.isFrontFacing).ToArray()[0];
 			OwnFootage = new WebCamTexture(frontCam.name);
@@ -66,6 +82,9 @@ namespace Project.Videocalling
 			this.resolutionScale = resolutionScale;
 
 			udpMaster.UpdateTargetIP(targetIP);
+
+			Microphone.StartRecording();
+			AudioSource.Play();
 
 			StopAllCoroutines();
 			StartCoroutine(SendFootage());
@@ -148,6 +167,8 @@ namespace Project.Videocalling
 			OwnFootage.Stop();
 			dimensionsEstablished = false;
 			OnCallEnded.SafeInvoke();
+			AudioSource.Stop();
+			Microphone.StopRecording();
 		}
 
 		/// <inheritdoc />
@@ -204,6 +225,11 @@ namespace Project.Videocalling
 			}
 
 			processedColors += message.Length;
+		}
+
+		public void OnSamplesAcquired(float[] samples)
+		{
+			Debug.Log(samples.Length);
 		}
 	}
 }

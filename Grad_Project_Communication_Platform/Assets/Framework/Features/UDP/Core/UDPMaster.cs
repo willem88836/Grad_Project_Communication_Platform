@@ -17,6 +17,7 @@ namespace Framework.Features.UDP
 
 		#if UNITY_EDITOR
 			public bool LocalHost = false;
+			public bool LogReceivedMessages = true;
 		#endif
 
 		protected int sendingPort;
@@ -126,7 +127,10 @@ namespace Framework.Features.UDP
 				networkListener.OnMessageReceived(message);
 			}
 
-			LoggingUtilities.LogFormat("Received message (\"{0}\") from ip ({1}) using port ({2})", message.ToString(), receivingEndPoint.Address, receivingPort);
+			#if UNITY_EDITOR
+				if (LogReceivedMessages)
+					LoggingUtilities.LogFormat("Received message (\"{0}\") from ip ({1}) using port ({2})", message.ToString(), receivingEndPoint.Address, receivingPort);
+			#endif
 		}
 
 

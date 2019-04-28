@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using Project.Videocalling;
+using System.Collections.Generic;
+using Framework.Utils;
+using System.Text;
 
 public class SpeechStreamer : MonoBehaviour, IMicrophoneListener
 {
@@ -23,13 +26,44 @@ public class SpeechStreamer : MonoBehaviour, IMicrophoneListener
 		Microphone.StartRecording();
 	}
 
-	public void OnAudioAcquired(float[] samples)
-	{
-		audioClipOut.SetData(samples, 0);
-	}
-
 	public void OnSamplesAcquired(float[] samples)
 	{
-		audioClipOut.SetData(samples, 0);
+		StringBuilder sBilder = new StringBuilder();
+		foreach(float f in samples)
+		{
+			sBilder.Append(f.ToString());
+			sBilder.Append(',');
+		}
+		sBilder.Remove(sBilder.Length - 1, 1);
+
+		List<byte> datl = new List<byte>(sBilder.ToString().ToByteArray());
+
+
+
+		byte[] dat = datl.ToArray();
+
+
+
+
+		string newdatstring = dat.ToObject<string>();
+
+		string[] split = newdatstring.Split(',');
+
+		float[] newSamples = new float[split.Length];
+		for(int i = 0; i < split.Length; i++)
+		{
+			string s = split[i];
+			newSamples[i] = float.Parse(s);
+		}
+
+
+
+
+
+
+
+
+
+		audioClipOut.SetData(newSamples, 0);
 	}
 }

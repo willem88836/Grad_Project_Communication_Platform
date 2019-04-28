@@ -12,6 +12,9 @@ namespace Project.Videocalling
 	/// </summary>
 	public class Videocaller : MonoBehaviour, INetworkListener, IMicrophoneListener
 	{
+		private const byte VIDEO_ID = 0;
+		private const byte AUDIO_ID = 1;
+
 		public Action OnCallEnded;
 		//HACK: Changing the width/height of a Texture2D is not supported yet.
 		public Action<Texture2D> OnOtherFootageApplied;
@@ -55,7 +58,6 @@ namespace Project.Videocalling
 			udpMaster = new UDPMaster();
 			udpMaster.Initialize(PortA, PortB);
 			udpMaster.AddListener(this);
-			//udpMaster.LocalHost = true;
 
 			// Initializes voice recording.
 			Microphone.Initialize();
@@ -71,6 +73,7 @@ namespace Project.Videocalling
 			OwnFootage.name = "Webcamfootage_Self";
 			OwnFootage.Play();
 		}
+
 
 		/// <summary>
 		///		Starts a videocall.
@@ -91,6 +94,22 @@ namespace Project.Videocalling
 		}
 
 		/// <summary>
+		///		Ends the videocall. 
+		/// </summary>
+		public void StopCalling()
+		{
+			udpMaster.SendMessage(new byte[0]);
+			StopAllCoroutines();
+			udpMaster.Kill();
+			OwnFootage.Stop();
+			dimensionsEstablished = false;
+			OnCallEnded.SafeInvoke();
+			AudioSource.Stop();
+			Microphone.StopRecording();
+		}
+
+
+		/// <summary>
 		///		Collects the own video footage, reduces resolution, 
 		///		and sends it across the network. 
 		/// </summary>
@@ -104,6 +123,7 @@ namespace Project.Videocalling
 
 				// Converts the width and height to byte array and sends it across the network.
 				List<byte> resolutionByteList = new List<byte>();
+				resolutionByteList.Add(VIDEO_ID);
 				int videoWidth = (int)(ownFootageWidth * resolutionScale);
 				int videoHeight = (int)(ownFootageHeight * resolutionScale);
 				resolutionByteList.AddRange(videoWidth.ToByteArray());
@@ -140,74 +160,93 @@ namespace Project.Videocalling
 						: colorBufferSize;
 
 					// Creates the message.
-					byte[] byteArray = new byte[lowResFrame.Count * 3];
+					List<byte> byteList = new List<byte>();
+					byteList.Add(VIDEO_ID);
 					for (int k = 0; k < length; k++)
 					{
-						int l = j + k * 3;
-						byteArray[l] = lowResFrame[k].r;
-						byteArray[l + 1] = lowResFrame[k].g;
-						byteArray[l + 2] = lowResFrame[k].b;
+						Color32 color = lowResFrame[k];
+						byteList.Add(color.r);
+						byteList.Add(color.g);
+						byteList.Add(color.b);
 					}
 
-					udpMaster.SendMessage(byteArray);
+					udpMaster.SendMessage(byteList.ToArray());
 					yield return new WaitForEndOfFrame();
 				}
 				yield return new WaitForEndOfFrame();
 			}
 		}
 
-		/// <summary>
-		///		Ends the videocall. 
-		/// </summary>
-		public void StopCalling()
+		/// <inheritdoc />
+		public void OnSamplesAcquired(float[] samples)
 		{
-			udpMaster.SendMessage(new byte[0]);
-			StopAllCoroutines();
-			udpMaster.Kill();
-			OwnFootage.Stop();
-			dimensionsEstablished = false;
-			OnCallEnded.SafeInvoke();
-			AudioSource.Stop();
-			Microphone.StopRecording();
+			// TODO: There must be a better solution to do this.
+			System.Text.StringBuilder sBilder = new System.Text.StringBuilder();
+			foreach (float f in samples)
+			{
+				sBilder.Append(f.ToString());
+				sBilder.Append(',');
+			}
+			sBilder.Remove(sBilder.Length - 1, 1);
+
+			List<byte> byteList = new List<byte>(sBilder.ToString().ToByteArray());
+			byteList.Insert(0, AUDIO_ID);
+
+			byte[] data = byteList.ToArray();
+
+			udpMaster.SendMessage(data);
 		}
+
 
 		/// <inheritdoc />
 		public void OnMessageReceived(byte[] message)
 		{
-			// An empty array means that the call is ended.
-			// This message is only sent in the StopCalling method. 
 			if (message.Length == 0)
 			{
 				StopCalling();
-				return;
 			}
-
-			// if the dimensions aren't established yet, 
-			// it means the message contains that information.
-			if (!dimensionsEstablished)
+			else if (message[0] == VIDEO_ID)
 			{
-				// Converts the byte array to two values.
-				int intByteArrayLength = ObjectUtilities.INT_BYTEARRAYLENGTH;
-				int width = message.SubArray(0, intByteArrayLength).ToObject<int>();
-				int height = message.SubArray(intByteArrayLength, intByteArrayLength).ToObject<int>();
-
-				// Creates the texture.
-				OtherFootage = new Texture2D(width, height);
-				OtherFootage.name = "Webcamfootage_Other";
-				dimensionsEstablished = true;
-				processedColors = 0;
-				return;
+				if (!dimensionsEstablished)
+				{
+					ProcessDimensionData(message);
+				}
+				else
+				{
+					ProcessColorData(message);
+				}
 			}
+			else if (message[0] == AUDIO_ID)
+			{
+				ProcessAudioData(message);
+			}
+		}
 
+		private void ProcessDimensionData(byte[] data)
+		{
+			// Converts the byte array to two values.
+			int intByteArrayLength = ObjectUtilities.INT_BYTEARRAYLENGTH;
+			int width = data.SubArray(1, intByteArrayLength).ToObject<int>();
+			int height = data.SubArray(intByteArrayLength + 1, intByteArrayLength).ToObject<int>();
+
+			// Creates the texture.
+			OtherFootage = new Texture2D(width, height);
+			OtherFootage.name = "Webcamfootage_Other";
+			dimensionsEstablished = true;
+			processedColors = 0;
+		}
+
+		private void ProcessColorData(byte[] data)
+		{
 			// Applies the colors to the texture.
 			int otherFootageWidth = OtherFootage.width;
 			int otherFootageHeight = OtherFootage.height;
-			for (int i = 0; i < message.Length; i += 3)
+			for (int i = 1; i < data.Length; i += 3)
 			{
 				// Converts the byte info to Color32.
-				byte r = message[i];
-				byte g = message[i + 1];
-				byte b = message[i + 2];
+				byte r = data[i];
+				byte g = data[i + 1];
+				byte b = data[i + 2];
 				Color32 color = new Color32(r, g, b, byte.MaxValue);
 
 				// Determines the x and y coordinates of the color.
@@ -224,12 +263,27 @@ namespace Project.Videocalling
 				}
 			}
 
-			processedColors += message.Length;
+			processedColors += data.Length;
 		}
 
-		public void OnSamplesAcquired(float[] samples)
+		private void ProcessAudioData(byte[] data)
 		{
-			Debug.Log(samples.Length);
+			// TODO: There must be a better solution to do this.
+			List<byte> dataList = new List<byte>(data);
+			dataList.RemoveAt(0);
+
+			string dataString = dataList.ToArray().ToObject<string>();
+			string[] split = dataString.Split(',');
+
+			float[] samples = new float[split.Length];
+
+			for (int i = 0; i < split.Length; i++)
+			{
+				string s = split[i];
+				samples[i] = float.Parse(s);
+			}
+
+			audioClipOut.SetData(samples, 0);
 		}
 	}
 }

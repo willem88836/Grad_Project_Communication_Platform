@@ -5,6 +5,7 @@ namespace Framework.Utils
 {
 	public static class ArrayUtilities
 	{
+		// TODO: rename these methods. They don't actually insert anything, they override things.
 		/// <summary>
 		///		Inserts range of variables in the provided array.
 		/// </summary>

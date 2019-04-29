@@ -96,9 +96,11 @@ namespace Project.Videocalling
 		/// <summary>
 		///		Ends the videocall. 
 		/// </summary>
-		public void StopCalling()
+		public void StopCalling(bool isForcedByPeer)
 		{
-			udpMaster.SendMessage(new byte[0]);
+			if (isForcedByPeer)
+				udpMaster.SendMessage(new byte[0]);
+
 			StopAllCoroutines();
 			udpMaster.Kill();
 			OwnFootage.Stop();
@@ -203,7 +205,7 @@ namespace Project.Videocalling
 		{
 			if (message.Length == 0)
 			{
-				StopCalling();
+				StopCalling(true);
 			}
 			else if (message[0] == VIDEO_ID)
 			{

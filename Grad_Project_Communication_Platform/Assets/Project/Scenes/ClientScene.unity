@@ -6384,11 +6384,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 2232071425366961309, guid: e6db3cac462bad44ab522de7322d67b3,
-        type: 3}
-      propertyPath: m_Name
-      value: Text_Header
-      objectReference: {fileID: 0}
     - target: {fileID: 2232071425366961307, guid: e6db3cac462bad44ab522de7322d67b3,
         type: 3}
       propertyPath: m_Text
@@ -6418,6 +6413,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2232071425366961309, guid: e6db3cac462bad44ab522de7322d67b3,
+        type: 3}
+      propertyPath: m_Name
+      value: Text_Header
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6db3cac462bad44ab522de7322d67b3, type: 3}

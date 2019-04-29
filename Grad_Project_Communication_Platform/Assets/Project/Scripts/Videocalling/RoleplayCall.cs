@@ -61,7 +61,7 @@ public class RoleplayCall : MonoBehaviour
 
 	public void ForceEndCall()
 	{
-		Videocaller.StopCalling();
+		Videocaller.StopCalling(false);
 	}
 
 	public void OnOtherFootageApplied(Texture2D otherFootageTexture)

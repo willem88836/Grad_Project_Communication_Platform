@@ -36,11 +36,18 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 
 	public void OnMessageReceived(UDPMessage message)
 	{
-		// Calls the function corresponding with the message's type.
-		NetworkMessage netMsg = (NetworkMessage)message;
-		string methodName = netMsg.Type.ToString();
-		MethodInfo method = GetType().GetMethod(methodName);
-		method.Invoke(this, new object[] { netMsg });
+		try
+		{
+			// Calls the function corresponding with the message's type.
+			NetworkMessage netMsg = (NetworkMessage)message;
+			string methodName = netMsg.Type.ToString();
+			MethodInfo method = GetType().GetMethod(methodName);
+			method.Invoke(this, new object[] { netMsg });
+		}
+		catch(System.Exception e)
+		{
+			Debug.LogError(e.Message + "\n" + e.InnerException + '\n' + e.StackTrace);
+		}
 	}
 
 	public void SendMessage(NetworkMessage message)

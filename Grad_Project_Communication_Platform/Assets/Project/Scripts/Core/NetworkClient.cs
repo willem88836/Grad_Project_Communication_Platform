@@ -1,5 +1,5 @@
 ﻿using Framework.ScriptableObjects.Variables;
-using Framework.Variables;
+using JsonUtility = Framework.Features.Json.JsonUtility;
 using UnityEngine;
 
 public sealed class NetworkClient : NetworkManager

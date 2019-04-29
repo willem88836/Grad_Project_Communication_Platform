@@ -52,6 +52,8 @@ namespace Framework.Features.UDP.Applied
 			string serializedMessage = Encoding.ASCII.GetString(message);
 			UDPMessage udpMessage = (UDPMessage)JsonUtility.FromJson(serializedMessage, typeof(T));
 
+			LoggingUtilities.LogFormat("Message Received: ({0})", serializedMessage);
+
 			foreach (IAppliedNetworkListener listener in networkListeners)
 			{
 				listener.OnMessageReceived(udpMessage);

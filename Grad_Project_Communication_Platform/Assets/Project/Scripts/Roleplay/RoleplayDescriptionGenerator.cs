@@ -11,7 +11,7 @@ public class RoleplayDescriptionGenerator
 	internal RoleplayDescription Generate(Participant participantA, Participant participantB, RoleplayModule module)
 	{
 		//TODO: Add proper case generation.
-		CaseDescription caseDescription = new CaseDescription(new int[] { }, new int[] { }, module);
+		CaseDescription caseDescription = new CaseDescription(new int[] { 1 }, new int[] { 1 }, module);
 
 		RoleplayDescription roleplayDescription;
 

@@ -7,6 +7,9 @@ public class Participant
 	public string IP;
 	public string Id;
 
+
+	public Participant() { }
+
 	public Participant(string name, string iP, string id)
 	{
 		this.Name = name;

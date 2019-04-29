@@ -73,7 +73,7 @@ public class Matchmaker
 	private void SendRoleplayDescription(string serializedRoleplayDescription, Participant receiver)
 	{
 		NetworkMessage networkMessage = new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", receiver.Id, serializedRoleplayDescription);
-		networkServer.SendMessage(networkMessage);
+		networkServer.SendMessage(networkMessage, receiver.IP);
 	}
 
 

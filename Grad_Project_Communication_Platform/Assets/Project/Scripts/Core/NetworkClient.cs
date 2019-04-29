@@ -53,6 +53,7 @@ public sealed class NetworkClient : NetworkManager
 		udpMaster.UpdateTargetIP(serverIP);
 	}
 
+	[ExecuteOnMainThread]
 	public void TransmitRoleplayDescription(NetworkMessage message)
 	{
 		RoleplayDescription roleplayDescription = JsonUtility.FromJson<RoleplayDescription>(message.Message);

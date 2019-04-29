@@ -17,20 +17,6 @@ public sealed class NetworkServer : NetworkManager
 		matchmaker.Initialize(this);
 	}
 
-
-	private void Update()
-	{
-		if(Input.GetKeyDown(KeyCode.O))
-		{
-			Debug.LogWarning("Adding virtual user");
-			string id = Time.time.ToString();
-			string name = Time.deltaTime.ToString();
-			ConnectToServer(new NetworkMessage(NetworkMessageType.ConnectToServer, id, "", name) { SenderIP = "145.37.144.28" });
-			Enqueue(new NetworkMessage(NetworkMessageType.Enqueue, id, "", "Paraphrasing") { SenderIP = "145.37.144.28" });
-		}
-	}
-
-
 	public void ConnectToServer(NetworkMessage message)
 	{
 		if (SelectParticipant(message) != null)
@@ -81,9 +67,8 @@ public sealed class NetworkServer : NetworkManager
 	}
 
 
-
 	private Participant SelectParticipant(NetworkMessage message)
 	{
-		return activeUsers.Find((Participant p) => p.IP == message.SenderIP);
+		return activeUsers.Find((Participant p) => p.Id == message.SenderId);
 	}
 }

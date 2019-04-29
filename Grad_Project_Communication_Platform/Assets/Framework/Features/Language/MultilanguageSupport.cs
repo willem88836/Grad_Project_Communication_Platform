@@ -1,4 +1,5 @@
-﻿using Framework.Utils;
+﻿using Framework.ScriptableObjects.Variables;
+using Framework.Utils;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -23,7 +24,7 @@ namespace Framework.Language
 		private const string KEYWORD = "Keyword";
 
 
-		public string SelectedLanguage = "ENG";
+		public SharedString SelectedLanguage;
 
 
 		private Dictionary<string, string> keywords = new Dictionary<string, string>();
@@ -44,7 +45,7 @@ namespace Framework.Language
 		private void UpdateText()
 		{
 			// XML loading.
-			TextAsset textAsset = Resources.Load<TextAsset>(Path.Combine(DIRECTORY, SelectedLanguage));
+			TextAsset textAsset = Resources.Load<TextAsset>(Path.Combine(DIRECTORY, SelectedLanguage.Value));
 			XmlDocument xml = new XmlDocument();
 			xml.LoadXml(textAsset.text);
 			

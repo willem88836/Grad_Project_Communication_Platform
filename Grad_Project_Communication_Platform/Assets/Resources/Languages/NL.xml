@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Keywords>
+  <Keyword>
+    <Key>practise</Key>
+    <Value>Oefenen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>history</Key>
+    <Value>Geschiedenis</Value>
+  </Keyword>
+  <Keyword>
+    <Key>social</Key>
+    <Value>Social</Value>
+  </Keyword>
+  <Keyword>
+    <Key>settings</Key>
+    <Value>Instellingen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_selectmodule</Key>
+    <Value>Selecteer Module</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_openquestions</Key>
+    <Value>Open Vragen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_followup</Key>
+    <Value>Doorvragen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_paraphrasing</Key>
+    <Value>Parafraseren</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_freeplay</Key>
+    <Value>Vrij Oefenen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>loadingmessage</Key>
+    <Value>Zoeken naar Partner</Value>
+  </Keyword>
+  <Keyword>
+    <Key>leave_queue</Key>
+    <Value>Verlaat Rij</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_modulebriefing</Key>
+    <Value>Module Beschrijving</Value>
+  </Keyword>
+  <Keyword>
+    <Key>back</Key>
+    <Value>Terug</Value>
+  </Keyword>
+  <Keyword>
+    <Key>enqueue</Key>
+    <Value>Verbinden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>continue</Key>
+    <Value>Verder</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_history</Key>
+    <Value>Geschiedenis</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_social</Key>
+    <Value>Social</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_settings</Key>
+    <Value>Instellingen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>reset</Key>
+    <Value>Reset</Value>
+  </Keyword>
+  <Keyword>
+    <Key>credits</Key>
+    <Value>Credits</Value>
+  </Keyword>
+  <Keyword>
+    <Key>server_ip</Key>
+    <Value>Server IP</Value>
+  </Keyword>
+  <Keyword>
+    <Key>enter_ip</Key>
+    <Value>Vul IP in...</Value>
+  </Keyword>
+  <Keyword>
+    <Key>confirm</Key>
+    <Value>Bevestigen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>name</Key>
+    <Value>Naam</Value>
+  </Keyword>
+  <Keyword>
+    <Key>enter_name</Key>
+    <Value>Vul naam in...</Value>
+  </Keyword>
+  <Keyword>
+    <Key>phone</Key>
+    <Value>Telefoon</Value>
+  </Keyword>
+  <Keyword>
+    <Key>enter_phone</Key>
+    <Value>Vul telefoon in...</Value>
+  </Keyword>
+  <Keyword>
+    <Key>language</Key>
+    <Value>Taal</Value>
+  </Keyword>
+</Keywords>

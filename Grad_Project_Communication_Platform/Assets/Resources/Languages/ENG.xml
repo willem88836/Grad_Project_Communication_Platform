@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Keywords>
+  <Keyword>
+    <Key>practise</Key>
+    <Value>Practise</Value>
+  </Keyword>
+  <Keyword>
+    <Key>history</Key>
+    <Value>History</Value>
+  </Keyword>
+  <Keyword>
+    <Key>social</Key>
+    <Value>Social</Value>
+  </Keyword>
+  <Keyword>
+    <Key>settings</Key>
+    <Value>Settings</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_selectmodule</Key>
+    <Value>Select Module</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_openquestions</Key>
+    <Value>Open Question</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_followup</Key>
+    <Value>Follow Up</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_paraphrasing</Key>
+    <Value>Paraphrasing</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_freeplay</Key>
+    <Value>Free Practise</Value>
+  </Keyword>
+  <Keyword>
+    <Key>loadingmessage</Key>
+    <Value>Searching for Partner</Value>
+  </Keyword>
+  <Keyword>
+    <Key>leave_queue</Key>
+    <Value>Leave Queue</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_modulebriefing</Key>
+    <Value>Module Briefing</Value>
+  </Keyword>
+  <Keyword>
+    <Key>back</Key>
+    <Value>Back</Value>
+  </Keyword>
+  <Keyword>
+    <Key>enqueue</Key>
+    <Value>Enqueue</Value>
+  </Keyword>
+  <Keyword>
+    <Key>continue</Key>
+    <Value>Continue</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_history</Key>
+    <Value>History</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_social</Key>
+    <Value>Social</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_settings</Key>
+    <Value>Settings</Value>
+  </Keyword>
+  <Keyword>
+    <Key>reset</Key>
+    <Value>Reset</Value>
+  </Keyword>
+  <Keyword>
+    <Key>credits</Key>
+    <Value>Credits</Value>
+  </Keyword>
+  <Keyword>
+    <Key>server_ip</Key>
+    <Value>Server IP</Value>
+  </Keyword>
+  <Keyword>
+    <Key>enter_ip</Key>
+    <Value>Enter IP...</Value>
+  </Keyword>
+  <Keyword>
+    <Key>confirm</Key>
+    <Value>Confirm</Value>
+  </Keyword>
+  <Keyword>
+    <Key>name</Key>
+    <Value>Name</Value>
+  </Keyword>
+  <Keyword>
+    <Key>enter_name</Key>
+    <Value>Enter Name...</Value>
+  </Keyword>
+  <Keyword>
+    <Key>phone</Key>
+    <Value>Phone</Value>
+  </Keyword>
+  <Keyword>
+    <Key>enter_phone</Key>
+    <Value>Enter Phone...</Value>
+  </Keyword>
+  <Keyword>
+    <Key>language</Key>
+    <Value>Language</Value>
+  </Keyword>
+</Keywords>

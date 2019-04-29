@@ -19,6 +19,11 @@ public class ScreenController : MonoBehaviour
 		SceneManager.LoadScene(MainMenuSceneName);
 	}
 
+	public void ReloadScene()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+
     public void SwitchScreenTo(ScreenTypes screen)
 	{
 		Screens[currentScreenIndex].SetActive(false);

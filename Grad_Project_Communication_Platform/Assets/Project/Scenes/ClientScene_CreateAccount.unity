@@ -182,7 +182,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Enter Phonenumber...
+  m_Text: key_enter_phone
 --- !u!222 &75660767
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -261,7 +261,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Enter IP...
+  m_Text: key_enter_ip
 --- !u!222 &184534702
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -507,7 +507,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Server IP
+  m_Text: key_server_ip
 --- !u!222 &469400601
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -586,7 +586,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Phone
+  m_Text: key_phone
 --- !u!222 &622105728
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -875,7 +875,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Enter Name...
+  m_Text: key_enter_name
 --- !u!222 &965330493
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1119,7 +1119,7 @@ PrefabInstance:
     - target: {fileID: 727456468802886439, guid: c9bb01cf65ab90f43bdf6bc07ac60373,
         type: 3}
       propertyPath: m_Text
-      value: Confirm
+      value: key_confirm
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9bb01cf65ab90f43bdf6bc07ac60373, type: 3}
@@ -1481,7 +1481,7 @@ PrefabInstance:
     - target: {fileID: 727456468802886439, guid: c9bb01cf65ab90f43bdf6bc07ac60373,
         type: 3}
       propertyPath: m_Text
-      value: Confirm
+      value: key_confirm
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9bb01cf65ab90f43bdf6bc07ac60373, type: 3}
@@ -1735,7 +1735,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Name
+  m_Text: key_name
 --- !u!222 &1579214051
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1855,6 +1855,7 @@ GameObject:
   - component: {fileID: 1672967616}
   - component: {fileID: 1672967615}
   - component: {fileID: 1672967614}
+  - component: {fileID: 1672967613}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1862,6 +1863,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1672967613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1672967612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 173111ec488169847aca5f722a466030, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedLanguage: {fileID: 11400000, guid: 1bbeb3b1c424f45438d857d1664c27dc, type: 2}
 --- !u!222 &1672967614
 CanvasRenderer:
   m_ObjectHideFlags: 0

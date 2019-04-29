@@ -10,7 +10,7 @@ public class ModuleController : MonoBehaviour
 	public int textIndex;
 
 	private NetworkClient networkClient;
-	private RoleplayModule selectedModule = RoleplayModule.FreePlay;
+	public RoleplayModule SelectedModule { get; set; } = RoleplayModule.FreePlay;
 	private bool inQueue = false;
 
 	public void Initialize(NetworkClient networkClient)
@@ -40,21 +40,21 @@ public class ModuleController : MonoBehaviour
 		if (inQueue)
 			return;
 
-		selectedModule = module;
+		SelectedModule = module;
 		ScreenController.SwitchScreenToModuleBriefing();
 	}
 
 	public void LockInModule()
 	{
 		inQueue = true;
-		NetworkMessage queueMessage = new NetworkMessage(NetworkMessageType.Enqueue, networkClient.ClientId, "", selectedModule.ToString());
+		NetworkMessage queueMessage = new NetworkMessage(NetworkMessageType.Enqueue, networkClient.ClientId, "", SelectedModule.ToString());
 		networkClient.SendMessage(queueMessage);
 	}
 
 	public void LockOutModule()
 	{
 		inQueue = false;
-		NetworkMessage dequeueMessage = new NetworkMessage(NetworkMessageType.Dequeue, networkClient.ClientId, "", selectedModule.ToString());
+		NetworkMessage dequeueMessage = new NetworkMessage(NetworkMessageType.Dequeue, networkClient.ClientId, "", SelectedModule.ToString());
 		networkClient.SendMessage(dequeueMessage);
 	}
 

@@ -10,9 +10,15 @@ public class CreateAccount : MonoBehaviour
 	public SharedString AccountName;
 	public SharedString AccountPhone;
 
-	public Text NameField;
-	public Text PhoneField;
+	public InputField NameField;
+	public InputField PhoneField;
 
+
+	private void Start()
+	{
+		NameField.text = AccountName.Value;
+		PhoneField.text = AccountPhone.Value;
+	}
 
 	public void Finish()
 	{

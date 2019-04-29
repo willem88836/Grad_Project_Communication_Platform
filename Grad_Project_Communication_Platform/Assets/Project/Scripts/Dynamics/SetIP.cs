@@ -4,11 +4,17 @@ using UnityEngine.UI;
 
 public class SetIP : MonoBehaviour
 {
-	public InputField inputField;
-	public SharedString sharedString;
+	public InputField InputField;
+	public SharedString SharedString;
+
+
+	private void Start()
+	{
+		InputField.text = SharedString.Value;
+	}
 
 	public void ApplyIP()
 	{
-		sharedString.Value = inputField.text;
+		SharedString.Value = InputField.text;
 	}
 }

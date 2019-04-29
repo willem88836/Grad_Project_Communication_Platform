@@ -324,8 +324,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6012eb41ff1d9a4a9bacb08fcc85554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputField: {fileID: 650116967}
-  sharedString: {fileID: 11400000, guid: d83c40adda8ec6f429500751685dbc99, type: 2}
+  InputField: {fileID: 650116967}
+  SharedString: {fileID: 11400000, guid: d83c40adda8ec6f429500751685dbc99, type: 2}
 --- !u!114 &269567888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1803,8 +1803,8 @@ MonoBehaviour:
   TargetScene: ClientScene
   AccountName: {fileID: 11400000, guid: 7a8e78cd778edaf4b904211eb7fa3b59, type: 2}
   AccountPhone: {fileID: 11400000, guid: 6ca433a0175023347975d7ece75e34bc, type: 2}
-  NameField: {fileID: 1911332629}
-  PhoneField: {fileID: 1527062198}
+  NameField: {fileID: 1904384904}
+  PhoneField: {fileID: 1287196438}
 --- !u!114 &1662296837
 MonoBehaviour:
   m_ObjectHideFlags: 0

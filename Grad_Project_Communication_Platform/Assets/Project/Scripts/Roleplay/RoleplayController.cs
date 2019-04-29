@@ -2,6 +2,8 @@
 
 public class RoleplayController : MonoBehaviour
 {
+	public ScreenController ScreenController;
+
 	private NetworkClient networkClient;
 
 	public void Initialize(NetworkClient networkClient)
@@ -10,4 +12,15 @@ public class RoleplayController : MonoBehaviour
 	}
 
 
+	public void OnRoleplayLoaded(RoleplayDescription roleplayDescription, bool isClient)
+	{
+		if (isClient)
+		{
+			ScreenController.SwitchScreenToClientBriefing();
+		}
+		else
+		{
+			ScreenController.SwitchScreenToProfessionalBriefing();
+		}
+	}
 }

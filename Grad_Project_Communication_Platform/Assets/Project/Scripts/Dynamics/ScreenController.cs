@@ -42,7 +42,7 @@ public class ScreenController : MonoBehaviour
 		SwitchScreenTo(ScreenTypes.ModuleBriefing);
 	}
 
-	public void SwitchScreenToMainClientBriefing()
+	public void SwitchScreenToClientBriefing()
 	{
 		SwitchScreenTo(ScreenTypes.ClientBriefing);
 	}

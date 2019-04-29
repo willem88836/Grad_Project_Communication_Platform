@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.WillemMeijer.Grad_Project_Communication_Platform"
+    package="com.WillemMeijer.Spraac"
     android:installLocation="auto"
     android:versionCode="1"
     android:versionName="0.1" >
@@ -36,16 +36,16 @@
   
     <uses-feature
         android:name="android.hardware.microphone"
-        android:required="false" />
+        android:required="true" />
     <uses-feature
         android:name="android.hardware.touchscreen"
-        android:required="false" />
+        android:required="true" />
     <uses-feature
         android:name="android.hardware.touchscreen.multitouch"
-        android:required="false" />
+        android:required="true" />
     <uses-feature
         android:name="android.hardware.touchscreen.multitouch.distinct"
-        android:required="false" />
+        android:required="true" />
     <uses-feature
       android:name="android.hardware.camera"
       android:required="true"  />

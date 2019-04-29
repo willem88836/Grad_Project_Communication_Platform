@@ -21,6 +21,7 @@ public class RoleplayCall : MonoBehaviour
 	private Participant self;
 	private Participant other;
 
+	public bool IsCalling { get; private set; }
 	
 	public void Initialize(bool isClient, Participant other, Participant self)
 	{
@@ -44,7 +45,8 @@ public class RoleplayCall : MonoBehaviour
 
 	public void StartCalling()
 	{
-		Videocaller.StartCalling(other.IP, StreamingFramerate.Value, StreamingResolutionScale.Value); 
+		Videocaller.StartCalling(other.IP, StreamingFramerate.Value, StreamingResolutionScale.Value);
+		IsCalling = true;
 	}
 
 	public void OnCallEnded()
@@ -57,6 +59,7 @@ public class RoleplayCall : MonoBehaviour
 		{
 			ScreenController.SwitchScreenToConversationChallengeTest();
 		}
+		IsCalling = false;
 	}
 
 	public void ForceEndCall()

@@ -1,8 +1,10 @@
-﻿public struct CaseDescription
+﻿public class CaseDescription
 {
 	public int[] ClientCharacteristics;
 	public int[] Assignments;
 	public RoleplayModule Module;
+
+	public CaseDescription() { }
 
 	public CaseDescription(int[] clientCharacteristics, int[] assignments, RoleplayModule module)
 	{

@@ -1,5 +1,5 @@
 ﻿using Framework.ScriptableObjects.Variables;
-using Framework.Variables;
+using JsonUtility = Framework.Features.Json.JsonUtility;
 using UnityEngine;
 
 public sealed class NetworkClient : NetworkManager
@@ -28,7 +28,7 @@ public sealed class NetworkClient : NetworkManager
 		ModuleController.Initialize(this);
 		RoleplayController.Initialize(this);
 
-		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, AccountName.Value, "", AccountName.Value);
+		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, AccountPhone.Value, "", AccountName.Value);
 		SendMessage(connectMessage);
 	}
 	
@@ -43,7 +43,7 @@ public sealed class NetworkClient : NetworkManager
 	private void Start()
 	{
 		//udpMaster.UpdateTargetIP("145.37.144.87");
-		//TransmitRoleplayDescription(new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, JsonUtility.ToJson(new RoleplayDescription("", new Participant("Steve", "145.37.144.87", "123456"), new Participant("Stevette", "145.37.144.87", "123456"), new CaseDescription(new int[0], new int[0], RoleplayModule.Paraphrasing)))));
+		//TransmitRoleplayDescription(new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, JsonUtility.ToJson(new RoleplayDescription("", new Participant("Steve", "145.37.144.87", "123456"), new Participant("Stevette", "145.37.144.87", "123456"), new CaseDescription(new int[] { 1 }, new int[] { 1 }, RoleplayModule.Paraphrasing)))));
 	}
 
 	public void ConnectToServer(NetworkMessage message)
@@ -53,6 +53,7 @@ public sealed class NetworkClient : NetworkManager
 		udpMaster.UpdateTargetIP(serverIP);
 	}
 
+	[ExecuteOnMainThread]
 	public void TransmitRoleplayDescription(NetworkMessage message)
 	{
 		RoleplayDescription roleplayDescription = JsonUtility.FromJson<RoleplayDescription>(message.Message);
@@ -74,8 +75,7 @@ public sealed class NetworkClient : NetworkManager
 		}
 
 		RoleplayCall.Initialize(isClient, other, self);
-
-		ScreenController.SwitchScreenToModuleBriefing();
+		RoleplayController.OnRoleplayLoaded(roleplayDescription, isClient);
 	}
 
 	public void TransmitFinalEvaluation(NetworkMessage message)

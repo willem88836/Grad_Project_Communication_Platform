@@ -28,7 +28,7 @@ public sealed class NetworkClient : NetworkManager
 		ModuleController.Initialize(this);
 		RoleplayController.Initialize(this);
 
-		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, AccountName.Value, "", AccountName.Value);
+		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, AccountPhone.Value, "", AccountName.Value);
 		SendMessage(connectMessage);
 	}
 	

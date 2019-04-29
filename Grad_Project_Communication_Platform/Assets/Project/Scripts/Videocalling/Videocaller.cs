@@ -58,6 +58,9 @@ namespace Project.Videocalling
 			udpMaster = new UDPMaster();
 			udpMaster.Initialize(PortA, PortB);
 			udpMaster.AddListener(this);
+			#if UNITY_EDITOR
+				udpMaster.LogReceivedMessages = false;
+			#endif
 
 			// Initializes voice recording.
 			Microphone.Initialize();
@@ -100,8 +103,7 @@ namespace Project.Videocalling
 		{
 			if (isForcedByPeer)
 				udpMaster.SendMessage(new byte[0]);
-
-			StopAllCoroutines();
+			
 			udpMaster.Kill();
 			OwnFootage.Stop();
 			dimensionsEstablished = false;

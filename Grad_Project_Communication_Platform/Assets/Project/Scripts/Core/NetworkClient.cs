@@ -43,7 +43,7 @@ public sealed class NetworkClient : NetworkManager
 	private void Start()
 	{
 		//udpMaster.UpdateTargetIP("145.37.144.87");
-		//TransmitRoleplayDescription(new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, JsonUtility.ToJson(new RoleplayDescription("", new Participant("Steve", "145.37.144.87", "123456"), new Participant("Stevette", "145.37.144.87", "123456"), new CaseDescription(new int[0], new int[0], RoleplayModule.Paraphrasing)))));
+		//TransmitRoleplayDescription(new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, JsonUtility.ToJson(new RoleplayDescription("", new Participant("Steve", "145.37.144.87", "123456"), new Participant("Stevette", "145.37.144.87", "123456"), new CaseDescription(new int[] { 1 }, new int[] { 1 }, RoleplayModule.Paraphrasing)))));
 	}
 
 	public void ConnectToServer(NetworkMessage message)
@@ -75,8 +75,7 @@ public sealed class NetworkClient : NetworkManager
 		}
 
 		RoleplayCall.Initialize(isClient, other, self);
-
-		ScreenController.SwitchScreenToModuleBriefing();
+		RoleplayController.OnRoleplayLoaded(roleplayDescription, isClient);
 	}
 
 	public void TransmitFinalEvaluation(NetworkMessage message)

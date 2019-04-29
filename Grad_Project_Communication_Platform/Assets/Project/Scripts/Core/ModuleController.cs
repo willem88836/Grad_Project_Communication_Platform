@@ -4,12 +4,13 @@ using UnityEngine.UI;
 
 public class ModuleController : MonoBehaviour
 {
+	public ScreenController ScreenController;
 	public GameObject ModuleButtonPrefab;
 	public Transform ButtonContainer;
 	public int textIndex;
 
 	private NetworkClient networkClient;
-	private RoleplayModule selectedModule = RoleplayModule.None;
+	private RoleplayModule selectedModule = RoleplayModule.FreePlay;
 	private bool inQueue = false;
 
 	public void Initialize(NetworkClient networkClient)
@@ -36,8 +37,11 @@ public class ModuleController : MonoBehaviour
 
 	public void SelectModule(RoleplayModule module)
 	{
-		if (!inQueue)
-			selectedModule = module;
+		if (inQueue)
+			return;
+
+		selectedModule = module;
+		ScreenController.SwitchScreenToModuleBriefing();
 	}
 
 	public void LockInModule()
@@ -70,7 +74,7 @@ public class ModuleController : MonoBehaviour
 // TODO: add all the modules. 
 public enum RoleplayModule
 {
-	None,
+	FreePlay,
 	Paraphrasing, 
 	Follow_Up_Questions,
 	Open_Questions

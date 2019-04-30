@@ -32,11 +32,11 @@ public sealed class NetworkClient : NetworkManager
 		SendMessage(connectMessage);
 	}
 	
-	protected override void OnDestroy()
+	protected override void OnEnd()
 	{
 		NetworkMessage disconnectMessage = new NetworkMessage(NetworkMessageType.DisconnectFromServer, ClientId);
 		SendMessage(disconnectMessage);
-		base.OnDestroy();
+		base.OnEnd();
 	}
 
 

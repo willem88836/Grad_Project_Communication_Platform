@@ -32,8 +32,12 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 
 	protected virtual void OnDestroy()
 	{
-		udpMaster.RemoveListener(this);
-		udpMaster.Kill();
+		OnEnd();
+	}
+
+	protected virtual void OnApplicationQuit()
+	{
+		OnEnd();
 	}
 
 	private void Update()
@@ -41,6 +45,12 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 		actionQueue.Invoke();
 	}
 
+
+	protected virtual void OnEnd()
+	{
+		udpMaster.RemoveListener(this);
+		udpMaster.Kill();
+	}
 
 	public void OnMessageReceived(UDPMessage message)
 	{

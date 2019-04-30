@@ -26,6 +26,11 @@ public sealed class NetworkClient : NetworkManager
 		RoleplayController.Initialize(this);
 	}
 
+	//private void Start()
+	//{
+	//	NetworkMessage asdf = new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, JsonUtility.ToJson(new RoleplayDescription("", new Participant("Steve", "192.168.178.38", "123456789"), new Participant("Stevette", "192.168.178.18", "1346"), new CaseDescription(new int[] { 1 }, new int[] { 1 }, RoleplayModule.Paraphrasing))));
+	//	TransmitRoleplayDescription(asdf);
+	//}
 
 	protected override void Initialize()
 	{

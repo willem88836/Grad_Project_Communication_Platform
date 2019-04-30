@@ -50,7 +50,7 @@ public sealed class NetworkClient : NetworkManager
 	{
 		// TODO: store this somewhere properly when we have to switch between sending messages to server to client.
 		string serverIP = message.SenderIP;
-		udpMaster.UpdateTargetIP(serverIP);
+		//udpMaster.UpdateTargetIP(serverIP);
 	}
 
 	[ExecuteOnMainThread]

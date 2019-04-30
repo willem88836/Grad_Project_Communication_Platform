@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Framework.Features.UDP;
+using System.Collections.Generic;
 using UnityEngine;
 
 public sealed class NetworkServer : NetworkManager
@@ -15,6 +16,7 @@ public sealed class NetworkServer : NetworkManager
 
 		activeUsers = new List<Participant>();
 		matchmaker.Initialize(this);
+		//(udpMaster as UDPMaster).LogReceivedMessages = false;
 	}
 
 	public void ConnectToServer(NetworkMessage message)

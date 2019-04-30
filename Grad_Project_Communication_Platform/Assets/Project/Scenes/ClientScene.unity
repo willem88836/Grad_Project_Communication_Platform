@@ -187,7 +187,7 @@ PrefabInstance:
     - target: {fileID: 8392542386606244815, guid: 843156aa7f863b24184dc6c1d810fc58,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8392542386606244815, guid: 843156aa7f863b24184dc6c1d810fc58,
         type: 3}
@@ -616,7 +616,7 @@ PrefabInstance:
     - target: {fileID: 8392542386606244815, guid: 843156aa7f863b24184dc6c1d810fc58,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8392542386606244815, guid: 843156aa7f863b24184dc6c1d810fc58,
         type: 3}
@@ -1859,7 +1859,7 @@ PrefabInstance:
     - target: {fileID: 8392542386606244815, guid: 843156aa7f863b24184dc6c1d810fc58,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8392542386606244815, guid: 843156aa7f863b24184dc6c1d810fc58,
         type: 3}
@@ -3288,7 +3288,7 @@ PrefabInstance:
     - target: {fileID: 8392542386606244815, guid: 843156aa7f863b24184dc6c1d810fc58,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8392542386606244815, guid: 843156aa7f863b24184dc6c1d810fc58,
         type: 3}
@@ -4373,6 +4373,7 @@ GameObject:
   - component: {fileID: 896843414}
   - component: {fileID: 896843415}
   - component: {fileID: 896843416}
+  - component: {fileID: 896843417}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -4524,6 +4525,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SelectedLanguage: {fileID: 11400000, guid: 1bbeb3b1c424f45438d857d1664c27dc, type: 2}
+--- !u!114 &896843417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896843409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd49e9bcc88857c49bb5226c3454c0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScreenshotKey: 105
+  ScreenshotName: Screenshot_
+  FileExtention: png
+  SuperSample: 8
+  ScreenShotCount: 2
 --- !u!1001 &926023756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5125,7 +5143,7 @@ PrefabInstance:
     - target: {fileID: 8392542386606244815, guid: 843156aa7f863b24184dc6c1d810fc58,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8392542386606244815, guid: 843156aa7f863b24184dc6c1d810fc58,
         type: 3}
@@ -5328,7 +5346,7 @@ PrefabInstance:
     - target: {fileID: 8392542386606244815, guid: 843156aa7f863b24184dc6c1d810fc58,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8392542386606244815, guid: 843156aa7f863b24184dc6c1d810fc58,
         type: 3}

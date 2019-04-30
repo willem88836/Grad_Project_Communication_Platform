@@ -3,6 +3,7 @@ using Framework.Storage;
 using System.Reflection;
 using System.Linq;
 using UnityEngine;
+using System.Threading;
 
 public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 {
@@ -82,7 +83,10 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 
 	public void SendMessage(NetworkMessage message, string targetIP)
 	{
-		udpMaster.UpdateTargetIP(targetIP);
-		SendMessage(message);
+		new Thread(new ThreadStart(() => 
+		{
+			udpMaster.UpdateTargetIP(targetIP);
+			SendMessage(message);
+		})).Start();
 	}
 }

@@ -3,6 +3,7 @@ using Framework.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 namespace Project.Videocalling
@@ -24,6 +25,8 @@ namespace Project.Videocalling
 		public int PortB = 11003;
 
 		private UDPMaster udpMaster;
+
+		private Queue<Action> sendingQueue = new Queue<Action>();
 
 
 		// Sending Locals
@@ -92,6 +95,8 @@ namespace Project.Videocalling
 			Microphone.StartRecording();
 			AudioSource.Play();
 
+			StartThreadedSending();
+
 			StopAllCoroutines();
 			StartCoroutine(SendFootage());
 		}
@@ -103,13 +108,39 @@ namespace Project.Videocalling
 		{
 			if (isForcedByPeer)
 				udpMaster.SendMessage(new byte[0]);
-			
+
+			StopAllCoroutines();
+			StopThreadedSending();
 			udpMaster.Kill();
 			OwnFootage.Stop();
 			dimensionsEstablished = false;
 			OnCallEnded.SafeInvoke();
 			AudioSource.Stop();
 			Microphone.StopRecording();
+		}
+
+
+		Thread sendingThread;
+		private void StartThreadedSending()
+		{
+			sendingThread = new Thread(new ThreadStart(delegate
+			{
+				while (true)
+				{
+					while (sendingQueue.Count > 0)
+					{
+						Action a = sendingQueue.Dequeue();
+						a.Invoke();
+					}
+				}
+			}));
+			sendingThread.Start();
+		}
+
+		private void StopThreadedSending()
+		{
+			sendingThread.Abort();
+			sendingQueue.Clear();
 		}
 
 
@@ -132,7 +163,7 @@ namespace Project.Videocalling
 				int videoHeight = (int)(ownFootageHeight * resolutionScale);
 				resolutionByteList.AddRange(videoWidth.ToByteArray());
 				resolutionByteList.AddRange(videoHeight.ToByteArray());
-				udpMaster.SendMessage(resolutionByteList.ToArray());
+				sendingQueue.Enqueue(delegate { udpMaster.SendMessage(resolutionByteList.ToArray()); });
 
 				// Lowers the resolution of the video frame.
 				Color32[] frame = OwnFootage.GetPixels32();
@@ -174,7 +205,7 @@ namespace Project.Videocalling
 						byteList.Add(color.b);
 					}
 
-					udpMaster.SendMessage(byteList.ToArray());
+					sendingQueue.Enqueue(delegate { udpMaster.SendMessage(byteList.ToArray()); });
 					yield return new WaitForEndOfFrame();
 				}
 				yield return new WaitForEndOfFrame();
@@ -198,7 +229,7 @@ namespace Project.Videocalling
 
 			byte[] data = byteList.ToArray();
 
-			udpMaster.SendMessage(data);
+			sendingQueue.Enqueue(delegate { udpMaster.SendMessage(data); });
 		}
 
 

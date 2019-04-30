@@ -14,14 +14,12 @@ namespace Framework.Features.UDP.Applied
 	/// </summary>
 	public sealed class AppliedUDPMaster<T> : UDPMaster, INetworkListener where T : UDPMessage
 	{
-		private List<IAppliedNetworkListener> networkListeners;
+		private List<IAppliedNetworkListener> networkListeners = new List<IAppliedNetworkListener>();
 
 		/// <inheritdoc />
 		public override void Initialize(int sendingPort = 11000, int receivingPort = 11001)
 		{
 			base.Initialize(sendingPort, receivingPort);
-
-			networkListeners = new List<IAppliedNetworkListener>();
 			this.AddListener(this);
 		}
 

@@ -23,9 +23,12 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 		SaveLoad.EncryptData = false;
 
 		udpMaster = new AppliedUDPMaster<NetworkMessage>();
-		udpMaster.Initialize(PortOut, PortIn);
-		udpMaster.AddListener(this);
 
+		new Thread(new ThreadStart(delegate
+		{
+			udpMaster.Initialize(PortOut, PortIn);
+			udpMaster.AddListener(this);
+		})).Start();
 
 		networkLogger = new NetworkLogger<NetworkMessage>() { LogFileName = "NetworkLogs"};
 		networkLogger.Initialize(udpMaster);
@@ -34,6 +37,11 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 	private void Update()
 	{
 		actionQueue.Invoke();
+	}
+
+	protected void OnApplicationQuit()
+	{
+		OnEnd();
 	}
 
 	protected void OnApplicationPause(bool hasFocus)

@@ -1,4 +1,5 @@
 ﻿using Framework.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -32,6 +33,8 @@ namespace Framework.Features.UDP
 
 		private List<INetworkListener> networkListeners;
 
+		private Queue<Action> messageQueue = new Queue<Action>();
+
 
 		/// <summary>
 		///		Sets the UDPMaster up for sending messages,
@@ -53,6 +56,20 @@ namespace Framework.Features.UDP
 
 			StartReceivingMessages();
 
+			new Thread(new ThreadStart(delegate
+			{
+				while (true)
+				{
+					while (messageQueue.Count > 0)
+					{
+						Action a = messageQueue.Dequeue();
+						a.Invoke();
+					}
+				}
+			})).Start();
+
+
+
 			LoggingUtilities.LogFormat("UDPMaster initialized with ip ({0}) and sending port ({1}) receiving port ({2})", sendingEndPoint.Address, sendingPort, this.receivingPort);
 		}
 		/// <summary>
@@ -62,9 +79,9 @@ namespace Framework.Features.UDP
 		{
 			LoggingUtilities.LogFormat("Killing UDPMaster");
 
-			receiverThread.Abort();
-			receiver.Close();
 			sendingSocket.Close();
+			receiver.Close();
+			receiverThread.Abort();
 		}
 
 		/// <summary>
@@ -79,7 +96,7 @@ namespace Framework.Features.UDP
 					return;
 				}
 			#endif
-			sendingSocket.SendTo(message, sendingEndPoint);
+			messageQueue.Enqueue(delegate { sendingSocket.SendTo(message, sendingEndPoint); });
 		}
 		/// <summary>
 		///		Updates the current messaging target, and sends 
@@ -109,11 +126,12 @@ namespace Framework.Features.UDP
 			{
 				// TODO: This throws an error when killing the network connection.
 				byte[] messageByteArray = receiver.Receive(ref receivingEndPoint);
+				receivingEndPoint.Address = IPAddress.Any;
 				DistributeMessage(messageByteArray);
 			}
 			catch (System.Exception ex)
 			{
-				LoggingUtilities.Log(ex.Message + " " + ex.StackTrace);
+				LoggingUtilities.Log(ex.Message + "\n" + ex.InnerException + "\n" + ex.StackTrace);
 			}
 		}
 

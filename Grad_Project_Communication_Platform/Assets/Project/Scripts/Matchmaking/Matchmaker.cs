@@ -46,7 +46,6 @@ public class Matchmaker
 
 	private void FindMatch(RoleplayModule module)
 	{
-		Debug.Log(queues[module].Count);
 		List<Participant> queue = queues[module];
 		if (queue.Count >= 2)
 		{

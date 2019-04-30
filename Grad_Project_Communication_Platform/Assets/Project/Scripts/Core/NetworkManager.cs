@@ -30,6 +30,11 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 	}
 #endif
 
+	protected virtual void Awake()
+	{
+		Initialize();
+	}
+
 	/// <summary>
 	///		Stops or initializes the NetworkManager
 	///		based on the paused state.
@@ -72,9 +77,12 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 		SaveLoad.SavePath = Application.persistentDataPath;
 		SaveLoad.EncryptData = false;
 
-		udpMaster = new AppliedUDPMaster<NetworkMessage>();
-		udpMaster.Initialize("1.1.1.1", PortOut, PortIn);
-		udpMaster.AddListener(this);
+		if (udpMaster == null || !udpMaster.IsInitialized)
+		{
+			udpMaster = new AppliedUDPMaster<NetworkMessage>();
+			udpMaster.Initialize("1.1.1.1", PortOut, PortIn);
+			udpMaster.AddListener(this);
+		}
 
 		networkLogger = new NetworkLogger<NetworkMessage>() { LogFileName = "NetworkLogs" };
 		networkLogger.Initialize(udpMaster);

@@ -19,8 +19,9 @@ public sealed class NetworkClient : NetworkManager
 	public string ClientName { get { return AccountName.Value; } }
 
 
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		ModuleController.Initialize(this);
 		RoleplayController.Initialize(this);
 	}
@@ -29,7 +30,7 @@ public sealed class NetworkClient : NetworkManager
 	protected override void Initialize()
 	{
 		base.Initialize();
-
+		udpMaster.LogReceivedMessages = true;
 		udpMaster.UpdateTargetIP(ServerIP.Value);
 		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, AccountPhone.Value, "", AccountName.Value);
 		SendMessage(connectMessage);

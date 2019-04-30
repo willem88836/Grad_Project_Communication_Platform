@@ -17,7 +17,9 @@ namespace Framework.Features.UDP
 		#if UNITY_EDITOR
 			public bool LocalHost = false;
 			public bool LogReceivedMessages = true;
-		#endif
+#endif
+
+		public bool IsInitialized { get; protected set; } = false;
 
 		protected int SendingPort;
 		protected Socket SendingSocket;
@@ -50,6 +52,8 @@ namespace Framework.Features.UDP
 
 			ReceiveMessages();
 
+			IsInitialized = true;
+
 			LoggingUtilities.LogFormat("UDPMaster initialized with ip ({0}) and sending port ({1}) receiving port ({2})", SendingEndPoint.Address, sendingPort, this.ReceivingPort);
 		}
 		/// <summary>
@@ -63,6 +67,8 @@ namespace Framework.Features.UDP
 
 			Receiver.Close();
 			ReceiverThread.Abort();
+
+			IsInitialized = false;
 		}
 
 

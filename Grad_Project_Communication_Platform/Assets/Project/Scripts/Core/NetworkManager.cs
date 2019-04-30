@@ -19,8 +19,6 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 
 	protected virtual void Awake()
 	{
-		Application.quitting += delegate { OnEnd(); };
-
 		SaveLoad.SavePath = Application.persistentDataPath;
 		SaveLoad.EncryptData = false;
 
@@ -38,6 +36,13 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 		actionQueue.Invoke();
 	}
 
+	protected void OnApplicationPause(bool hasFocus)
+	{
+		if (hasFocus)
+		{
+			OnEnd();
+		}
+	}
 
 	public virtual void OnEnd()
 	{

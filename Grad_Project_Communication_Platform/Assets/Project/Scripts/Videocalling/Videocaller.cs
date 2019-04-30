@@ -130,7 +130,7 @@ namespace Project.Videocalling
 					while (sendingQueue.Count > 0)
 					{
 						Action a = sendingQueue.Dequeue();
-						a.Invoke();
+						a.SafeInvoke();
 					}
 				}
 			}));

@@ -45,7 +45,7 @@ namespace Framework.Features.UDP.Applied
 
 			string serializedMessage = Encoding.ASCII.GetString(message);
 			UDPMessage udpMessage = (UDPMessage)JsonUtility.FromJson(serializedMessage, typeof(T));
-			udpMessage.SenderIP = SendingEndPoint.Address.ToString();
+			udpMessage.SenderIP = ReceivingEndPoint.Address.ToString();
 
 			if (LogReceivedMessages && UnityEngine.Application.isEditor)
 			{

@@ -14,10 +14,8 @@ namespace Framework.Features.UDP
 		// HACK: This feels like the definition of a hack. Figure out why it doesn't work with the actual value.
 		public int MessageBufferSize { get { return SendingSocket.SendBufferSize - 100; } } 
 
-		#if UNITY_EDITOR
-			public bool LocalHost = false;
-			public bool LogReceivedMessages = true;
-#endif
+		public bool LocalHost = false;
+		public bool LogReceivedMessages = true;
 
 		public bool IsInitialized { get; protected set; } = false;
 

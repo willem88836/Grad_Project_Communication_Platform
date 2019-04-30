@@ -8,8 +8,9 @@ public sealed class NetworkServer : NetworkManager
 	private List<Participant> activeUsers;
 
 
-	private void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		activeUsers = new List<Participant>();
 		matchmaker.Initialize(this);
 	}

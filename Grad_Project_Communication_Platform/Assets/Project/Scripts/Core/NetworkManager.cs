@@ -20,7 +20,6 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 	private NetworkLogger<NetworkMessage> networkLogger;
 
 
-#if UNITY_EDITOR
 	/// <summary>
 	///		Stops the NetworkManager in the editor.
 	/// </summary>
@@ -28,7 +27,6 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 	{
 			Stop();
 	}
-#endif
 
 	protected virtual void Awake()
 	{
@@ -65,27 +63,43 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 	/// </summary>
 	protected virtual void Stop()
 	{
-		udpMaster.RemoveListener(this);
-		udpMaster.RemoveListener(networkLogger);
-		udpMaster.Kill();
+		try
+		{
+			Debug.Log("Stopping NetworkManager");
+			udpMaster.RemoveListener(this);
+			udpMaster.RemoveListener(networkLogger);
+			udpMaster.Kill();
+		}
+		catch (Exception ex)
+		{
+			Debug.LogError(ex.Message);
+		}
 	}
 	/// <summary>
 	///		Starts the network connection.
 	/// </summary>
 	protected virtual void Initialize()
 	{
-		SaveLoad.SavePath = Application.persistentDataPath;
-		SaveLoad.EncryptData = false;
-
-		if (udpMaster == null || !udpMaster.IsInitialized)
+		try
 		{
-			udpMaster = new AppliedUDPMaster<NetworkMessage>();
-			udpMaster.Initialize("1.1.1.1", PortOut, PortIn);
-			udpMaster.AddListener(this);
-		}
+			Debug.Log("Initializing NetworkManager");
+			SaveLoad.SavePath = Application.persistentDataPath;
+			SaveLoad.EncryptData = false;
 
-		networkLogger = new NetworkLogger<NetworkMessage>() { LogFileName = "NetworkLogs" };
-		networkLogger.Initialize(udpMaster);
+			if (udpMaster == null || !udpMaster.IsInitialized)
+			{
+				udpMaster = new AppliedUDPMaster<NetworkMessage>();
+				udpMaster.Initialize("1.1.1.1", PortOut, PortIn);
+				udpMaster.AddListener(this);
+			}
+
+			networkLogger = new NetworkLogger<NetworkMessage>() { LogFileName = "NetworkLogs" };
+			networkLogger.Initialize(udpMaster);
+		}
+		catch(Exception ex)
+		{
+			Debug.LogError(ex.Message);
+		}
 	}
 
 	/// <summary>

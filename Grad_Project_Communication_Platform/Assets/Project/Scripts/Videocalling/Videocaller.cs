@@ -19,6 +19,7 @@ namespace Project.Videocalling
 	{
 		private const byte VIDEO_ID = 0;
 		private const byte AUDIO_ID = 1;
+		private const byte VIDEORES_ID = 2;
 
 
 		public Action OnCallEnded;
@@ -115,6 +116,7 @@ namespace Project.Videocalling
 			OnCallEnded.SafeInvoke();
 			AudioSource.Stop();
 			Microphone.StopRecording();
+			dimensionsEstablished = false;
 		}
 
 
@@ -134,12 +136,19 @@ namespace Project.Videocalling
 
 			// Converts the width and height to byte array and sends it across the network.
 			List<byte> resolutionByteList = new List<byte>();
-			resolutionByteList.Add(VIDEO_ID);
+			resolutionByteList.Add(VIDEORES_ID);
 			int videoWidth = (int)(ownFootageWidth * resolutionScale);
 			int videoHeight = (int)(ownFootageHeight * resolutionScale);
 			resolutionByteList.AddRange(videoWidth.ToByteArray());
 			resolutionByteList.AddRange(videoHeight.ToByteArray());
-			udpMaster.SendMessage(resolutionByteList.ToArray());
+			byte[] resolutionByteArray = resolutionByteList.ToArray();
+
+			while(!dimensionsEstablished)
+			{
+				udpMaster.SendMessage(resolutionByteList.ToArray());
+				yield return new WaitForSeconds(1);
+			}
+
 
 			// TODO: Do this on a different thread (framerate and such)?
 			while (true)
@@ -222,23 +231,23 @@ namespace Project.Videocalling
 			}
 			else if (message[0] == VIDEO_ID)
 			{
-				if (!dimensionsEstablished)
-				{
-					ProcessDimensionData(message);
-				}
-				else
-				{
 					ProcessColorData(message);
-				}
 			}
 			else if (message[0] == AUDIO_ID)
 			{
 				ProcessAudioData(message);
 			}
+			else if (message[0] == VIDEORES_ID)
+			{
+					ProcessDimensionData(message);
+			}
 		}
 
 		private void ProcessDimensionData(byte[] data)
 		{
+			if (dimensionsEstablished)
+				return;
+
 			// Converts the byte array to two values.
 			int intByteArrayLength = ObjectUtilities.INT_BYTEARRAYLENGTH;
 			int width = data.SubArray(1, intByteArrayLength).ToObject<int>();
@@ -248,6 +257,8 @@ namespace Project.Videocalling
 			OtherFootage = new Texture2D(width, height);
 			OtherFootage.name = "Webcamfootage_Other";
 			dimensionsEstablished = true;
+
+			UnityEngine.Debug.Log("Dimensions Established");
 		}
 
 		private void ProcessColorData(byte[] data)

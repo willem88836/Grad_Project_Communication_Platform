@@ -47,16 +47,16 @@ namespace Framework.Features.UDP.Applied
 			UDPMessage udpMessage = (UDPMessage)JsonUtility.FromJson(serializedMessage, typeof(T));
 			udpMessage.SenderIP = SendingEndPoint.Address.ToString();
 
-			foreach (IAppliedNetworkListener appliedListeners in appliedNetworkListeners)
-			{
-				appliedListeners.OnMessageReceived(udpMessage);
-			}
-
 			if (LogReceivedMessages && UnityEngine.Application.isEditor)
 			{
 				LoggingUtilities.LogFormat(
 					"Message Received: ({0})", 
 					serializedMessage);
+			}
+
+			foreach (IAppliedNetworkListener appliedListeners in appliedNetworkListeners)
+			{
+				appliedListeners.OnMessageReceived(udpMessage);
 			}
 		}
 

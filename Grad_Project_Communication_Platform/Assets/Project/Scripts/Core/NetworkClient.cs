@@ -31,8 +31,8 @@ public sealed class NetworkClient : NetworkManager
 		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, AccountPhone.Value, "", AccountName.Value);
 		SendMessage(connectMessage);
 	}
-	
-	protected override void OnEnd()
+
+	public override void OnEnd()
 	{
 		NetworkMessage disconnectMessage = new NetworkMessage(NetworkMessageType.DisconnectFromServer, ClientId);
 		SendMessage(disconnectMessage);

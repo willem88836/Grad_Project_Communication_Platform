@@ -172,7 +172,7 @@ namespace Framework.Features.UDP
 
 		public void UpdateTargetIP(string ipAddress)
 		{
-			sendingEndPoint.Address = IPAddress.Parse(ipAddress);
+			messageQueue.Enqueue(delegate { sendingEndPoint.Address = IPAddress.Parse(ipAddress); });
 			LoggingUtilities.LogFormat("Updating target IP to: {0}", ipAddress);
 		}
 

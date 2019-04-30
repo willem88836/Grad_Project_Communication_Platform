@@ -19,6 +19,8 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 
 	protected virtual void Awake()
 	{
+		Application.quitting += delegate { OnEnd(); };
+
 		SaveLoad.SavePath = Application.persistentDataPath;
 		SaveLoad.EncryptData = false;
 
@@ -29,11 +31,6 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 
 		networkLogger = new NetworkLogger<NetworkMessage>() { LogFileName = "NetworkLogs"};
 		networkLogger.Initialize(udpMaster);
-	}
-
-	protected virtual void OnApplicationQuit()
-	{
-		OnEnd();
 	}
 
 	private void Update()

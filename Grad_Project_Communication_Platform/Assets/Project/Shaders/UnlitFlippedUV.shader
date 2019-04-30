@@ -4,6 +4,7 @@
     {
 		_MainTex("Texture", 2D) = "white" {}
 		_Stencil("Stencil", float) = 0
+		_Stencil("StencilOp", float) = 0
     }
     SubShader
     {

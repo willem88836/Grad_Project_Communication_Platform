@@ -1,6 +1,6 @@
 ﻿using Framework.ScriptableObjects.Variables;
-using JsonUtility = Framework.Features.Json.JsonUtility;
 using UnityEngine;
+using JsonUtility = Framework.Features.Json.JsonUtility;
 
 public sealed class NetworkClient : NetworkManager
 {
@@ -19,40 +19,36 @@ public sealed class NetworkClient : NetworkManager
 	public string ClientName { get { return AccountName.Value; } }
 
 
-	protected override void Awake()
+	private void Awake()
 	{
-		base.Awake();
-
-		udpMaster.UpdateTargetIP(ServerIP.Value);
-
 		ModuleController.Initialize(this);
 		RoleplayController.Initialize(this);
+	}
 
+
+	protected override void Initialize()
+	{
+		base.Initialize();
+
+		udpMaster.UpdateTargetIP(ServerIP.Value);
 		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, AccountPhone.Value, "", AccountName.Value);
 		SendMessage(connectMessage);
 	}
-	
-	protected override void OnDestroy()
+
+	protected override void Stop()
 	{
 		NetworkMessage disconnectMessage = new NetworkMessage(NetworkMessageType.DisconnectFromServer, ClientId);
 		SendMessage(disconnectMessage);
-		base.OnDestroy();
+
+		base.Stop();
 	}
 
-
-	private void Start()
-	{
-		//udpMaster.UpdateTargetIP("145.37.144.87");
-		//TransmitRoleplayDescription(new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, JsonUtility.ToJson(new RoleplayDescription("", new Participant("Steve", "145.37.144.87", "123456"), new Participant("Stevette", "145.37.144.87", "123456"), new CaseDescription(new int[] { 1 }, new int[] { 1 }, RoleplayModule.Paraphrasing)))));
-	}
 
 	public void ConnectToServer(NetworkMessage message)
 	{
-		// TODO: store this somewhere properly when we have to switch between sending messages to server to client.
-		string serverIP = message.SenderIP;
-		udpMaster.UpdateTargetIP(serverIP);
-	}
 
+	}
+	
 	[ExecuteOnMainThread]
 	public void TransmitRoleplayDescription(NetworkMessage message)
 	{

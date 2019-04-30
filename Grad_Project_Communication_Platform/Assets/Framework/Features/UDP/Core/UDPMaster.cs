@@ -1,6 +1,5 @@
 ﻿using Framework.Utils;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -13,59 +12,59 @@ namespace Framework.Features.UDP
 	public class UDPMaster
 	{
 		// HACK: This feels like the definition of a hack. Figure out why it doesn't work with the actual value.
-		public int MessageBufferSize { get { return sendingSocket.SendBufferSize - 100; } } 
+		public int MessageBufferSize { get { return SendingSocket.SendBufferSize - 100; } } 
 
 		#if UNITY_EDITOR
 			public bool LocalHost = false;
 			public bool LogReceivedMessages = true;
 		#endif
 
-		protected int sendingPort;
-		protected Socket sendingSocket;
-		protected IPAddress sendingAddress;
-		protected IPEndPoint sendingEndPoint;
+		protected int SendingPort;
+		protected Socket SendingSocket;
+		protected IPAddress SendingAddress;
+		protected IPEndPoint SendingEndPoint;
 
-		protected int receivingPort;
-		protected UdpClient receiver;
-		protected IPEndPoint receivingEndPoint;
-		protected Thread receiverThread;
+		protected int ReceivingPort;
+		protected UdpClient Receiver;
+		protected IPEndPoint ReceivingEndPoint;
+		protected Thread ReceiverThread;
 
-		private List<INetworkListener> networkListeners;
+		protected List<INetworkListener> NetworkListeners = new List<INetworkListener>();
 
 
 		/// <summary>
 		///		Sets the UDPMaster up for sending messages,
 		///		and start listening to messages. 
 		/// </summary>
-		public virtual void Initialize(int sendingPort = 11000, int receivingPort = 11001)
+		public virtual void Initialize(string sendingAddress, int sendingPort = 11000, int receivingPort = 11001)
 		{
-			this.receivingPort = receivingPort;
-			this.sendingPort = sendingPort;
+			this.ReceivingPort = receivingPort;
+			this.SendingPort = sendingPort;
+			this.SendingAddress = IPAddress.Parse(sendingAddress);
 
-			sendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-			sendingAddress = GetLocalBroadcast();
-			sendingEndPoint = new IPEndPoint(sendingAddress, this.sendingPort);
+			SendingSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+			SendingEndPoint = new IPEndPoint(this.SendingAddress, this.SendingPort);
 
-			receiver = new UdpClient(this.receivingPort);
-			receivingEndPoint = new IPEndPoint(IPAddress.Any, this.receivingPort);
+			Receiver = new UdpClient(this.ReceivingPort);
+			ReceivingEndPoint = new IPEndPoint(IPAddress.Any, this.ReceivingPort);
 
-			networkListeners = new List<INetworkListener>();
+			ReceiveMessages();
 
-			StartReceivingMessages();
-
-			LoggingUtilities.LogFormat("UDPMaster initialized with ip ({0}) and sending port ({1}) receiving port ({2})", sendingEndPoint.Address, sendingPort, this.receivingPort);
+			LoggingUtilities.LogFormat("UDPMaster initialized with ip ({0}) and sending port ({1}) receiving port ({2})", SendingEndPoint.Address, sendingPort, this.ReceivingPort);
 		}
 		/// <summary>
 		///		Closes used port and message receiving thread. 
 		/// </summary>
-		public void Kill()
+		public virtual void Kill()
 		{
 			LoggingUtilities.LogFormat("Killing UDPMaster");
 
-			receiverThread.Abort();
-			receiver.Close();
-			sendingSocket.Close();
+			SendingSocket.Close();
+
+			Receiver.Close();
+			ReceiverThread.Abort();
 		}
+
 
 		/// <summary>
 		///		Sends a message across the network.
@@ -79,7 +78,7 @@ namespace Framework.Features.UDP
 					return;
 				}
 			#endif
-			sendingSocket.SendTo(message, sendingEndPoint);
+			SendingSocket.SendTo(message, SendingEndPoint);
 		}
 		/// <summary>
 		///		Updates the current messaging target, and sends 
@@ -87,50 +86,62 @@ namespace Framework.Features.UDP
 		/// </summary>
 		public void SendMessage(byte[] message, string targetIP)
 		{
-			sendingEndPoint.Address = IPAddress.Parse(targetIP);
+			UpdateTargetIP(targetIP);
 			SendMessage(message);
 		}
+
 
 		/// <summary>
 		///		Creates a new thread dedicated to message receiving.
 		/// </summary>
-		protected void StartReceivingMessages()
+		protected void ReceiveMessages()
 		{
-			ThreadStart activity = new ThreadStart(() => { while (true) { ReceiveNetworkMessage(); } });
-			receiverThread = new Thread(activity);
-			receiverThread.Start();
-		}
-		/// <summary>
-		///		Receives network messages.
-		/// </summary>
-		protected virtual void ReceiveNetworkMessage()
-		{
-			try
+			ReceiverThread = new Thread(new ThreadStart(delegate 
 			{
-				// TODO: This throws an error when killing the network connection.
-				byte[] messageByteArray = receiver.Receive(ref receivingEndPoint);
-				DistributeMessage(messageByteArray);
-			}
-			catch (System.Exception ex)
-			{
-				LoggingUtilities.Log(ex.Message + " " + ex.StackTrace);
-			}
-		}
+				while (true)
+				{
+					try
+					{
+						// TODO: This throws an error when killing the network connection.
+						byte[] messageByteArray = Receiver.Receive(ref ReceivingEndPoint);
+						DistributeMessage(messageByteArray);
+					}
+					catch (System.Exception ex)
+					{
+						LoggingUtilities.LogFormat(
+							"Message: ({0})\nInner Exception: ({1})\nData: ({2})\nHelplink: ({3})\nHResult: ({4})\nSource: ({5})\nTargetSite: ({6})\nStack Trace: ({7})", 
+							ex.Message, 
+							ex.InnerException, 
+							ex.Data,
+							ex.HelpLink,
+							ex.HResult,
+							ex.Source,
+							ex.TargetSite,
+							ex.StackTrace); 
+					}
+				}
+			}));
 
+			ReceiverThread.Start();
+		}
 		/// <summary>
 		///		Calls the networkListeners.
 		/// </summary>
 		protected virtual void DistributeMessage(byte[] message)
 		{
-			foreach (INetworkListener networkListener in networkListeners)
+			foreach (INetworkListener networkListener in NetworkListeners)
 			{
 				networkListener.OnMessageReceived(message);
 			}
 
-			#if UNITY_EDITOR
-				if (LogReceivedMessages)
-					LoggingUtilities.LogFormat("Received message (\"{0}\") from ip ({1}) using port ({2})", message.ToString(), receivingEndPoint.Address, receivingPort);
-			#endif
+			if (LogReceivedMessages && UnityEngine.Application.isEditor)
+			{
+				LoggingUtilities.LogFormat(
+					"Received message (\"{0}\") from ip ({1}) using port ({2})",
+					message.ToString(),
+					ReceivingEndPoint.Address.ToString(),
+					ReceivingPort);
+			}
 		}
 
 
@@ -140,7 +151,7 @@ namespace Framework.Features.UDP
 		/// </summary>
 		public void AddListener(INetworkListener listener)
 		{
-			networkListeners.SafeAdd(listener);
+			NetworkListeners.SafeAdd(listener);
 		}
 		/// <summary>
 		///		Removes INetworkListener from the list of objects
@@ -148,36 +159,17 @@ namespace Framework.Features.UDP
 		/// </summary>
 		public void RemoveListener(INetworkListener listener)
 		{
-			networkListeners.SafeRemove(listener);
+			NetworkListeners.SafeRemove(listener);
 		}
 
-
+		/// <summary>
+		///		Updates the targetIP to the 
+		///		provided target.
+		/// </summary>
 		public void UpdateTargetIP(string ipAddress)
 		{
-			sendingEndPoint.Address = IPAddress.Parse(ipAddress);
+			SendingEndPoint.Address = IPAddress.Parse(ipAddress);
 			LoggingUtilities.LogFormat("Updating target IP to: {0}", ipAddress);
-		}
-
-		//TODO: This does not always return the right IP address..
-		public IPAddress GetLocalBroadcast()
-		{
-			var host = Dns.GetHostEntry(Dns.GetHostName());
-			IEnumerable<IPAddress> ips = host.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork);
-			string finalIP = ips.ToArray()[0].ToString();
-
-			string[] ipChunks = finalIP.Split('.');
-			finalIP = finalIP.Substring(0, finalIP.Length - ipChunks[ipChunks.Length - 1].Length);
-			finalIP += "255";
-
-			return IPAddress.Parse(finalIP);
-		}
-
-		public IPAddress GetLocalIP()
-		{
-			var host = Dns.GetHostEntry(Dns.GetHostName());
-			IEnumerable<IPAddress> ips = host.AddressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork);
-			string finalIP = ips.ToArray()[0].ToString();
-			return IPAddress.Parse(finalIP);
 		}
 	}
 }

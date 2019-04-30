@@ -1,7 +1,6 @@
 ﻿using Framework.Features.Json;
 using Framework.Utils;
 using System.Collections.Generic;
-using System.Net;
 using System.Text;
 
 namespace Framework.Features.UDP.Applied
@@ -12,18 +11,10 @@ namespace Framework.Features.UDP.Applied
 	///		and has its own NetworkListener interface.
 	///		User's Note: This is easier to use than UDPMaster, but far slower.
 	/// </summary>
-	public sealed class AppliedUDPMaster<T> : UDPMaster, INetworkListener where T : UDPMessage
+	public sealed class AppliedUDPMaster<T> : UDPMaster where T : UDPMessage
 	{
-		private List<IAppliedNetworkListener> networkListeners;
+		private List<IAppliedNetworkListener> appliedNetworkListeners = new List<IAppliedNetworkListener>();
 
-		/// <inheritdoc />
-		public override void Initialize(int sendingPort = 11000, int receivingPort = 11001)
-		{
-			base.Initialize(sendingPort, receivingPort);
-
-			networkListeners = new List<IAppliedNetworkListener>();
-			this.AddListener(this);
-		}
 
 		/// <summary>
 		///		Sends a message across the network.
@@ -34,7 +25,7 @@ namespace Framework.Features.UDP.Applied
 			byte[] messageByteArray = Encoding.ASCII.GetBytes(msg);
 			SendMessage(messageByteArray);
 
-			LoggingUtilities.LogFormat("Sent message (\"{0}\") to ip ({1}) using port ({2})", msg, sendingEndPoint.Address, sendingEndPoint.Port);
+			LoggingUtilities.LogFormat("Sent message (\"{0}\") to ip ({1}) using port ({2})", msg, SendingEndPoint.Address, SendingEndPoint.Port);
 		}
 		/// <summary>
 		///		Updates the current messaging target, and sends 
@@ -42,21 +33,30 @@ namespace Framework.Features.UDP.Applied
 		/// </summary>
 		public void SendMessage(T message, string ipAddress)
 		{
-			sendingEndPoint.Address = IPAddress.Parse(ipAddress);
+			UpdateTargetIP(ipAddress);
 			SendMessage(message);
 		}
 
+
 		/// <inheritdoc />
-		public void OnMessageReceived(byte[] message)
+		protected override void DistributeMessage(byte[] message)
 		{
-			string serializedMessage = Encoding.ASCII.GetString(message);
+			base.DistributeMessage(message);
+
+			string serializedMessage = message.ToObject<string>();
 			UDPMessage udpMessage = (UDPMessage)JsonUtility.FromJson(serializedMessage, typeof(T));
+			udpMessage.SenderIP = SendingEndPoint.Address.ToString();
 
-			LoggingUtilities.LogFormat("Message Received: ({0})", serializedMessage);
-
-			foreach (IAppliedNetworkListener listener in networkListeners)
+			foreach (IAppliedNetworkListener appliedListeners in appliedNetworkListeners)
 			{
-				listener.OnMessageReceived(udpMessage);
+				appliedListeners.OnMessageReceived(udpMessage);
+			}
+
+			if (LogReceivedMessages && UnityEngine.Application.isEditor)
+			{
+				LoggingUtilities.LogFormat(
+					"Message Received: ({0})", 
+					serializedMessage);
 			}
 		}
 
@@ -67,7 +67,7 @@ namespace Framework.Features.UDP.Applied
 		/// </summary>
 		public void AddListener(IAppliedNetworkListener listener)
 		{
-			networkListeners.SafeAdd(listener);
+			appliedNetworkListeners.SafeAdd(listener);
 		}
 		/// <summary>
 		///		Removes INetworkListener from the list of objects
@@ -75,7 +75,7 @@ namespace Framework.Features.UDP.Applied
 		/// </summary>
 		public void RemoveListener(IAppliedNetworkListener listener)
 		{
-			networkListeners.SafeRemove(listener);
+			appliedNetworkListeners.SafeRemove(listener);
 		}
 	}
 }

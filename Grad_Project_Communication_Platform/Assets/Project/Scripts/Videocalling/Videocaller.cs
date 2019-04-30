@@ -15,6 +15,7 @@ namespace Project.Videocalling
 		private const byte VIDEO_ID = 0;
 		private const byte AUDIO_ID = 1;
 
+
 		public Action OnCallEnded;
 		//HACK: Changing the width/height of a Texture2D is not supported yet.
 		public Action<Texture2D> OnOtherFootageApplied;
@@ -56,7 +57,7 @@ namespace Project.Videocalling
 
 			// Initializes the Networking.
 			udpMaster = new UDPMaster();
-			udpMaster.Initialize(PortA, PortB);
+			udpMaster.Initialize("1.1.1.1", PortA, PortB);
 			udpMaster.AddListener(this);
 			#if UNITY_EDITOR
 				udpMaster.LogReceivedMessages = false;

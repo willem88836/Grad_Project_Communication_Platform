@@ -5,14 +5,11 @@ public sealed class NetworkServer : NetworkManager
 {
 	[SerializeField] private Matchmaker matchmaker;
 
-
 	private List<Participant> activeUsers;
 
 
-	protected override void Awake()
+	private void Awake()
 	{
-		base.Awake();
-
 		activeUsers = new List<Participant>();
 		matchmaker.Initialize(this);
 	}

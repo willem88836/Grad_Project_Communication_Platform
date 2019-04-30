@@ -9,6 +9,11 @@ namespace Project.Videocalling
 {
 	/// <summary>
 	///		Is used for videocalling with someone across the network in Unity.
+	///		
+	///		A message consists of two parts: 1) a header, and 2) data. 
+	///		A header consists of the type of data: Audio or video. And in case of video,
+	///		the second byte refers to the howmanieth chunk the package is in order
+	///		to update the right pixel.
 	/// </summary>
 	public class Videocaller : MonoBehaviour, INetworkListener, IMicrophoneListener
 	{
@@ -43,7 +48,6 @@ namespace Project.Videocalling
 		public AudioSource AudioSource;
 		private AudioClip audioClipOut;
 
-		private int processedColors = 0;
 		private bool dimensionsEstablished = false;
 
 
@@ -120,21 +124,26 @@ namespace Project.Videocalling
 		/// </summary>
 		private IEnumerator<YieldInstruction> SendFootage()
 		{
+			while (OwnFootage.width == 0 || OwnFootage.height == 0)
+			{
+				yield return new WaitForEndOfFrame();
+			}
+
+			int ownFootageWidth = OwnFootage.width;
+			int ownFootageHeight = OwnFootage.height;
+
+			// Converts the width and height to byte array and sends it across the network.
+			List<byte> resolutionByteList = new List<byte>();
+			resolutionByteList.Add(VIDEO_ID);
+			int videoWidth = (int)(ownFootageWidth * resolutionScale);
+			int videoHeight = (int)(ownFootageHeight * resolutionScale);
+			resolutionByteList.AddRange(videoWidth.ToByteArray());
+			resolutionByteList.AddRange(videoHeight.ToByteArray());
+			udpMaster.SendMessage(resolutionByteList.ToArray());
+
 			// TODO: Do this on a different thread (framerate and such)?
 			while (true)
 			{
-				int ownFootageWidth = OwnFootage.width;
-				int ownFootageHeight = OwnFootage.height;
-
-				// Converts the width and height to byte array and sends it across the network.
-				List<byte> resolutionByteList = new List<byte>();
-				resolutionByteList.Add(VIDEO_ID);
-				int videoWidth = (int)(ownFootageWidth * resolutionScale);
-				int videoHeight = (int)(ownFootageHeight * resolutionScale);
-				resolutionByteList.AddRange(videoWidth.ToByteArray());
-				resolutionByteList.AddRange(videoHeight.ToByteArray());
-				udpMaster.SendMessage(resolutionByteList.ToArray());
-
 				// Lowers the resolution of the video frame.
 				Color32[] frame = OwnFootage.GetPixels32();
 				List<Color32> lowResFrame = new List<Color32>();
@@ -167,6 +176,7 @@ namespace Project.Videocalling
 					// Creates the message.
 					List<byte> byteList = new List<byte>();
 					byteList.Add(VIDEO_ID);
+					byteList.Add((byte)i);
 					for (int k = 0; k < length; k++)
 					{
 						Color32 color = lowResFrame[k];
@@ -238,15 +248,16 @@ namespace Project.Videocalling
 			OtherFootage = new Texture2D(width, height);
 			OtherFootage.name = "Webcamfootage_Other";
 			dimensionsEstablished = true;
-			processedColors = 0;
 		}
 
 		private void ProcessColorData(byte[] data)
 		{
+			int startIndex = data[2] * (int)(udpMaster.MessageBufferSize / 3f);
+
 			// Applies the colors to the texture.
 			int otherFootageWidth = OtherFootage.width;
 			int otherFootageHeight = OtherFootage.height;
-			for (int i = 1; i < data.Length; i += 3)
+			for (int i = 2; i < data.Length; i += 3)
 			{
 				// Converts the byte info to Color32.
 				byte r = data[i];
@@ -255,20 +266,13 @@ namespace Project.Videocalling
 				Color32 color = new Color32(r, g, b, byte.MaxValue);
 
 				// Determines the x and y coordinates of the color.
-				int j = (int)((processedColors + i) / 3f % otherFootageWidth);
-				int k = (int)((processedColors + i) / 3f / otherFootageWidth);
+				int j = (int)((startIndex + i) / 3f % otherFootageWidth);
+				int k = (int)((startIndex + i) / 3f / otherFootageWidth);
 				OtherFootage.SetPixel(j, k, color);
-
-				// Applies the new texture if it is the final chunk.
-				if (k == otherFootageHeight - 1 && j == otherFootageWidth - 1)
-				{
-					OtherFootage.Apply();
-					dimensionsEstablished = false;
-					OnOtherFootageApplied.SafeInvoke(OtherFootage);
-				}
 			}
 
-			processedColors += data.Length;
+			OtherFootage.Apply();
+			OnOtherFootageApplied.SafeInvoke(OtherFootage);
 		}
 
 		private void ProcessAudioData(byte[] data)

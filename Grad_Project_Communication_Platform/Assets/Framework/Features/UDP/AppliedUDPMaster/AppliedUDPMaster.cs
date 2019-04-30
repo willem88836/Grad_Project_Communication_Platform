@@ -43,7 +43,7 @@ namespace Framework.Features.UDP.Applied
 		{
 			base.DistributeMessage(message);
 
-			string serializedMessage = message.ToObject<string>();
+			string serializedMessage = Encoding.ASCII.GetString(message);
 			UDPMessage udpMessage = (UDPMessage)JsonUtility.FromJson(serializedMessage, typeof(T));
 			udpMessage.SenderIP = SendingEndPoint.Address.ToString();
 

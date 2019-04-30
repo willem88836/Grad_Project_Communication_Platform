@@ -34,7 +34,7 @@ public class RoleplayCall : MonoBehaviour
 		if (isClient)
 			Videocaller.Initialize(Videocaller.PortB, Videocaller.PortA);
 		else
-			Videocaller.Initialize();
+			Videocaller.Initialize(Videocaller.PortA, Videocaller.PortB);
 
 		ownFootage.material.mainTexture = Videocaller.OwnFootage;
 		otherFootage.material.mainTexture = Videocaller.OtherFootage;

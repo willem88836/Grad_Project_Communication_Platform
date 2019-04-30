@@ -62,7 +62,6 @@ namespace Project.Videocalling
 
 			// Initializes the Networking.
 			udpMaster = new UDPMaster();
-			udpMaster.Initialize("1.1.1.1", PortA, PortB);
 			udpMaster.Initialize("1.1.1.1", portA, portB);
 			udpMaster.AddListener(this);
 			#if UNITY_EDITOR

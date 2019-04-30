@@ -41,6 +41,8 @@ public sealed class NetworkClient : NetworkManager
 		NetworkMessage disconnectMessage = new NetworkMessage(NetworkMessageType.DisconnectFromServer, ClientId);
 		SendMessage(disconnectMessage);
 
+		RoleplayCall.ForceEndCall();
+
 		base.Stop();
 	}
 

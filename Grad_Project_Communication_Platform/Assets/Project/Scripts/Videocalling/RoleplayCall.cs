@@ -69,6 +69,6 @@ public class RoleplayCall : MonoBehaviour
 
 	public void OnOtherFootageApplied(Texture2D otherFootageTexture)
 	{
-		otherFootage.material.mainTexture = otherFootageTexture;
+		otherFootage.texture = otherFootageTexture;
 	}
 }

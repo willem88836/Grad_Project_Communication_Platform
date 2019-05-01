@@ -51,6 +51,7 @@ namespace Project.Videocalling
 
 		private bool dimensionsEstablished = false;
 
+		private int otherFootageWidth;
 		private Color32[] currentColors;
 		private bool colorsUpdated;
 
@@ -291,6 +292,7 @@ namespace Project.Videocalling
 				OtherFootage = new Texture2D(width, height);
 				OtherFootage.name = "Webcamfootage_Other";
 				currentColors = new Color32[width * height];
+				otherFootageWidth = width;
 				dimensionsEstablished = true;
 			};
 			mainThreadActions.Enqueue(textureCreation);
@@ -303,8 +305,6 @@ namespace Project.Videocalling
 			int startIndex = data[2] * (int)(udpMaster.MessageBufferSize / 3f);
 
 			// Applies the colors to the texture.
-			int otherFootageWidth = OtherFootage.width;
-			int otherFootageHeight = OtherFootage.height;
 			for (int i = 2; i < data.Length; i += 3)
 			{
 				// Converts the byte info to Color32.

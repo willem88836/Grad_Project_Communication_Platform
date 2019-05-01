@@ -51,20 +51,28 @@ namespace Project.Videocalling
 
 		private bool dimensionsEstablished = false;
 
+		private Color32[] currentColors;
+		private bool colorsUpdated;
 
 		private Queue<Action> mainThreadActions = new Queue<Action>();
+
+
 		private void Update()
 		{
-			if (mainThreadActions.Count > 0)
+			if (colorsUpdated)
 			{
-				mainThreadActions.Enqueue(delegate
+				Action applyColors = delegate
 				{
 					if (OtherFootage != null)
 					{
+						OtherFootage.SetPixels32(currentColors);
 						OtherFootage.Apply();
 						OnOtherFootageApplied.SafeInvoke(OtherFootage);
 					}
-				});
+				};
+
+				mainThreadActions.Enqueue(applyColors);
+				colorsUpdated = false;
 			}
 
 			while (mainThreadActions.Count > 0)
@@ -282,6 +290,7 @@ namespace Project.Videocalling
 				// Creates the texture.
 				OtherFootage = new Texture2D(width, height);
 				OtherFootage.name = "Webcamfootage_Other";
+				currentColors = new Color32[width * height];
 				dimensionsEstablished = true;
 			};
 			mainThreadActions.Enqueue(textureCreation);
@@ -307,11 +316,12 @@ namespace Project.Videocalling
 				// Determines the x and y coordinates of the color.
 				int j = (int)((startIndex + i) / 3f % otherFootageWidth);
 				int k = (int)((startIndex + i) / 3f / otherFootageWidth);
-				OtherFootage.SetPixel(j, k, color);
+
+				int l = k * otherFootageWidth + j;
+				currentColors[l] = color;
 			}
 
-			OtherFootage.Apply();
-			OnOtherFootageApplied.SafeInvoke(OtherFootage);
+			colorsUpdated = true;
 		}
 
 		private void ProcessAudioData(byte[] data)

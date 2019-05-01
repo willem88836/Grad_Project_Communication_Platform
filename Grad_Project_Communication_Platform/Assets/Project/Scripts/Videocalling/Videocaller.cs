@@ -52,6 +52,29 @@ namespace Project.Videocalling
 		private bool dimensionsEstablished = false;
 
 
+		private Queue<Action> mainThreadActions = new Queue<Action>();
+		private void Update()
+		{
+			if (mainThreadActions.Count > 0)
+			{
+				mainThreadActions.Enqueue(delegate
+				{
+					if (OtherFootage != null)
+					{
+						OtherFootage.Apply();
+						OnOtherFootageApplied.SafeInvoke(OtherFootage);
+					}
+				});
+			}
+
+			while (mainThreadActions.Count > 0)
+			{
+				Action a = mainThreadActions.Dequeue();
+				a.Invoke();
+			}
+		}
+
+
 		/// <summary>
 		///		Initializes the network connection.
 		/// </summary>
@@ -109,7 +132,7 @@ namespace Project.Videocalling
 		{
 			if (isForcedByPeer)
 				udpMaster.SendMessage(new byte[0]);
-			
+
 			udpMaster.Kill();
 			OwnFootage.Stop();
 			dimensionsEstablished = false;
@@ -143,7 +166,7 @@ namespace Project.Videocalling
 			resolutionByteList.AddRange(videoHeight.ToByteArray());
 			byte[] resolutionByteArray = resolutionByteList.ToArray();
 
-			while(!dimensionsEstablished)
+			while (!dimensionsEstablished)
 			{
 				udpMaster.SendMessage(resolutionByteList.ToArray());
 				yield return new WaitForSeconds(1);
@@ -231,7 +254,7 @@ namespace Project.Videocalling
 			}
 			else if (message[0] == VIDEO_ID)
 			{
-					ProcessColorData(message);
+				ProcessColorData(message);
 			}
 			else if (message[0] == AUDIO_ID)
 			{
@@ -239,7 +262,7 @@ namespace Project.Videocalling
 			}
 			else if (message[0] == VIDEORES_ID)
 			{
-					ProcessDimensionData(message);
+				ProcessDimensionData(message);
 			}
 		}
 
@@ -253,12 +276,17 @@ namespace Project.Videocalling
 			int width = data.SubArray(1, intByteArrayLength).ToObject<int>();
 			int height = data.SubArray(intByteArrayLength + 1, intByteArrayLength).ToObject<int>();
 
-			// Creates the texture.
-			OtherFootage = new Texture2D(width, height);
-			OtherFootage.name = "Webcamfootage_Other";
-			dimensionsEstablished = true;
+			// Texture2D cannot be created on a non-main thread.
+			Action textureCreation = delegate
+			{
+				// Creates the texture.
+				OtherFootage = new Texture2D(width, height);
+				OtherFootage.name = "Webcamfootage_Other";
+				dimensionsEstablished = true;
+			};
+			mainThreadActions.Enqueue(textureCreation);
 
-			UnityEngine.Debug.Log("Dimensions Established");
+			Debug.Log("Dimensions Established");
 		}
 
 		private void ProcessColorData(byte[] data)
@@ -303,7 +331,12 @@ namespace Project.Videocalling
 				samples[i] = float.Parse(s);
 			}
 
-			audioClipOut.SetData(samples, 0);
+			// Audiodata cannot be set on non-main thread.
+			Action setAudio = delegate
+			{
+				audioClipOut.SetData(samples, 0);
+			};
+			mainThreadActions.Enqueue(setAudio);
 		}
 	}
 }

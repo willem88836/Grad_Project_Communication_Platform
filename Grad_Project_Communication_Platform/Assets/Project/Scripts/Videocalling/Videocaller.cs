@@ -7,10 +7,11 @@ using UnityEngine;
 
 namespace Project.Videocalling
 {
+	// TODO: Split the sending and receiving up into two distinct scripts. Maybe split audio and video up as well. Keep Videocaller as a parent class that transits messages.
 	/// <summary>
 	///		Is used for videocalling with someone across the network in Unity.
-	///		
-	///		A message consists of two parts: 1) a header, and 2) data. 
+	///
+	///		A message consists of two parts: 1) a header, and 2) data.
 	///		A header consists of the type of data: Audio or video. And in case of video,
 	///		the second byte refers to the howmanieth chunk the package is in order
 	///		to update the right pixel.
@@ -108,7 +109,7 @@ namespace Project.Videocalling
 			audioClipOut = AudioClip.Create("OtherMicrophoneAudio", Microphone.SampleLength, 1, Microphone.RecordingFrequency, false);
 			AudioSource.clip = audioClipOut;
 
-			// HACK: This will most definitely break at some point. 
+			// HACK: This will most definitely break at some point.
 			WebCamDevice frontCam = WebCamTexture.devices.Where((WebCamDevice d) => d.isFrontFacing).ToArray()[0];
 			OwnFootage = new WebCamTexture(frontCam.name);
 			OwnFootage.name = "Webcamfootage_Self";
@@ -135,7 +136,7 @@ namespace Project.Videocalling
 		}
 
 		/// <summary>
-		///		Ends the videocall. 
+		///		Ends the videocall.
 		/// </summary>
 		public void StopCalling(bool isForcedByPeer)
 		{
@@ -153,8 +154,8 @@ namespace Project.Videocalling
 
 
 		/// <summary>
-		///		Collects the own video footage, reduces resolution, 
-		///		and sends it across the network. 
+		///		Collects the own video footage, reduces resolution,
+		///		and sends it across the network.
 		/// </summary>
 		private IEnumerator<YieldInstruction> SendFootage()
 		{
@@ -183,6 +184,7 @@ namespace Project.Videocalling
 
 
 			// TODO: Do this on a different thread (framerate and such)?
+			// TODO: Merge the lowering of resolution and the sending of the message in one loop. That will significantly improve performance (as you go through it once instead of twice).
 			while (true)
 			{
 				// Lowers the resolution of the video frame.
@@ -208,7 +210,7 @@ namespace Project.Videocalling
 				int chunkCount = Mathf.CeilToInt((float)lowResFrame.Count / colorBufferSize);
 				for (int i = 0; i < chunkCount; i++)
 				{
-					// Establishes the message size. 
+					// Establishes the message size.
 					int j = i * colorBufferSize;
 					int length = i == chunkCount - 1 // Is the last chunk.
 						? lowResFrame.Count - j

@@ -11,7 +11,6 @@ public sealed class NetworkClient : NetworkManager
 
 	[Space]
 	public ScreenController ScreenController;
-	public RoleplayCall RoleplayCall;
 	public RoleplayController RoleplayController;
 	public ModuleController ModuleController;
 
@@ -46,53 +45,19 @@ public sealed class NetworkClient : NetworkManager
 		NetworkMessage disconnectMessage = new NetworkMessage(NetworkMessageType.DisconnectFromServer, ClientId);
 		SendMessage(disconnectMessage);
 
-		RoleplayCall.ForceEndCall();
+		RoleplayController.ForceEndCall();
 
 		base.Stop();
 	}
 
 
-	public void ConnectToServer(NetworkMessage message)
-	{
-
-	}
-	
 	[ExecuteOnMainThread]
 	public void TransmitRoleplayDescription(NetworkMessage message)
 	{
-		RoleplayDescription roleplayDescription = JsonUtility.FromJson<RoleplayDescription>(message.Message);
-
-		bool isClient = roleplayDescription.UserA.Id == ClientId;
-
-		Participant other;
-		Participant self; 
-
-		if (isClient)
-		{
-			other = roleplayDescription.UserB;
-			self = roleplayDescription.UserA;
-		}
-		else
-		{
-			other = roleplayDescription.UserA;
-			self = roleplayDescription.UserB;
-		}
-
-		RoleplayCall.Initialize(isClient, other, self);
-		RoleplayController.OnRoleplayLoaded(roleplayDescription, isClient);
+		RoleplayController.OnRoleplayLoaded(message.Message);
 	}
 
 	public void TransmitFinalEvaluation(NetworkMessage message)
-	{
-
-	}
-
-	public void TransmitFootage(NetworkMessage message)
-	{
-
-	}
-
-	public void ForceDisconnect(NetworkMessage message)
 	{
 
 	}

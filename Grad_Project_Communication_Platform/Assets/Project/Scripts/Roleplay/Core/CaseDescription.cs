@@ -48,6 +48,7 @@ public class CaseDescription
 					p[j] = int.Parse(splitB[j]);
 				}
 			}
+			Characteristics = o;
 		}
 	}
 	public RoleplayModule Module;

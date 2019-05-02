@@ -118,7 +118,7 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 		Action methodCall = delegate { method.Invoke(this, new object[] { networkMessage }); };
 
 		if (method.GetCustomAttributes(typeof(ExecuteOnMainThread), true).Any())
-			ActionQueue.Enqueue(methodCall);
+			actionQueue.Enqueue(methodCall);
 		else
 			methodCall.Invoke();
 	}

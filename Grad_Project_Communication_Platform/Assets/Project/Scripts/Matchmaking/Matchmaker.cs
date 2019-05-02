@@ -1,4 +1,5 @@
 ﻿using Framework.Storage;
+using Framework.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,7 +32,7 @@ public class Matchmaker
 	{
 		RoleplayModule module = ParseModule(serializedModule);
 		List<Participant> queue = queues[module];
-		queue.Add(participant);
+		queue.SafeAdd(participant);
 		FindMatch(module);
 	}
 
@@ -39,7 +40,7 @@ public class Matchmaker
 	{
 		RoleplayModule module = ParseModule(serializedModule);
 		List<Participant> queue = queues[module];
-		queue.Remove(participant);
+		queue.SafeRemove(participant);
 	}
 
 
@@ -64,7 +65,7 @@ public class Matchmaker
 		RoleplayDescription roleplayDescription = roleplayDescriptionGenerator.Generate(participantA, participantB, module);
 		string json = JsonUtility.ToJson(roleplayDescription);
 
-		SaveLoad.Save(json, string.Format("RoleplayDescriptionCase_{0}.cas", roleplayDescription.Id));
+		SaveLoad.Save(json, string.Format("RoleplayDescriptionCase_{0}", roleplayDescription.Id));
 
 		SendRoleplayDescription(json, participantA);
 		SendRoleplayDescription(json, participantB);

@@ -62,20 +62,20 @@ public sealed class NetworkClient : NetworkManager
 	{
 		RoleplayDescription roleplayDescription = JsonUtility.FromJson<RoleplayDescription>(message.Message);
 
-		bool isClient = roleplayDescription.Client.Id == ClientId;
+		bool isClient = roleplayDescription.UserA.Id == ClientId;
 
 		Participant other;
 		Participant self; 
 
 		if (isClient)
 		{
-			other = roleplayDescription.Professional;
-			self = roleplayDescription.Client;
+			other = roleplayDescription.UserB;
+			self = roleplayDescription.UserA;
 		}
 		else
 		{
-			other = roleplayDescription.Client;
-			self = roleplayDescription.Professional;
+			other = roleplayDescription.UserA;
+			self = roleplayDescription.UserB;
 		}
 
 		RoleplayCall.Initialize(isClient, other, self);

@@ -1,17 +1,20 @@
 ﻿using Framework.ScriptableObjects.Variables;
 using System;
+using UnityEngine;
+using Random = System.Random;
 
 [Serializable]
 public class RoleplayDescriptionGenerator
 {
-	public SharedInt LastCaseId; 
+	public SharedInt LastCaseId;
+	public ProfileContainer ProfileContainer;
 
 	private Random random = new Random();
 
-	internal RoleplayDescription Generate(Participant participantA, Participant participantB, RoleplayModule module)
+
+	public RoleplayDescription Generate(Participant participantA, Participant participantB, RoleplayModule module)
 	{
-		//TODO: Add proper case generation.
-		CaseDescription caseDescription = new CaseDescription(new int[] { 1 }, new int[] { 1 }, module);
+		CaseDescription caseDescription = GenerateCase(module);
 
 		RoleplayDescription roleplayDescription;
 
@@ -29,5 +32,41 @@ public class RoleplayDescriptionGenerator
 		}
 
 		return roleplayDescription;
+	}
+
+	private CaseDescription GenerateCase(RoleplayModule module)
+	{
+		ModuleCaseProfile profile = ProfileContainer.GetCaseProfileOfModule(module);
+
+		int[][] elementData = new int[profile.Elements.Length][];
+
+		for (int i = 0; i < profile.Elements.Length; i++)
+		{
+			CaseElement element = profile.Elements[i];
+
+			int count = Mathf.Min(element.OptionCount, element.OptionPool.Length);
+			int[] data = elementData[i] = new int[count];
+
+			for (int j = 0; j < count; j++)
+			{
+				int k = random.Next(element.OptionPool.Length);
+
+				for (int l = 0; l < j; l++)
+				{
+					int m = data[l];
+
+					if (m == j)
+					{
+						j--;
+						break;
+					}
+				}
+
+				data[j] = k;
+			}
+		}
+
+		CaseDescription caseDescription = new CaseDescription(elementData, module);
+		return caseDescription;
 	}
 }

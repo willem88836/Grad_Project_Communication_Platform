@@ -185,6 +185,7 @@ namespace Project.Videocalling
 
 			// TODO: Do this on a different thread (framerate and such)?
 			// TODO: Merge the lowering of resolution and the sending of the message in one loop. That will significantly improve performance (as you go through it once instead of twice).
+			// TODO: Do this backwards? When you take the last message first, you can reuse the lowresframe list (less garbage). 
 			while (true)
 			{
 				// Lowers the resolution of the video frame.

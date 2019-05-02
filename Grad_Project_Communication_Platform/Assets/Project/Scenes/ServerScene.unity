@@ -229,6 +229,8 @@ MonoBehaviour:
   matchmaker:
     roleplayDescriptionGenerator:
       LastCaseId: {fileID: 11400000, guid: a7a6df4851078f941af80581015fb653, type: 2}
+      ProfileContainer: {fileID: 11400000, guid: 1c20fe82bc3252949b4485b3c17af1d6,
+        type: 2}
 --- !u!1 &1952562973
 GameObject:
   m_ObjectHideFlags: 0

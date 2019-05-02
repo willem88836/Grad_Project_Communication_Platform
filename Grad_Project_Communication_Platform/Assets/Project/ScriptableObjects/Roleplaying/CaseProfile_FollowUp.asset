@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91126089cd0b9a64c9b594ed47dccfe6, type: 3}
+  m_Name: CaseProfile_FollowUp
+  m_EditorClassIdentifier: 
+  Module: 2
+  Elements:
+  - Name: Current Mood
+    VisibleUserA: 1
+    VisibleUserB: 0
+    OptionPool:
+    - Happy
+    - Sad
+    - Angry
+    - Disgusted
+    - Stressed
+    - meh
+    - Curious
+    - Energetic
+    - Stoic
+    - 'Tired '
+    - Confused
+    OptionCount: 1
+  - Name: Hobbies
+    VisibleUserA: 1
+    VisibleUserB: 0
+    OptionPool:
+    - Sport
+    - Art
+    - Music
+    - Games
+    - Cycling
+    - Walking
+    - Travelling
+    - Reading
+    - Going Out
+    OptionCount: 1
+  - Name: Social
+    VisibleUserA: 1
+    VisibleUserB: 0
+    OptionPool:
+    - Siblings
+    - Parents
+    - School
+    - Clubs
+    - Work
+    - Neighbours
+    - Pets
+    OptionCount: 1
+  - Name: Occupation
+    VisibleUserA: 1
+    VisibleUserB: 0
+    OptionPool:
+    - Studying
+    - Psychologist
+    - Coach
+    - Social Worker
+    - Doctor
+    - Secretary
+    - Mechanic
+    - Teacher
+    - Cop
+    - Construction worker
+    - Fire martial
+    - None
+    OptionCount: 1
+  - Name: Issue
+    VisibleUserA: 1
+    VisibleUserB: 1
+    OptionPool:
+    - Not sure if you should move out
+    - Roommates/Neighbours make a lot of noise
+    - Difficulty planning activities
+    - Recent passing of a pet
+    - The kid you are babysitting is pressing your nerves
+    - Trouble with motivation to exercise
+    - Trouble with motivation to go to school/work
+    - You don't know what to do with a recent job offer
+    - You are currently moving
+    - You struggle with your finances
+    - You struggle with a physical injury
+    OptionCount: 1
+  - Name: Challenge
+    VisibleUserA: 0
+    VisibleUserB: 1
+    OptionPool:
+    - Try to apply the selected module 7 times
+    - Try to guess the client's current mood
+    - Figure out everything about the client's hobbies
+    - Figure out everything about the client's social life
+    - Figure out everything about the client's occupation
+    OptionCount: 1

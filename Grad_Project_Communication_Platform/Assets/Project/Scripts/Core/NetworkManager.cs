@@ -84,6 +84,7 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 		{
 			Debug.Log("Initializing NetworkManager");
 			SaveLoad.SavePath = Application.persistentDataPath;
+			SaveLoad.Extention = ".sprc";
 			SaveLoad.EncryptData = false;
 
 			if (udpMaster == null || !udpMaster.IsInitialized)

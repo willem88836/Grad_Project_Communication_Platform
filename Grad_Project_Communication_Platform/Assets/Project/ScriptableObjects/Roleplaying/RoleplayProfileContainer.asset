@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa9c2d474613d5a49bca74d65a81cd72, type: 3}
+  m_Name: RoleplayProfileContainer
+  m_EditorClassIdentifier: 
+  Profiles:
+  - {fileID: 11400000, guid: 22fce6776e890384f99eb529e30c4ed4, type: 2}
+  - {fileID: 11400000, guid: 3491726800156ed488941ae75fbff811, type: 2}
+  - {fileID: 11400000, guid: 75557d03c7a988245ab6242f8f916ab3, type: 2}
+  - {fileID: 11400000, guid: e27576e4c04181a439306295cbc8e236, type: 2}

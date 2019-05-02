@@ -137,6 +137,18 @@ namespace Framework.Features.Json
 						}
 					}
 				}
+				else if (ft.IsArray)
+				{
+					for (int j = 0; j < range.Length; j++)
+					{
+						object o = range.GetValue(j);
+						SerializeArray(o);
+						if (j < range.Length - 1)
+						{
+							jsonBuilder.Append(OBJSEPARATOR);
+						}
+					}
+				}
 				else
 				{
 					for (int j = 0; j < range.Length; j++)
@@ -342,6 +354,7 @@ namespace Framework.Features.Json
 						{
 							break;
 						}
+						i--;
 					}
 				}
 				else
@@ -411,7 +424,7 @@ namespace Framework.Features.Json
 			}
 			catch (Exception e)
 			{
-				throw new Exception("Json deserialization halted with error message: " + e.Message + '\n' + e.StackTrace);
+				throw new Exception(string.Format("Json deserialization halted with error message: ({0})\nStackTrace: ({1})", e.Message, e.StackTrace));
 			}
 		}
 
@@ -425,7 +438,7 @@ namespace Framework.Features.Json
 			}
 			catch (Exception e)
 			{
-				throw new Exception("Json deserialization halted with error message: " + e.Message);
+				throw new Exception(string.Format("Json deserialization halted with error message: ({0})\nStackTrace: ({1})", e.Message, e.StackTrace));
 			}
 		}
 
@@ -438,7 +451,20 @@ namespace Framework.Features.Json
 			}
 			catch(Exception e)
 			{
-				throw new Exception("Json serialization halted with error message: " + e.Message + "\n" + e.StackTrace);
+				throw new Exception(string.Format("Json deserialization halted with error message: ({0})\nStackTrace: ({1})", e.Message, e.StackTrace));
+			}
+		}
+
+		public static string ToJson(object obj, Type t)
+		{
+			try
+			{
+				JsonSerializer jsonSerializer = new JsonSerializer();
+				return jsonSerializer.ToJson(obj, t);
+			}
+			catch (Exception e)
+			{
+				throw new Exception(string.Format("Json deserialization halted with error message: ({0})\nStackTrace: ({1})", e.Message, e.StackTrace));
 			}
 		}
 	}

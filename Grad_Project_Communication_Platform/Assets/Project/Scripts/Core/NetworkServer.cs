@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public sealed class NetworkServer : NetworkManager
 {
-	[SerializeField] private Matchmaker matchmaker;
+	public Matchmaker Matchmaker;
+	public EvaluationController EvaluationController;
 
 	private List<Participant> activeUsers;
 
@@ -12,8 +12,10 @@ public sealed class NetworkServer : NetworkManager
 	{
 		base.Awake();
 		activeUsers = new List<Participant>();
-		matchmaker.Initialize(this);
+		Matchmaker.Initialize(this);
+		EvaluationController.Initialize(this);
 	}
+
 
 	public void ConnectToServer(NetworkMessage message)
 	{
@@ -40,28 +42,18 @@ public sealed class NetworkServer : NetworkManager
 	public void Enqueue(NetworkMessage message)
 	{
 		Participant participant = SelectParticipant(message);
-		matchmaker.Enqueue(participant, message.Message);
+		Matchmaker.Enqueue(participant, message.Message);
 	}
 
 	public void Dequeue(NetworkMessage message)
 	{
 		Participant participant = SelectParticipant(message);
-		matchmaker.Dequeue(participant, message.Message);
-	}
-
-	public void StoreFootage(NetworkMessage message)
-	{
-
+		Matchmaker.Dequeue(participant, message.Message);
 	}
 
 	public void TransmitEvaluationTest(NetworkMessage message)
 	{
-
-	}
-
-	public void RemoveConnection(NetworkMessage message)
-	{
-
+		EvaluationController.OnEvaluationAcquired(message.Message);
 	}
 
 

@@ -10,44 +10,48 @@ public class RoleplayController : MonoBehaviour
 	public ScreenController ScreenController;
 	public RoleplayCall RoleplayCall;
 
-	[Space]
+	[Header("Briefing Screen")]
 	public Text ProfessionalName;
 	public Text ClientName;
-
-	[Space]
 	public Text ProfessionalBriefing;
 	public Text ClientBriefing;
 
+	[Header("EvaluationScreen")]
+	public InputField[] ClientEvaluationFields;
+	public InputField[] ProfessionalEvaluationFields;
+
 
 	private NetworkClient networkClient;
-
+	private RoleplayDescription currentRoleplay;
+	private bool isClient; 
 
 	public void Initialize(NetworkClient networkClient)
 	{
 		this.networkClient = networkClient;
 	}
 
+
 	public void OnRoleplayLoaded(string serializedRoleplayDescription)
 	{
-		RoleplayDescription roleplay = JsonUtility.FromJson<RoleplayDescription>(serializedRoleplayDescription);
+		currentRoleplay = JsonUtility.FromJson<RoleplayDescription>(serializedRoleplayDescription);
 
-		bool isClient = roleplay.UserA.Id == networkClient.ClientId;
+		isClient = currentRoleplay.UserA.Id == networkClient.ClientId;
 
 		Participant other;
 		Participant self;
 
-		PrepareBriefingScreens(roleplay);
+		PrepareBriefingScreens(currentRoleplay);
 
 		if (isClient)
 		{
-			other = roleplay.UserB;
-			self = roleplay.UserA;
+			other = currentRoleplay.UserB;
+			self = currentRoleplay.UserA;
 			ScreenController.SwitchScreenToClientBriefing();
 		}
 		else
 		{
-			other = roleplay.UserA;
-			self = roleplay.UserB;
+			other = currentRoleplay.UserA;
+			self = currentRoleplay.UserB;
 			ScreenController.SwitchScreenToProfessionalBriefing();
 		}
 
@@ -85,6 +89,33 @@ public class RoleplayController : MonoBehaviour
 				}
 			}
 		}
+	}
+
+
+	public void FinishEvaluation()
+	{
+		SendEvaluation(isClient ? ClientEvaluationFields : ProfessionalEvaluationFields);
+	}
+
+	private void SendEvaluation(InputField[] inputFields)
+	{
+		// creates the case evaluation.
+		CaseEvaluation caseEvaluation = new CaseEvaluation()
+		{
+			Id = currentRoleplay.Id,
+			User = isClient ? currentRoleplay.UserA : currentRoleplay.UserB,
+			EvaluationFields = new string[inputFields.Length]
+		};
+
+		for(int i = 0; i < inputFields.Length; i++)
+		{
+			caseEvaluation.EvaluationFields[i] = inputFields[i].text;
+		}
+
+		// Sends the evaluation to the server.
+		string json = JsonUtility.ToJson(caseEvaluation);
+		NetworkMessage evaluationMessage = new NetworkMessage(NetworkMessageType.TransmitEvaluationTest, networkClient.ClientId, "", json);
+		networkClient.SendMessage(evaluationMessage);
 	}
 
 	public void ForceEndCall()

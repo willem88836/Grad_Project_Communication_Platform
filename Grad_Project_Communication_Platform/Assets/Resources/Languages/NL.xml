@@ -113,10 +113,22 @@
     <Key>language</Key>
     <Value>Taal</Value>
   </Keyword>
+  <Keyword>
+    <Key>complete_evaluation</Key>
+    <Value>Resultaat</Value>
+  </Keyword>
   
   <Keyword>
     <Key>feedback_positive</Key>
     <Value>Wat deed je gesprekspartner goed?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_self</Key>
+    <Value>Hoe vond je dit gaan?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_challenge</Key>
+    <Value>Hoe ging het behalen van de uitdaging?</Value>
   </Keyword>
   <Keyword>
     <Key>feedback_improvements</Key>

@@ -113,4 +113,25 @@
     <Key>language</Key>
     <Value>Taal</Value>
   </Keyword>
+  
+  <Keyword>
+    <Key>feedback_positive</Key>
+    <Value>Wat deed je gesprekspartner goed?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_improvements</Key>
+    <Value>Zijn er dingen waarin je gesprekspartner nog kan verbeteren?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>fill_in</Key>
+    <Value>Vul in...</Value>
+  </Keyword>
+  <Keyword>
+    <Key>submit</Key>
+    <Value>Verzenden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>evaluation</Key>
+    <Value>Evaluatie</Value>
+  </Keyword>
 </Keywords>

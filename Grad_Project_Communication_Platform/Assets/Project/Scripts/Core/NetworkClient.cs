@@ -4,15 +4,16 @@ using JsonUtility = Framework.Features.Json.JsonUtility;
 
 public sealed class NetworkClient : NetworkManager
 {
-	[Space]
+	[Header("Data")]
 	[SerializeField] private SharedString AccountName;
 	[SerializeField] private SharedString AccountPhone;
 	[SerializeField] private SharedString ServerIP;
 
-	[Space]
+	[Header("Controllers")]
 	public ScreenController ScreenController;
 	public RoleplayController RoleplayController;
 	public ModuleController ModuleController;
+	public CompleteEvaluationController CompleteEvaluationController;
 
 	public string ClientId { get { return AccountPhone.Value; } } 
 	public string ClientName { get { return AccountName.Value; } }
@@ -21,15 +22,12 @@ public sealed class NetworkClient : NetworkManager
 	protected override void Awake()
 	{
 		base.Awake();
+
 		ModuleController.Initialize(this);
 		RoleplayController.Initialize(this);
+		CompleteEvaluationController.Initialize(this);
 	}
 
-	//private void Start()
-	//{
-	//	NetworkMessage asdf = new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, JsonUtility.ToJson(new RoleplayDescription("", new Participant("Steve", "192.168.178.38", "123456789"), new Participant("Stevette", "192.168.178.18", "1346"), new CaseDescription(new int[] { 1 }, new int[] { 1 }, RoleplayModule.Paraphrasing))));
-	//	TransmitRoleplayDescription(asdf);
-	//}
 
 	protected override void Initialize()
 	{
@@ -57,8 +55,9 @@ public sealed class NetworkClient : NetworkManager
 		RoleplayController.OnRoleplayLoaded(message.Message);
 	}
 
-	public void TransmitFinalEvaluation(NetworkMessage message)
+	[ExecuteOnMainThread]
+	public void TransmitCompleteEvaluation(NetworkMessage message)
 	{
-
+		CompleteEvaluationController.PrepareScreen(message.Message);
 	}
 }

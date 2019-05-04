@@ -3,7 +3,7 @@
 public sealed class NetworkServer : NetworkManager
 {
 	public Matchmaker Matchmaker;
-	public EvaluationController EvaluationController;
+	public CompleteEvaluationGenerator CompleteEvaluationGenerator;
 
 	private List<Participant> activeUsers;
 
@@ -13,7 +13,7 @@ public sealed class NetworkServer : NetworkManager
 		base.Awake();
 		activeUsers = new List<Participant>();
 		Matchmaker.Initialize(this);
-		EvaluationController.Initialize(this);
+		CompleteEvaluationGenerator.Initialize(this);
 	}
 
 
@@ -53,9 +53,13 @@ public sealed class NetworkServer : NetworkManager
 
 	public void TransmitEvaluationTest(NetworkMessage message)
 	{
-		EvaluationController.OnEvaluationAcquired(message.Message);
+		CompleteEvaluationGenerator.OnEvaluationAcquired(message.Message);
 	}
 
+	public void TransmitCompleteEvaluation(NetworkMessage message)
+	{
+
+	}
 
 	private Participant SelectParticipant(NetworkMessage message)
 	{

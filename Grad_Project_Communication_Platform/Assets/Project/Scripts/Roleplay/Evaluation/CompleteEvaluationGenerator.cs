@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-public class EvaluationController
+public class CompleteEvaluationGenerator
 {
 	public SharedString RoleplaySaveName;
 	public SharedString CompleteEvaluationName;
@@ -66,7 +66,7 @@ public class EvaluationController
 
 	private void SendMessageTo(Participant user, string message)
 	{
-		NetworkMessage completeEvalMessage = new NetworkMessage(NetworkMessageType.TransmitFinalEvaluation, "", user.Id, message);
+		NetworkMessage completeEvalMessage = new NetworkMessage(NetworkMessageType.TransmitCompleteEvaluation, "", user.Id, message);
 		networkServer.SendMessage(completeEvalMessage);
 	}
 }

@@ -4968,6 +4968,7 @@ MonoBehaviour:
   ScreenController: {fileID: 896843415}
   RoleplayController: {fileID: 2130893183}
   ModuleController: {fileID: 1577687968}
+  CompleteEvaluationController: {fileID: 2016947720}
 --- !u!1 &837010928
 GameObject:
   m_ObjectHideFlags: 0
@@ -12051,6 +12052,7 @@ GameObject:
   - component: {fileID: 2016947717}
   - component: {fileID: 2016947719}
   - component: {fileID: 2016947718}
+  - component: {fileID: 2016947720}
   m_Layer: 5
   m_Name: Screen_CompleteEvaluation
   m_TagString: Untagged
@@ -12115,6 +12117,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2016947716}
   m_CullTransparentMesh: 0
+--- !u!114 &2016947720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016947716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c637bef246e4d2744af67b0cab55b381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2047493432 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2232071425121791402, guid: e6db3cac462bad44ab522de7322d67b3,
@@ -12818,7 +12832,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2130893182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54cf0de4df9fb8c4a8b03c4c0e5db07d, type: 3}
+  m_Script: {fileID: 11500000, guid: 8737585d2262bd1468cc2e5ace016589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ProfileContainer: {fileID: 11400000, guid: 1c20fe82bc3252949b4485b3c17af1d6, type: 2}

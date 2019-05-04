@@ -11,6 +11,7 @@ using UnityEngine;
 /// </summary>
 public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 {
+	[Header("Networking")]
 	public int PortIn = 11000;
 	public int PortOut = 11001;
 

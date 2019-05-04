@@ -117,7 +117,22 @@
     <Key>complete_evaluation</Key>
     <Value>Resultaat</Value>
   </Keyword>
-  
+  <Keyword>
+    <Key>case</Key>
+    <Value>Casus</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_feedback_partner</Key>
+    <Value>Evaluatie Partner</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_feedback_self</Key>
+    <Value>Eigen Evaluatie</Value>
+  </Keyword>
+  <Keyword>
+    <Key>watch_replay</Key>
+    <Value>Bekijk Herhaling</Value>
+  </Keyword>
   <Keyword>
     <Key>feedback_positive</Key>
     <Value>Wat deed je gesprekspartner goed?</Value>
@@ -145,5 +160,17 @@
   <Keyword>
     <Key>evaluation</Key>
     <Value>Evaluatie</Value>
+  </Keyword>
+  <Keyword>
+    <Key>label_client_name</Key>
+    <Value>Cliënt:</Value>
+  </Keyword>
+  <Keyword>
+    <Key>label_professional_name</Key>
+    <Value>Coach:</Value>
+  </Keyword>
+  <Keyword>
+    <Key>label_module</Key>
+    <Value>Module:</Value>
   </Keyword>
 </Keywords>

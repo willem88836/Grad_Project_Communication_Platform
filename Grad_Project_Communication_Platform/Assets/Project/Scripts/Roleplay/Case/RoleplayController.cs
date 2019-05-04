@@ -110,6 +110,7 @@ public class RoleplayController : MonoBehaviour
 		for(int i = 0; i < inputFields.Length; i++)
 		{
 			caseEvaluation.EvaluationFields[i] = inputFields[i].text;
+			inputFields[i].text = "";
 		}
 
 		// Sends the evaluation to the server.

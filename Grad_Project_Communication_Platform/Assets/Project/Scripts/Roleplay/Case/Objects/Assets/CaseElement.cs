@@ -1,7 +1,7 @@
-﻿using System;
+﻿using UnityEngine;
 
-[Serializable]
-public class CaseElement
+[CreateAssetMenu(menuName = "Roleplay/Case Element")]
+public class CaseElement : ScriptableObject
 {
 	public string Name;
 	public bool VisibleUserA;

@@ -8,13 +8,13 @@ public class CompleteEvaluationController : MonoBehaviour
 	public Text ModuleField;
 	public Text UserANameField;
 	public Text UserBNameField;
-	public Text CaseField;
+	public Transform CaseField;
 	public Text[] EvaluationUserAFields;
 	public Text[] EvaluationUserBFields;
 
 	[Header("Assets")]
 	public ProfileContainer ProfileContainer;
-	//public GameObject ElementObject;
+	public VisualCaseElement ElementObject;
 
 	private NetworkClient networkClient;
 
@@ -55,23 +55,21 @@ public class CompleteEvaluationController : MonoBehaviour
 
 		int[][] characteristics = caseDescription.Characteristics;
 
-		string text = "";
-
 		for(int i = 0; i < characteristics.Length; i++)
 		{
 			CaseElement element = profile.GetElement(i);
-			text += string.Format("{0}: ", element.Name);
+			VisualCaseElement visualCaseElement = Instantiate(ElementObject, CaseField);
+			visualCaseElement.SetName(element.Name);
 			int[] elementIndices = characteristics[i];
+
 			for (int j = 0; j < elementIndices.Length; j++)
 			{
 				int k = elementIndices[j];
 				string characteristic = element.OptionPool[k];
 
-				text += string.Format("{0}\n", characteristic); 
+				visualCaseElement.AddCharacteristic(characteristic);
 			}
 		}
-
-		CaseField.text = text;
 	}
 
 	private void SetEvaluation(CaseEvaluation evaluation, Text[] Fields)

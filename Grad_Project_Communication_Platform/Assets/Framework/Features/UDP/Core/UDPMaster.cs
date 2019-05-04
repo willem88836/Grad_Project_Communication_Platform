@@ -138,14 +138,11 @@ namespace Framework.Features.UDP
 				networkListener.OnMessageReceived(message);
 			}
 
-			if (LogReceivedMessages && UnityEngine.Application.isEditor)
-			{
-				LoggingUtilities.LogFormat(
-					"Received message (\"{0}\") from ip ({1}) using port ({2})",
-					message.ToString(),
-					ReceivingEndPoint.Address.ToString(),
-					ReceivingPort);
-			}
+			LoggingUtilities.LogFormat(
+				"Received message (\"{0}\") from ip ({1}) using port ({2})",
+				message.ToString(),
+				ReceivingEndPoint.Address.ToString(),
+				ReceivingPort);
 		}
 
 

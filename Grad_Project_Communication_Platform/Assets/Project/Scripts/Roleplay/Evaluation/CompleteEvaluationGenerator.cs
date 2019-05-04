@@ -1,8 +1,11 @@
-﻿using Framework.Features.Json;
-using Framework.ScriptableObjects.Variables;
+﻿using Framework.ScriptableObjects.Variables;
 using Framework.Storage;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using UnityEngine;
+using JsonUtility = Framework.Features.Json.JsonUtility;
 
 [Serializable]
 public class CompleteEvaluationGenerator
@@ -20,6 +23,17 @@ public class CompleteEvaluationGenerator
 		this.networkServer = networkServer;
 	}
 
+
+	public void SendCompleteEvaluation(string id, Participant participant)
+	{
+		string json;
+		SaveLoad.Load(string.Format(CompleteEvaluationName.Value, id), out json);
+		if (json != null)
+		{
+			NetworkMessage message = new NetworkMessage(NetworkMessageType.TransmitCompleteEvaluation, "", participant.Id, json);
+			networkServer.SendMessage(message, participant.IP);
+		}
+	}
 
 	public void OnEvaluationAcquired(string serializedEvaluation)
 	{
@@ -51,9 +65,13 @@ public class CompleteEvaluationGenerator
 
 			SaveLoad.Save(completeEvalJson, string.Format(CompleteEvaluationName.Value, id));
 
-			// Sends the complete evaluation to the users.
-			SendMessageTo(roleplayDescription.UserA, completeEvalJson);
-			SendMessageTo(roleplayDescription.UserB, completeEvalJson);
+			// Sends the complete evaluation t othe users. 
+			new Thread(new ThreadStart(delegate
+			{
+				SendMessageTo(roleplayDescription.UserA, completeEvalJson);
+				SendMessageTo(roleplayDescription.UserB, completeEvalJson);
+
+			})).Start();
 
 			SaveLoad.Remove(fileName);
 		}
@@ -62,7 +80,6 @@ public class CompleteEvaluationGenerator
 			acquiredEvaluations.Add(id, caseEvaluation);
 		}
 	}
-
 
 	private void SendMessageTo(Participant user, string message)
 	{

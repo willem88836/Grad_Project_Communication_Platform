@@ -103,6 +103,11 @@ namespace Framework.Storage
 			}
 		}
 
+		public static bool Exists(string name)
+		{
+			string path = Path.ChangeExtension(Path.Combine(SavePath, name), Extention);
+			return File.Exists(path);
+		}
 
 		/// <summary>
 		///		Deletes the file  with the specified name.

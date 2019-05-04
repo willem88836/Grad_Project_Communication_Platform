@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6279564dfaf67b4b9060edc4f301a59, type: 3}
   m_Name: SharedString_ServerIP
   m_EditorClassIdentifier: 
-  value: 145.37.144.87
+  value: 192.168.2.7

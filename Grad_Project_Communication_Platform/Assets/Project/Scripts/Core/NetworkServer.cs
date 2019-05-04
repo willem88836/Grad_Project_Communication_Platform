@@ -58,8 +58,10 @@ public sealed class NetworkServer : NetworkManager
 
 	public void TransmitCompleteEvaluation(NetworkMessage message)
 	{
-
+		Participant participant = SelectParticipant(message);
+		CompleteEvaluationGenerator.SendCompleteEvaluation(message.Message, participant);
 	}
+
 
 	private Participant SelectParticipant(NetworkMessage message)
 	{

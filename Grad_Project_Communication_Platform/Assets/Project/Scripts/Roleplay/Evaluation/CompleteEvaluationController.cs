@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Framework.Utils;
 using JsonUtility = Framework.Features.Json.JsonUtility;
 
 public class CompleteEvaluationController : MonoBehaviour
@@ -19,6 +20,12 @@ public class CompleteEvaluationController : MonoBehaviour
 	private NetworkClient networkClient;
 
 
+	private void OnEnable()
+	{
+		LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
+	}
+
+
 	public void Initialize(NetworkClient networkClient)
 	{
 		this.networkClient = networkClient;
@@ -26,7 +33,7 @@ public class CompleteEvaluationController : MonoBehaviour
 
 	public void RequestCompleteEvaluation(string id)
 	{
-		NetworkMessage requestCompleteEvaluation = new NetworkMessage(NetworkMessageType.TransmitCompleteEvaluation, networkClient.ClientId);
+		NetworkMessage requestCompleteEvaluation = new NetworkMessage(NetworkMessageType.TransmitCompleteEvaluation, networkClient.ClientId, "", id);
 		networkClient.SendMessage(requestCompleteEvaluation);
 	}
 
@@ -39,6 +46,8 @@ public class CompleteEvaluationController : MonoBehaviour
 		SetElements(caseEvaluation);
 		SetEvaluation(caseEvaluation.EvaluationUserA, EvaluationUserAFields);
 		SetEvaluation(caseEvaluation.EvaluationUserB, EvaluationUserBFields);
+
+		LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
 	}
 
 	private void SetNames(CompleteCaseEvaluation caseEvaluation)

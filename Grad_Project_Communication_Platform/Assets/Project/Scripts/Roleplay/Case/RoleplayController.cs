@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Framework.Utils;
+using UnityEngine;
 using UnityEngine.UI;
 using JsonUtility = Framework.Features.Json.JsonUtility;
 
@@ -14,8 +15,10 @@ public class RoleplayController : MonoBehaviour
 	[Header("Briefing Screen")]
 	public Text ProfessionalName;
 	public Text ClientName;
-	public Text ProfessionalBriefing;
-	public Text ClientBriefing;
+	public Transform UserACaseField;
+	public Transform UserBCaseField;
+	public VisualCaseElement ElementObject;
+
 
 	[Header("EvaluationScreen")]
 	public InputField[] ClientEvaluationFields;
@@ -63,8 +66,8 @@ public class RoleplayController : MonoBehaviour
 	{
 		ModuleCaseProfile profile = ProfileContainer.GetCaseProfileOfModule(roleplay.Case.Module);
 
-		ClientBriefing.text = "";
-		ProfessionalBriefing.text = "";
+		UserBCaseField.ReversedForeach((Transform t) => { Destroy(t.gameObject); });
+		UserACaseField.ReversedForeach((Transform t) => { Destroy(t.gameObject); });
 
 		ClientName.text = roleplay.UserB.Name;
 		ProfessionalName.text = roleplay.UserA.Name;
@@ -75,18 +78,33 @@ public class RoleplayController : MonoBehaviour
 
 			CaseElement element = profile.Elements[i];
 
+			VisualCaseElement visualCaseUserA = null;
+			VisualCaseElement visualCaseUserB = null;
+
+			if (element.VisibleUserA)
+			{
+				visualCaseUserA = Instantiate(ElementObject, UserACaseField);
+				visualCaseUserA.SetName(element.Name);
+			}
+
+			if (element.VisibleUserB)
+			{
+				visualCaseUserB = Instantiate(ElementObject, UserBCaseField);
+				visualCaseUserB.SetName(element.Name);
+			}
+
 			for (int j = 0; j < characteristics.Length; j++)
 			{
-				string option = string.Format("{1}: {0}\n", element.OptionPool[j], element.Name);
+				string option = element.OptionPool[j];
 
 				if (element.VisibleUserA)
 				{
-					ClientBriefing.text += option;
+					visualCaseUserA.AddCharacteristic(option);
 				}
 
 				if (element.VisibleUserB)
 				{
-					ProfessionalBriefing.text += option;
+					visualCaseUserB.AddCharacteristic(option);
 				}
 			}
 		}

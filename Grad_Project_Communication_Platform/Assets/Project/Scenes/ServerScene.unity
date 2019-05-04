@@ -226,13 +226,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PortIn: 11001
   PortOut: 11000
-  matchmaker:
-    roleplayDescriptionGenerator:
+  Matchmaker:
+    RoleplayDescriptionGenerator:
       LastCaseId: {fileID: 11400000, guid: a7a6df4851078f941af80581015fb653, type: 2}
       ProfileContainer: {fileID: 11400000, guid: 1c20fe82bc3252949b4485b3c17af1d6,
         type: 2}
     RoleplayFileName: {fileID: 11400000, guid: cc7d8bc0186fd5b4f9495816b8576992, type: 2}
-  evaluationController:
+  CompleteEvaluationGenerator:
     RoleplaySaveName: {fileID: 11400000, guid: cc7d8bc0186fd5b4f9495816b8576992, type: 2}
     CompleteEvaluationName: {fileID: 11400000, guid: 35243def872e1fa4b8584d75c07653ed,
       type: 2}

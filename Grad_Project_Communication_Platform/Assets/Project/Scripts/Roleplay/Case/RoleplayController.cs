@@ -9,6 +9,7 @@ public class RoleplayController : MonoBehaviour
 	[Space]
 	public ScreenController ScreenController;
 	public RoleplayCall RoleplayCall;
+	public CompleteEvaluationController CompleteEvaluationController;
 
 	[Header("Briefing Screen")]
 	public Text ProfessionalName;
@@ -117,6 +118,9 @@ public class RoleplayController : MonoBehaviour
 		string json = JsonUtility.ToJson(caseEvaluation);
 		NetworkMessage evaluationMessage = new NetworkMessage(NetworkMessageType.TransmitEvaluationTest, networkClient.ClientId, "", json);
 		networkClient.SendMessage(evaluationMessage);
+
+		CompleteEvaluationController.RequestCompleteEvaluation(caseEvaluation.Id);
+		ScreenController.SwitchScreenToCompleteEvaluation();
 	}
 
 	public void ForceEndCall()

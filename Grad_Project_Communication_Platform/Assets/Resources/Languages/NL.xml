@@ -122,12 +122,12 @@
     <Value>Casus</Value>
   </Keyword>
   <Keyword>
-    <Key>header_feedback_partner</Key>
-    <Value>Evaluatie Partner</Value>
+    <Key>header_feedback_client</Key>
+    <Value>Evaluatie Cliënt</Value>
   </Keyword>
   <Keyword>
     <Key>header_feedback_self</Key>
-    <Value>Eigen Evaluatie</Value>
+    <Value>Zelf Evaluatie</Value>
   </Keyword>
   <Keyword>
     <Key>watch_replay</Key>
@@ -218,7 +218,10 @@
     <Key>explore_occupation</Key>
     <Value>Zoek alles uit over de cliënt zijn beroep</Value>
   </Keyword>
-
+  <Keyword>
+    <Key>loadingcompleteevaluationmessage</Key>
+    <Value>Resultaat wordt geladen</Value>
+  </Keyword>
 
   <Keyword>
     <Key>happy</Key>

@@ -35,18 +35,17 @@ public sealed class NetworkClient : NetworkManager
 	//	TransmitCompleteEvaluation(new NetworkMessage(NetworkMessageType.TransmitCompleteEvaluation, "", ClientId, json));
 	//}
 
-	//protected override void Update()
-	//{
-	//	if (Input.GetKeyDown(KeyCode.Space))
-	//	{
-	//		RoleplayDescription asdfff = new RoleplayDescription("1", new Participant("steve", "1.1.1.1", "123456789"), new Participant("Stevette", "1.1.1.1", "741852963"), new CaseDescription(new int[6][] { new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 } }, RoleplayModule.Follow_Up_Questions));
-	//		string asdfffString = JsonUtility.ToJson(asdfff);
-	//		Debug.Log(asdfffString);
-	//		NetworkMessage asdf = new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, asdfffString);
+	protected override void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			RoleplayDescription asdfff = new RoleplayDescription("1", new Participant("steve", "1.1.1.1", "123456789"), new Participant("Stevette", "1.1.1.1", "741852963"), new CaseDescription(new int[6][] { new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 } }, RoleplayModule.Follow_Up_Questions));
+			string asdfffString = JsonUtility.ToJson(asdfff);
+			NetworkMessage asdf = new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, asdfffString);
 
-	//		TransmitRoleplayDescription(asdf);
-	//	}
-	//}
+			TransmitRoleplayDescription(asdf);
+		}
+	}
 
 	protected override void Initialize()
 	{

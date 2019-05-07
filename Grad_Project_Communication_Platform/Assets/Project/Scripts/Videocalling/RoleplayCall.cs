@@ -45,6 +45,8 @@ public class RoleplayCall : MonoBehaviour
 
 	public void StartCalling()
 	{
+		return;
+
 		Videocaller.StartCalling(other.IP, StreamingFramerate.Value, StreamingResolutionScale.Value);
 		IsCalling = true;
 	}

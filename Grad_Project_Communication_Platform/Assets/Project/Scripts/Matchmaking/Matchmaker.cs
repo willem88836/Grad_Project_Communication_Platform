@@ -1,17 +1,18 @@
-﻿using Framework.Storage;
+﻿using Framework.ScriptableObjects.Variables;
+using Framework.Storage;
+using Framework.Utils;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using JsonUtility = Framework.Features.Json.JsonUtility;
 
 [Serializable]
 public class Matchmaker
 {
+	public RoleplayDescriptionGenerator RoleplayDescriptionGenerator;
+	public SharedString RoleplayFileName;
+
 	private NetworkServer networkServer;
-
 	private Dictionary<RoleplayModule, List<Participant>> queues;
-	[SerializeField] private RoleplayDescriptionGenerator roleplayDescriptionGenerator;
-
 
 
 	public void Initialize(NetworkServer networkServer)
@@ -31,7 +32,7 @@ public class Matchmaker
 	{
 		RoleplayModule module = ParseModule(serializedModule);
 		List<Participant> queue = queues[module];
-		queue.Add(participant);
+		queue.SafeAdd(participant);
 		FindMatch(module);
 	}
 
@@ -39,9 +40,8 @@ public class Matchmaker
 	{
 		RoleplayModule module = ParseModule(serializedModule);
 		List<Participant> queue = queues[module];
-		queue.Remove(participant);
+		queue.SafeRemove(participant);
 	}
-
 
 
 	private void FindMatch(RoleplayModule module)
@@ -61,10 +61,10 @@ public class Matchmaker
 
 	private void OnMatchFound(Participant participantA, Participant participantB, RoleplayModule module)
 	{
-		RoleplayDescription roleplayDescription = roleplayDescriptionGenerator.Generate(participantA, participantB, module);
+		RoleplayDescription roleplayDescription = RoleplayDescriptionGenerator.Generate(participantA, participantB, module);
 		string json = JsonUtility.ToJson(roleplayDescription);
 
-		SaveLoad.Save(json, string.Format("RoleplayDescriptionCase_{0}.cas", roleplayDescription.Id));
+		SaveLoad.Save(json, string.Format(RoleplayFileName.Value, roleplayDescription.Id));
 
 		SendRoleplayDescription(json, participantA);
 		SendRoleplayDescription(json, participantB);
@@ -75,7 +75,6 @@ public class Matchmaker
 		NetworkMessage networkMessage = new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", receiver.Id, serializedRoleplayDescription);
 		networkServer.SendMessage(networkMessage, receiver.IP);
 	}
-
 
 
 	private RoleplayModule ParseModule(string serializedModule)

@@ -1,80 +1,140 @@
 ﻿using Framework.Features.UDP.Applied;
 using Framework.Storage;
-using System.Reflection;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
+/// <summary>
+///		Base class for all networking within the Unity Engine.
+/// </summary>
 public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 {
+	[Header("Networking")]
 	public int PortIn = 11000;
 	public int PortOut = 11001;
 
 	protected AppliedUDPMaster<NetworkMessage> udpMaster;
-	protected ActionQueue actionQueue = new ActionQueue();
+	protected Queue<Action> actionQueue = new Queue<Action>();
 
 	private NetworkLogger<NetworkMessage> networkLogger;
 
 
+	/// <summary>
+	///		Stops the NetworkManager in the editor.
+	/// </summary>
+	protected void OnDestroy()
+	{
+			Stop();
+	}
 
 	protected virtual void Awake()
 	{
-		SaveLoad.SavePath = Application.persistentDataPath;
-		SaveLoad.EncryptData = false;
-
-		udpMaster = new AppliedUDPMaster<NetworkMessage>();
-		udpMaster.Initialize(PortOut, PortIn);
-		udpMaster.AddListener(this);
-
-
-		networkLogger = new NetworkLogger<NetworkMessage>() { LogFileName = "NetworkLogs"};
-		networkLogger.Initialize(udpMaster);
+		Initialize();
 	}
 
-	protected virtual void OnDestroy()
+	/// <summary>
+	///		Stops or initializes the NetworkManager
+	///		based on the paused state.
+	/// </summary>
+	protected virtual void OnApplicationPause(bool paused)
 	{
-		udpMaster.RemoveListener(this);
-		udpMaster.Kill();
+		if (paused)
+			Stop();
+		else
+			Initialize();
 	}
 
-	private void Update()
+	/// <summary>
+	///		Invokes all methods that must be 
+	///		executed on the main thread.
+	/// </summary>
+	protected virtual void Update()
 	{
-		actionQueue.Invoke();
+		while(actionQueue.Count > 0)
+		{
+			Action a = actionQueue.Dequeue();
+			a.Invoke();
+		}
 	}
 
-
-	public void OnMessageReceived(UDPMessage message)
+	/// <summary>
+	///		Kills the network connection.
+	/// </summary>
+	protected virtual void Stop()
 	{
 		try
 		{
-			// Calls the function corresponding with the message's type.
-			NetworkMessage netMsg = (NetworkMessage)message;
-			string methodName = netMsg.Type.ToString();
-			MethodInfo method = GetType().GetMethod(methodName);
-
-			if (method.GetCustomAttributes(typeof(ExecuteOnMainThread), true).Any())
-			{
-				ActionQueue.Enqueue(delegate { method.Invoke(this, new object[] { netMsg }); });
-			}
-			else
-			{
-				method.Invoke(this, new object[] { netMsg });
-			}
+			Debug.Log("Stopping NetworkManager");
+			udpMaster.RemoveListener(this);
+			udpMaster.RemoveListener(networkLogger);
+			udpMaster.Kill();
 		}
-		catch(System.Exception e)
+		catch (Exception ex)
 		{
-			Debug.LogError(e.Message + "\n" + e.InnerException + '\n' + e.StackTrace);
+			Debug.LogError(ex.Message);
+		}
+	}
+	/// <summary>
+	///		Starts the network connection.
+	/// </summary>
+	protected virtual void Initialize()
+	{
+		try
+		{
+			Debug.Log("Initializing NetworkManager");
+			SaveLoad.SavePath = Application.persistentDataPath;
+			SaveLoad.Extention = ".sprc";
+			SaveLoad.EncryptData = false;
+
+			if (udpMaster == null || !udpMaster.IsInitialized)
+			{
+				udpMaster = new AppliedUDPMaster<NetworkMessage>();
+				udpMaster.Initialize("1.1.1.1", PortOut, PortIn);
+				udpMaster.AddListener(this);
+			}
+
+			networkLogger = new NetworkLogger<NetworkMessage>() { LogFileName = "NetworkLogs" };
+			networkLogger.Initialize(udpMaster);
+		}
+		catch(Exception ex)
+		{
+			Debug.LogError(ex.Message);
 		}
 	}
 
+	/// <summary>
+	///		Is called on NetworkMessage arrival, 
+	///		and calls the method accompanied to it
+	///		on either the secondary or main thread. 
+	/// </summary>
+	public void OnMessageReceived(UDPMessage message)
+	{
+		// Calls the function corresponding with the message's type.
+		NetworkMessage networkMessage = (NetworkMessage)message;
+		string methodName = networkMessage.Type.ToString();
+		MethodInfo method = GetType().GetMethod(methodName);
+
+		Action methodCall = delegate { method.Invoke(this, new object[] { networkMessage }); };
+
+		if (method.GetCustomAttributes(typeof(ExecuteOnMainThread), true).Any())
+			actionQueue.Enqueue(methodCall);
+		else
+			methodCall.Invoke();
+	}
+
+	/// <summary>
+	///		Sends NetworkMessage through the UDPMaster.
+	/// </summary>
 	public void SendMessage(NetworkMessage message)
 	{
-		// TODO: this is probably quite intensive. aka, fix this. 
-		message.SenderIP = udpMaster.GetLocalIP().ToString(); 
-
-		// TODO: do something with selecting Server IP or client IP here.
 		udpMaster.SendMessage(message);
 	}
-
+	/// <summary>
+	///		Sends NetworkMessage  through the UDPMaster to the 
+	///		specified IP Address.
+	/// </summary>
 	public void SendMessage(NetworkMessage message, string targetIP)
 	{
 		udpMaster.UpdateTargetIP(targetIP);

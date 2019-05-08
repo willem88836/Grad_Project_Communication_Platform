@@ -85,7 +85,7 @@ namespace Framework.Language
 			}
 			else
 			{
-				Debug.LogWarningFormat("Missing language Key: (lang: {0}) - (key: {1})", SelectedLanguage, key);
+				Debug.LogWarningFormat("Missing language Key: (lang: {0}) - (key: {1})", SelectedLanguage.Value, key);
 				return key;
 			}
 		}

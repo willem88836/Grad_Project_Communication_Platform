@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public sealed class NetworkServer : NetworkManager
 {
-	[SerializeField] private Matchmaker matchmaker;
-
+	public Matchmaker Matchmaker;
+	public CompleteEvaluationGenerator CompleteEvaluationGenerator;
 
 	private List<Participant> activeUsers;
 
@@ -12,9 +11,20 @@ public sealed class NetworkServer : NetworkManager
 	protected override void Awake()
 	{
 		base.Awake();
-
 		activeUsers = new List<Participant>();
-		matchmaker.Initialize(this);
+		Matchmaker.Initialize(this);
+		CompleteEvaluationGenerator.Initialize(this);
+	}
+
+	protected override void Update()
+	{
+		base.Update();
+
+		if (UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.C))
+		{
+			ConnectToServer(new NetworkMessage(NetworkMessageType.ConnectToServer, "live:devm_9874123", "", "Tester B") { SenderIP ="1.1.1.1" });
+			Enqueue(new NetworkMessage(NetworkMessageType.Enqueue, "live:devm_9874123", "", "Paraphrasing") { SenderIP = "1.1.1.1" });
+		}
 	}
 
 	public void ConnectToServer(NetworkMessage message)
@@ -42,28 +52,24 @@ public sealed class NetworkServer : NetworkManager
 	public void Enqueue(NetworkMessage message)
 	{
 		Participant participant = SelectParticipant(message);
-		matchmaker.Enqueue(participant, message.Message);
+		Matchmaker.Enqueue(participant, message.Message);
 	}
 
 	public void Dequeue(NetworkMessage message)
 	{
 		Participant participant = SelectParticipant(message);
-		matchmaker.Dequeue(participant, message.Message);
-	}
-
-	public void StoreFootage(NetworkMessage message)
-	{
-
+		Matchmaker.Dequeue(participant, message.Message);
 	}
 
 	public void TransmitEvaluationTest(NetworkMessage message)
 	{
-
+		CompleteEvaluationGenerator.OnEvaluationAcquired(message.Message);
 	}
 
-	public void RemoveConnection(NetworkMessage message)
+	public void TransmitCompleteEvaluation(NetworkMessage message)
 	{
-
+		Participant participant = SelectParticipant(message);
+		CompleteEvaluationGenerator.SendCompleteEvaluation(message.Message, participant);
 	}
 
 

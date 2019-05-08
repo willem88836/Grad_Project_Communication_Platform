@@ -72,7 +72,10 @@ namespace Framework.Storage
 			if (File.Exists(path))
 			{
 				data = File.ReadAllText(path);
-				FileEncryption.Decrypt(ref data);
+				if(EncryptData)
+				{
+					FileEncryption.Decrypt(ref data);
+				}
 			}
 			else
 			{
@@ -89,11 +92,38 @@ namespace Framework.Storage
 			if (File.Exists(path))
 			{
 				data = File.ReadAllBytes(path);
-				FileEncryption.Decrypt(ref data);
+				if (EncryptData)
+				{
+					FileEncryption.Decrypt(ref data);
+				}
 			}
 			else
 			{
 				data = null;
+			}
+		}
+
+		public static bool Exists(string name)
+		{
+			string path = Path.ChangeExtension(Path.Combine(SavePath, name), Extention);
+			return File.Exists(path);
+		}
+
+		/// <summary>
+		///		Deletes the file  with the specified name.
+		/// </summary>
+		public static bool Remove(string name)
+		{
+			string path = Path.ChangeExtension(Path.Combine(SavePath, name), Extention);
+			try
+			{
+				File.Delete(path);
+				return true;
+			}
+			catch (System.Exception ex)
+			{
+				LoggingUtilities.LogFormat("Couldn't delete file ({0}). Halted with error ({1})", path, ex.Message);
+				return false;
 			}
 		}
 	}

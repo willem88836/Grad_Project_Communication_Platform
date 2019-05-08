@@ -31,7 +31,8 @@
       android:name="android.permission.WRITE_EXTERNAL_STORAGE"
       android:required = "true"/>
     <uses-permission 
-      android:name="android.permission.WAKE_LOCK" />
+      android:name="android.permission.WAKE_LOCK" 
+      android:required = "true"/>
 
   
     <uses-feature
@@ -71,6 +72,10 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
 
+
+
+          
+          
             <meta-data
                 android:name="unityplayer.UnityActivity"
                 android:value="true" />

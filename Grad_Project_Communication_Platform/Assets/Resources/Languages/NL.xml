@@ -113,4 +113,326 @@
     <Key>language</Key>
     <Value>Taal</Value>
   </Keyword>
+  <Keyword>
+    <Key>complete_evaluation</Key>
+    <Value>Resultaat</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case</Key>
+    <Value>Casus</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_feedback_client</Key>
+    <Value>Evaluatie Cliënt</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_feedback_self</Key>
+    <Value>Zelf Evaluatie</Value>
+  </Keyword>
+  <Keyword>
+    <Key>watch_replay</Key>
+    <Value>Bekijk Herhaling</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_positive</Key>
+    <Value>Wat deed je gesprekspartner goed?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_self</Key>
+    <Value>Hoe vond je dit gaan?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_challenge</Key>
+    <Value>Hoe ging het behalen van de uitdaging?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_improvements</Key>
+    <Value>Zijn er dingen waarin je gesprekspartner nog kan verbeteren?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>fill_in</Key>
+    <Value>Vul in...</Value>
+  </Keyword>
+  <Keyword>
+    <Key>submit</Key>
+    <Value>Verzenden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>evaluation</Key>
+    <Value>Evaluatie</Value>
+  </Keyword>
+  <Keyword>
+    <Key>label_client_name</Key>
+    <Value>Cliënt:</Value>
+  </Keyword>
+  <Keyword>
+    <Key>label_professional_name</Key>
+    <Value>Coach:</Value>
+  </Keyword>
+  <Keyword>
+    <Key>label_module</Key>
+    <Value>Module:</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_current_mood</Key>
+    <Value>Huidig Humeur</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_hobbies</Key>
+    <Value>Hobby's</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_social_network</Key>
+    <Value>Sociale Kenmerken</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_occupation</Key>
+    <Value>Beroep</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_issue</Key>
+    <Value>Probleem</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_challenge</Key>
+    <Value>Uitdaging</Value>
+  </Keyword>
+  <Keyword>
+    <Key>to_main_menu</Key>
+    <Value>Naar Menu</Value>
+  </Keyword>
+  <Keyword>
+    <Key>loadingevaluationmessage</Key>
+    <Value>Evaluatie aan het laden</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>apply_module</Key>
+    <Value>Voer de module 7 keer uit</Value>
+  </Keyword>
+  <Keyword>
+    <Key>guess_mood</Key>
+    <Value>Raad het humeur van de cliënt</Value>
+  </Keyword>
+  <Keyword>
+    <Key>explore_hobbies</Key>
+    <Value>Zoek alles uit over de cliënt zijn hobbies</Value>
+  </Keyword>
+  <Keyword>
+    <Key>explore_social_network</Key>
+    <Value>Zoek alles uit over de cliënt zijn sociale leven</Value>
+  </Keyword>
+  <Keyword>
+    <Key>explore_occupation</Key>
+    <Value>Zoek alles uit over de cliënt zijn beroep</Value>
+  </Keyword>
+  <Keyword>
+    <Key>loadingcompleteevaluationmessage</Key>
+    <Value>Resultaat wordt geladen</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>happy</Key>
+    <Value>Vrolijk</Value>
+  </Keyword>
+  <Keyword>
+    <Key>sad</Key>
+    <Value>Verdrietig</Value>
+  </Keyword>
+  <Keyword>
+    <Key>boos</Key>
+    <Value></Value>
+  </Keyword>
+  <Keyword>
+    <Key>disgusted</Key>
+    <Value>Walgend</Value>
+  </Keyword>
+  <Keyword>
+    <Key>stressed</Key>
+    <Value>Gestrest</Value>
+  </Keyword>
+  <Keyword>
+    <Key>meh</Key>
+    <Value>Mehh</Value>
+  </Keyword>
+  <Keyword>
+    <Key>curious</Key>
+    <Value>Nieuwsgierig</Value>
+  </Keyword>
+  <Keyword>
+    <Key>energetic</Key>
+    <Value>Energiek</Value>
+  </Keyword>
+  <Keyword>
+    <Key>stoic</Key>
+    <Value>Onverschillig</Value>
+  </Keyword>
+  <Keyword>
+    <Key>tired</Key>
+    <Value>Moe</Value>
+  </Keyword>
+  <Keyword>
+    <Key>confused</Key>
+    <Value>Verward</Value>
+  </Keyword>
+
+
+  <Keyword>
+    <Key>sport</Key>
+    <Value>Sport</Value>
+  </Keyword>
+  <Keyword>
+    <Key>art</Key>
+    <Value>Kunst</Value>
+  </Keyword>
+  <Keyword>
+    <Key>music</Key>
+    <Value>Music</Value>
+  </Keyword>
+  <Keyword>
+    <Key>games</Key>
+    <Value>Spelletjes</Value>
+  </Keyword>
+  <Keyword>
+    <Key>cycling</Key>
+    <Value>Fietsen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>walking</Key>
+    <Value>Wandelen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>travelling</Key>
+    <Value>Reizen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>reading</Key>
+    <Value>Lezen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>going_out</Key>
+    <Value>Uitgaan</Value>
+  </Keyword>
+
+
+  <Keyword>
+    <Key>moving_out</Key>
+    <Value>Je weet niet zo goed of je uit huis moet gaan</Value>
+  </Keyword>
+  <Keyword>
+    <Key>neighbours_noise</Key>
+    <Value>Je buren maken ontzettend veel lawaai</Value>
+  </Keyword>
+  <Keyword>
+    <Key>planning_activities</Key>
+    <Value>Je hebt moeite met plannen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>passing_pet</Key>
+    <Value>Je huisdier is net overleden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>babysitting_stress</Key>
+    <Value>Je oppaskindje werkt je ontzettend op de zenuwen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>motivation_exercise</Key>
+    <Value>Je kan jezelf moeilijk motiveren om te gaan sporten</Value>
+  </Keyword>
+  <Keyword>
+    <Key>motivation_occupation</Key>
+    <Value>Je kan jezelf moeilijk motiveren om naar school/werk te gaan</Value>
+  </Keyword>
+  <Keyword>
+    <Key>job_offer</Key>
+    <Value>Je bent gevraagd voor een vacature</Value>
+  </Keyword>
+  <Keyword>
+    <Key>currently_moving</Key>
+    <Value>Je hebt moeite met overzicht houden tijdens je verhuizing</Value>
+  </Keyword>
+  <Keyword>
+    <Key>finance_struggle</Key>
+    <Value>Je hebt moeite met je financiën</Value>
+  </Keyword>
+  <Keyword>
+    <Key>physical_injury</Key>
+    <Value>Je hebt een blessure opgelopen en kan nu bijna niks</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>studying</Key>
+    <Value>Student</Value>
+  </Keyword>
+  <Keyword>
+    <Key>psychologist</Key>
+    <Value>Psycholoog</Value>
+  </Keyword>
+  <Keyword>
+    <Key>coach</Key>
+    <Value>Coach</Value>
+  </Keyword>
+  <Keyword>
+    <Key>social_worker</Key>
+    <Value>Sociaal Werker</Value>
+  </Keyword>
+  <Keyword>
+    <Key>doctor</Key>
+    <Value>Dokter</Value>
+  </Keyword>
+  <Keyword>
+    <Key>secretary</Key>
+    <Value>Secretaris</Value>
+  </Keyword>
+  <Keyword>
+    <Key>mechanic</Key>
+    <Value>Monteur</Value>
+  </Keyword>
+  <Keyword>
+    <Key>teacher</Key>
+    <Value>Docent</Value>
+  </Keyword>
+  <Keyword>
+    <Key>cop</Key>
+    <Value>Politie agent</Value>
+  </Keyword>
+  <Keyword>
+    <Key>construction_worker</Key>
+    <Value>Bouwvakker</Value>
+  </Keyword>
+  <Keyword>
+    <Key>fire_martial</Key>
+    <Value>Brandweerman</Value>
+  </Keyword>
+  <Keyword>
+    <Key>none</Key>
+    <Value>Geen</Value>
+  </Keyword>
+
+
+  <Keyword>
+    <Key>siblings</Key>
+    <Value>Broers en zussen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>school</Key>
+    <Value>School vrienden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>clubs</Key>
+    <Value>Verenigingen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>work</Key>
+    <Value>Werk vrienden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>neighbours</Key>
+    <Value>Buren</Value>
+  </Keyword>
+  <Keyword>
+    <Key>pets</Key>
+    <Value>Een huisdier</Value>
+  </Keyword>
+  
 </Keywords>

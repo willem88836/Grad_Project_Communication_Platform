@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Project/Scenes/ClientScene.unity
     guid: 5969ce755f8cd3144896c2df3789ed4a
+  - enabled: 0
+    path: Assets/TestArea/asdf.unity
+    guid: ce07a5580b3ffaf428f6060608979412
   m_configObjects: {}

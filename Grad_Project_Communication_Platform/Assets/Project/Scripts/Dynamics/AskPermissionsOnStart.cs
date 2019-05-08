@@ -5,7 +5,18 @@ public class AskPermissionsOnStart : MonoBehaviour
 {
 	private void Start()
 	{
-		Permission.RequestUserPermission(Permission.Camera);
-		Permission.RequestUserPermission(Permission.Microphone);
+		Screen.sleepTimeout = SleepTimeout.NeverSleep;
+	}
+
+	private void Update()
+	{
+		if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
+		{
+			Permission.RequestUserPermission(Permission.Camera);
+		}
+		else if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
+		{
+			Permission.RequestUserPermission(Permission.Microphone);
+		}
 	}
 }

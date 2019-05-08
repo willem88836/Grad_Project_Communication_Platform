@@ -7,13 +7,21 @@ using UnityEngine;
 
 namespace Project.Videocalling
 {
+	// TODO: Split the sending and receiving up into two distinct scripts. Maybe split audio and video up as well. Keep Videocaller as a parent class that transits messages.
 	/// <summary>
 	///		Is used for videocalling with someone across the network in Unity.
+	///
+	///		A message consists of two parts: 1) a header, and 2) data.
+	///		A header consists of the type of data: Audio or video. And in case of video,
+	///		the second byte refers to the howmanieth chunk the package is in order
+	///		to update the right pixel.
 	/// </summary>
 	public class Videocaller : MonoBehaviour, INetworkListener, IMicrophoneListener
 	{
 		private const byte VIDEO_ID = 0;
 		private const byte AUDIO_ID = 1;
+		private const byte VIDEORES_ID = 2;
+
 
 		public Action OnCallEnded;
 		//HACK: Changing the width/height of a Texture2D is not supported yet.
@@ -42,8 +50,39 @@ namespace Project.Videocalling
 		public AudioSource AudioSource;
 		private AudioClip audioClipOut;
 
-		private int processedColors = 0;
 		private bool dimensionsEstablished = false;
+
+		private int otherFootageWidth;
+		private Color32[] currentColors;
+		private bool colorsUpdated;
+
+		private Queue<Action> mainThreadActions = new Queue<Action>();
+
+
+		private void Update()
+		{
+			if (colorsUpdated)
+			{
+				Action applyColors = delegate
+				{
+					if (OtherFootage != null)
+					{
+						OtherFootage.SetPixels32(currentColors);
+						OtherFootage.Apply();
+						OnOtherFootageApplied.SafeInvoke(OtherFootage);
+					}
+				};
+
+				mainThreadActions.Enqueue(applyColors);
+				colorsUpdated = false;
+			}
+
+			while (mainThreadActions.Count > 0)
+			{
+				Action a = mainThreadActions.Dequeue();
+				a.Invoke();
+			}
+		}
 
 
 		/// <summary>
@@ -56,7 +95,7 @@ namespace Project.Videocalling
 
 			// Initializes the Networking.
 			udpMaster = new UDPMaster();
-			udpMaster.Initialize(PortA, PortB);
+			udpMaster.Initialize("1.1.1.1", portA, portB);
 			udpMaster.AddListener(this);
 			#if UNITY_EDITOR
 				udpMaster.LogReceivedMessages = false;
@@ -70,7 +109,7 @@ namespace Project.Videocalling
 			audioClipOut = AudioClip.Create("OtherMicrophoneAudio", Microphone.SampleLength, 1, Microphone.RecordingFrequency, false);
 			AudioSource.clip = audioClipOut;
 
-			// HACK: This will most definitely break at some point. 
+			// HACK: This will most definitely break at some point.
 			WebCamDevice frontCam = WebCamTexture.devices.Where((WebCamDevice d) => d.isFrontFacing).ToArray()[0];
 			OwnFootage = new WebCamTexture(frontCam.name);
 			OwnFootage.name = "Webcamfootage_Self";
@@ -97,43 +136,58 @@ namespace Project.Videocalling
 		}
 
 		/// <summary>
-		///		Ends the videocall. 
+		///		Ends the videocall.
 		/// </summary>
 		public void StopCalling(bool isForcedByPeer)
 		{
 			if (isForcedByPeer)
 				udpMaster.SendMessage(new byte[0]);
-			
+
 			udpMaster.Kill();
 			OwnFootage.Stop();
 			dimensionsEstablished = false;
 			OnCallEnded.SafeInvoke();
 			AudioSource.Stop();
 			Microphone.StopRecording();
+			dimensionsEstablished = false;
 		}
 
 
 		/// <summary>
-		///		Collects the own video footage, reduces resolution, 
-		///		and sends it across the network. 
+		///		Collects the own video footage, reduces resolution,
+		///		and sends it across the network.
 		/// </summary>
 		private IEnumerator<YieldInstruction> SendFootage()
 		{
+			while (OwnFootage.width == 0 || OwnFootage.height == 0)
+			{
+				yield return new WaitForEndOfFrame();
+			}
+
+			int ownFootageWidth = OwnFootage.width;
+			int ownFootageHeight = OwnFootage.height;
+
+			// Converts the width and height to byte array and sends it across the network.
+			List<byte> resolutionByteList = new List<byte>();
+			resolutionByteList.Add(VIDEORES_ID);
+			int videoWidth = (int)(ownFootageWidth * resolutionScale);
+			int videoHeight = (int)(ownFootageHeight * resolutionScale);
+			resolutionByteList.AddRange(videoWidth.ToByteArray());
+			resolutionByteList.AddRange(videoHeight.ToByteArray());
+			byte[] resolutionByteArray = resolutionByteList.ToArray();
+
+			while (!dimensionsEstablished)
+			{
+				udpMaster.SendMessage(resolutionByteList.ToArray());
+				yield return new WaitForSeconds(1);
+			}
+
+
 			// TODO: Do this on a different thread (framerate and such)?
+			// TODO: Merge the lowering of resolution and the sending of the message in one loop. That will significantly improve performance (as you go through it once instead of twice).
+			// TODO: Do this backwards? When you take the last message first, you can reuse the lowresframe list (less garbage). 
 			while (true)
 			{
-				int ownFootageWidth = OwnFootage.width;
-				int ownFootageHeight = OwnFootage.height;
-
-				// Converts the width and height to byte array and sends it across the network.
-				List<byte> resolutionByteList = new List<byte>();
-				resolutionByteList.Add(VIDEO_ID);
-				int videoWidth = (int)(ownFootageWidth * resolutionScale);
-				int videoHeight = (int)(ownFootageHeight * resolutionScale);
-				resolutionByteList.AddRange(videoWidth.ToByteArray());
-				resolutionByteList.AddRange(videoHeight.ToByteArray());
-				udpMaster.SendMessage(resolutionByteList.ToArray());
-
 				// Lowers the resolution of the video frame.
 				Color32[] frame = OwnFootage.GetPixels32();
 				List<Color32> lowResFrame = new List<Color32>();
@@ -157,7 +211,7 @@ namespace Project.Videocalling
 				int chunkCount = Mathf.CeilToInt((float)lowResFrame.Count / colorBufferSize);
 				for (int i = 0; i < chunkCount; i++)
 				{
-					// Establishes the message size. 
+					// Establishes the message size.
 					int j = i * colorBufferSize;
 					int length = i == chunkCount - 1 // Is the last chunk.
 						? lowResFrame.Count - j
@@ -166,6 +220,7 @@ namespace Project.Videocalling
 					// Creates the message.
 					List<byte> byteList = new List<byte>();
 					byteList.Add(VIDEO_ID);
+					byteList.Add((byte)i);
 					for (int k = 0; k < length; k++)
 					{
 						Color32 color = lowResFrame[k];
@@ -211,41 +266,49 @@ namespace Project.Videocalling
 			}
 			else if (message[0] == VIDEO_ID)
 			{
-				if (!dimensionsEstablished)
-				{
-					ProcessDimensionData(message);
-				}
-				else
-				{
-					ProcessColorData(message);
-				}
+				ProcessColorData(message);
 			}
 			else if (message[0] == AUDIO_ID)
 			{
 				ProcessAudioData(message);
 			}
+			else if (message[0] == VIDEORES_ID)
+			{
+				ProcessDimensionData(message);
+			}
 		}
 
 		private void ProcessDimensionData(byte[] data)
 		{
+			if (dimensionsEstablished)
+				return;
+
 			// Converts the byte array to two values.
 			int intByteArrayLength = ObjectUtilities.INT_BYTEARRAYLENGTH;
 			int width = data.SubArray(1, intByteArrayLength).ToObject<int>();
 			int height = data.SubArray(intByteArrayLength + 1, intByteArrayLength).ToObject<int>();
 
-			// Creates the texture.
-			OtherFootage = new Texture2D(width, height);
-			OtherFootage.name = "Webcamfootage_Other";
-			dimensionsEstablished = true;
-			processedColors = 0;
+			// Texture2D cannot be created on a non-main thread.
+			Action textureCreation = delegate
+			{
+				// Creates the texture.
+				OtherFootage = new Texture2D(width, height);
+				OtherFootage.name = "Webcamfootage_Other";
+				currentColors = new Color32[width * height];
+				otherFootageWidth = width;
+				dimensionsEstablished = true;
+			};
+			mainThreadActions.Enqueue(textureCreation);
+
+			Debug.Log("Dimensions Established");
 		}
 
 		private void ProcessColorData(byte[] data)
 		{
+			int startIndex = data[2] * (int)(udpMaster.MessageBufferSize / 3f);
+
 			// Applies the colors to the texture.
-			int otherFootageWidth = OtherFootage.width;
-			int otherFootageHeight = OtherFootage.height;
-			for (int i = 1; i < data.Length; i += 3)
+			for (int i = 2; i < data.Length; i += 3)
 			{
 				// Converts the byte info to Color32.
 				byte r = data[i];
@@ -254,20 +317,14 @@ namespace Project.Videocalling
 				Color32 color = new Color32(r, g, b, byte.MaxValue);
 
 				// Determines the x and y coordinates of the color.
-				int j = (int)((processedColors + i) / 3f % otherFootageWidth);
-				int k = (int)((processedColors + i) / 3f / otherFootageWidth);
-				OtherFootage.SetPixel(j, k, color);
+				int j = (int)((startIndex + i) / 3f % otherFootageWidth);
+				int k = (int)((startIndex + i) / 3f / otherFootageWidth);
 
-				// Applies the new texture if it is the final chunk.
-				if (k == otherFootageHeight - 1 && j == otherFootageWidth - 1)
-				{
-					OtherFootage.Apply();
-					dimensionsEstablished = false;
-					OnOtherFootageApplied.SafeInvoke(OtherFootage);
-				}
+				int l = k * otherFootageWidth + j;
+				currentColors[l] = color;
 			}
 
-			processedColors += data.Length;
+			colorsUpdated = true;
 		}
 
 		private void ProcessAudioData(byte[] data)
@@ -287,7 +344,12 @@ namespace Project.Videocalling
 				samples[i] = float.Parse(s);
 			}
 
-			audioClipOut.SetData(samples, 0);
+			// Audiodata cannot be set on non-main thread.
+			Action setAudio = delegate
+			{
+				audioClipOut.SetData(samples, 0);
+			};
+			mainThreadActions.Enqueue(setAudio);
 		}
 	}
 }

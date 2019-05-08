@@ -6,7 +6,16 @@ public class ScreenController : MonoBehaviour
 	public string MainMenuSceneName;
 	public GameObject[] Screens;
 
-	private int currentScreenIndex;
+	[SerializeField] private int currentScreenIndex = 0;
+
+
+	private void Start()
+	{
+		for(int i = 0; i < Screens.Length; i++)
+		{
+			Screens[i].SetActive(i == currentScreenIndex);
+		}
+	}
 
 
 	public void ExitApplication()
@@ -29,6 +38,8 @@ public class ScreenController : MonoBehaviour
 		Screens[currentScreenIndex].SetActive(false);
 		currentScreenIndex = (int)screen;
 		Screens[currentScreenIndex].SetActive(true);
+
+		UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
 	}
 
 
@@ -106,6 +117,11 @@ public class ScreenController : MonoBehaviour
 	{
 		SwitchScreenTo(ScreenTypes.Credits);
 	}
+
+	public void SwitchScreenToCompleteEvaluationLoading()
+	{
+		SwitchScreenTo(ScreenTypes.LoadingCompleteEvaluation);
+	}
 }
 
 public enum ScreenTypes
@@ -124,5 +140,6 @@ public enum ScreenTypes
 	Social,
 	InQueue,
 	Settings,
-	Credits
+	Credits,
+	LoadingCompleteEvaluation
 }

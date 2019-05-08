@@ -205,6 +205,14 @@
     <Key>loadingevaluationmessage</Key>
     <Value>Evaluatie aan het laden</Value>
   </Keyword>
+  <Keyword>
+    <Key>header_module_description</Key>
+    <Value>Wat is het ook nog maar?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_module_example</Key>
+    <Value>En hoe doe je dat?</Value>
+  </Keyword>
 
   <Keyword>
     <Key>apply_module</Key>

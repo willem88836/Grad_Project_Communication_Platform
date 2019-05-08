@@ -108,9 +108,15 @@ public sealed class NetworkClient : NetworkManager
 	}
 
 
+	public void ConnectToServer()
+	{
+
+	}
+
 	[ExecuteOnMainThread]
 	public void TransmitRoleplayDescription(NetworkMessage message)
 	{
+		ModuleController.LockOutModule();
 		RoleplayController.OnRoleplayLoaded(message.Message);
 	}
 

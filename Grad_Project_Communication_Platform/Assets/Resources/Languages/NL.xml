@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
+<!--Menu Stuff-->
+
 <Keywords>
   <Keyword>
     <Key>practise</Key>
@@ -214,6 +216,81 @@
     <Value>En hoe doe je dat?</Value>
   </Keyword>
 
+<!--Module Descriptions-->
+
+  <Keyword>
+    <Key>module_description_open_questions</Key>
+    <Value>OPEN QUESTIONS DESCRIPTION\nssfkdsksfddsfsfdlfsddsfksfkjsfkjsfkjskkjsfkjsfkjlsfldsjslkjskjlsfkjlskjsfdsfdskkjkjkjflkjslkjsfdsflldsflksfjklsfkjlslkj</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_description_follow_up_questions</Key>
+    <Value>FOLLOW UP QUESTION DESCRIPTION\nssfkdsksfddsfsfdlfsddsfksfkjsfkjsfkjskkjsfkjsfkjlsfldsjslkjskjlsfkjlskjsfdsfdskkjkjkjflkjslkjsfdsflldsflksfjklsfkjlslkj</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_description_paraphrasing</Key>
+    <Value>PARAPHRASING DESCRIPTION \n;lasfj;alskjf;alsfj;alskja;sda;sldfasldfja;lska;lskf;alsfa;sd</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_description_free_play</Key>
+    <Value>FREEPLAY DESCRTIPINOT \n;lasfj;alskjf;alsfj;alskja;sda;sldfasldfja;lska;lskf;alsfa;sd</Value>
+  </Keyword>
+
+<!--Module Examples-->
+  
+  <Keyword>
+    <Key>module_example_open_questions_0</Key>
+    <Value>OPENQUESIONEXAMPLE1</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_open_questions_1</Key>
+    <Value>OPENQUESIONEXAMPLE2</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_open_questions_2</Key>
+    <Value>OPENQUESIONEXAMPLE3</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>module_example_follow_up_questions_0</Key>
+    <Value>FOLLOWUPEXAMPLE1</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_follow_up_questions_1</Key>
+    <Value>FOLLOWUPEXAMPLE2</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_follow_up_questionss_2</Key>
+    <Value>FOLLOWUPEXAMPLE3</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>module_example_paraphrasing_0</Key>
+    <Value>paraphrasingEXAMPLE1</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_paraphrasing_1</Key>
+    <Value>paraphrasingEXAMPLE2</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_paraphrasing_2</Key>
+    <Value>paraphrasingEXAMPLE3</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>module_example_free_play_0</Key>
+    <Value>free_playEXAMPLE1</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_free_play_1</Key>
+    <Value>free_playEXAMPLE2</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_free_play_2</Key>
+    <Value>free_playEXAMPLE3</Value>
+  </Keyword>
+
+  <!--Challenges-->
+  
   <Keyword>
     <Key>apply_module</Key>
     <Value>Voer de module 7 keer uit</Value>
@@ -239,6 +316,8 @@
     <Value>Resultaat wordt geladen</Value>
   </Keyword>
 
+<!--Moods-->
+  
   <Keyword>
     <Key>happy</Key>
     <Value>Vrolijk</Value>
@@ -284,7 +363,8 @@
     <Value>Verward</Value>
   </Keyword>
 
-
+<!--Hobbies-->
+  
   <Keyword>
     <Key>sport</Key>
     <Value>Sport</Value>
@@ -322,6 +402,7 @@
     <Value>Uitgaan</Value>
   </Keyword>
 
+<!--Problems-->
 
   <Keyword>
     <Key>moving_out</Key>
@@ -368,6 +449,8 @@
     <Value>Je hebt een blessure opgelopen en kan nu bijna niks</Value>
   </Keyword>
 
+<!--Occupations-->
+  
   <Keyword>
     <Key>studying</Key>
     <Value>Student</Value>
@@ -417,6 +500,7 @@
     <Value>Geen</Value>
   </Keyword>
 
+<!--Social-->
 
   <Keyword>
     <Key>siblings</Key>

@@ -41,7 +41,7 @@ public sealed class NetworkClient : NetworkManager
 
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			RoleplayDescription asdfff = new RoleplayDescription("1", new Participant("steve", "1.1.1.1", "123456789"), new Participant("Stevette", "1.1.1.1", "741852963"), new CaseDescription(new int[6][] { new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 } }, RoleplayModule.Follow_Up_Questions));
+			RoleplayDescription asdfff = new RoleplayDescription("1", new Participant("steve", "1.1.1.1", "123456789"), new Participant("Stevette", "1.1.1.1", "741852963"), new CaseDescription(new int[6][] { new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 } }, RoleplayModule.follow_up_questions));
 			string asdfffString = JsonUtility.ToJson(asdfff);
 			NetworkMessage asdf = new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, asdfffString);
 
@@ -79,7 +79,7 @@ public sealed class NetworkClient : NetworkManager
 							new int[1] {1},
 							new int[1] {1}
 						},
-						Module = RoleplayModule.Follow_Up_Questions
+						Module = RoleplayModule.follow_up_questions
 					}
 				}
 			};

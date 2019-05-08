@@ -2,11 +2,12 @@
 
 public class ModuleController : MonoBehaviour
 {
+	// TODO: generate the buttons and load the proper images instead of hard placing them.
 	public ScreenController ScreenController;
-	public GameObject ModuleButtonPrefab;
 	public Transform ButtonContainer;
+	public ModuleBriefingPanel ModuleBriefingPanel;
 
-	private RoleplayModule selectedModule = RoleplayModule.FreePlay;
+	private RoleplayModule selectedModule = RoleplayModule.free_play;
 	private NetworkClient networkClient;
 	private bool inQueue = false;
 
@@ -24,6 +25,7 @@ public class ModuleController : MonoBehaviour
 
 		selectedModule = module;
 		ScreenController.SwitchScreenToModuleBriefing();
+		ModuleBriefingPanel.Prepare(selectedModule);
 	}
 
 	public void LockInModule()
@@ -56,8 +58,8 @@ public class ModuleController : MonoBehaviour
 // TODO: add all the modules. 
 public enum RoleplayModule
 {
-	FreePlay,
-	Paraphrasing, 
-	Follow_Up_Questions,
-	Open_Questions
+	free_play,
+	paraphrasing, 
+	follow_up_questions,
+	open_questions
 };

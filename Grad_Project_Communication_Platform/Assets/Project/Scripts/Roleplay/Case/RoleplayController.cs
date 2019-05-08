@@ -66,8 +66,8 @@ public class RoleplayController : MonoBehaviour
 	{
 		ModuleCaseProfile profile = ProfileContainer.GetCaseProfileOfModule(roleplay.Case.Module);
 
-		UserBCaseField.ReversedForeach((Transform t) => { Destroy(t.gameObject); });
-		UserACaseField.ReversedForeach((Transform t) => { Destroy(t.gameObject); });
+		UserBCaseField.DestroyAllChildren(); 
+		UserACaseField.DestroyAllChildren(); 
 
 		ClientName.text = roleplay.UserB.Name;
 		ProfessionalName.text = roleplay.UserA.Name;

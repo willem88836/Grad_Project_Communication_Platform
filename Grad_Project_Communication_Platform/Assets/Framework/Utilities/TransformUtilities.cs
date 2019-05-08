@@ -50,5 +50,13 @@ namespace Framework.Utils
 				action.Invoke(child);
 			}
 		}
+
+		/// <summary>
+		///		Destroys all children contained in this object.
+		/// </summary>
+		public static void DestroyAllChildren(this Transform transform)
+		{
+			ReversedForeach(transform, (Transform t) => { GameObject.Destroy(t.gameObject); });
+		}
 	}
 }

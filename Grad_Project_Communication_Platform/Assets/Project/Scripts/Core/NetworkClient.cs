@@ -37,13 +37,54 @@ public sealed class NetworkClient : NetworkManager
 
 	protected override void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Space))
+		base.Update();
+
+		if (Input.GetKeyDown(KeyCode.R))
 		{
 			RoleplayDescription asdfff = new RoleplayDescription("1", new Participant("steve", "1.1.1.1", "123456789"), new Participant("Stevette", "1.1.1.1", "741852963"), new CaseDescription(new int[6][] { new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 } }, RoleplayModule.Follow_Up_Questions));
 			string asdfffString = JsonUtility.ToJson(asdfff);
 			NetworkMessage asdf = new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, asdfffString);
 
 			TransmitRoleplayDescription(asdf);
+		}
+		else if (Input.GetKeyDown(KeyCode.E))
+		{
+			CompleteCaseEvaluation completeCaseEvaluation = new CompleteCaseEvaluation()
+			{
+				EvaluationUserA = new CaseEvaluation()
+				{
+					Id = "asdf",
+					EvaluationFields = new string[2] { "something somehthing something", "more something something something" },
+					User = new Participant("Name A", "1.1.1.1", "asdf")
+				},
+				EvaluationUserB = new CaseEvaluation()
+				{
+					Id = "asdf2",
+					EvaluationFields = new string[2] { "something somehthing something", "more something something something" },
+					User = new Participant("Name B", "1.1.1.1", "asdf")
+				},
+				RoleplayDescription = new RoleplayDescription()
+				{
+					Id = "1",
+					UserA = new Participant("Name A", "1.1.1.1", "asdf"),
+					UserB = new Participant("Name B", "1.1.1.1", "asdf"),
+					Case = new CaseDescription()
+					{
+						Characteristics = new int[6][]
+						{
+							new int[1] {1},
+							new int[1] {1},
+							new int[1] {1},
+							new int[1] {1},
+							new int[1] {1},
+							new int[1] {1}
+						},
+						Module = RoleplayModule.Follow_Up_Questions
+					}
+				}
+			};
+
+			TransmitCompleteEvaluation(new NetworkMessage(NetworkMessageType.TransmitCompleteEvaluation, "", ClientId, JsonUtility.ToJson(completeCaseEvaluation)));
 		}
 	}
 
@@ -76,6 +117,10 @@ public sealed class NetworkClient : NetworkManager
 	[ExecuteOnMainThread]
 	public void TransmitCompleteEvaluation(NetworkMessage message)
 	{
-		CompleteEvaluationController.PrepareScreen(message.Message);
+		if (CompleteEvaluationController.WaitingForCompleteEvaluation)
+		{
+			CompleteEvaluationController.PrepareScreen(message.Message);
+			ScreenController.SwitchScreenToCompleteEvaluation();
+		}
 	}
 }

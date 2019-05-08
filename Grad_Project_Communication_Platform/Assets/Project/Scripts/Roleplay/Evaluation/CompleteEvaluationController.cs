@@ -19,6 +19,8 @@ public class CompleteEvaluationController : MonoBehaviour
 
 	private NetworkClient networkClient;
 
+	public bool WaitingForCompleteEvaluation { get; private set; } = false;
+
 
 	private void OnEnable()
 	{
@@ -33,8 +35,15 @@ public class CompleteEvaluationController : MonoBehaviour
 
 	public void RequestCompleteEvaluation(string id)
 	{
+		WaitingForCompleteEvaluation = true;
 		NetworkMessage requestCompleteEvaluation = new NetworkMessage(NetworkMessageType.TransmitCompleteEvaluation, networkClient.ClientId, "", id);
 		networkClient.SendMessage(requestCompleteEvaluation);
+	}
+
+
+	public void StopWaitingForCompleteEvaluation()
+	{
+		WaitingForCompleteEvaluation = false;
 	}
 
 
@@ -46,8 +55,6 @@ public class CompleteEvaluationController : MonoBehaviour
 		SetElements(caseEvaluation);
 		SetEvaluation(caseEvaluation.EvaluationUserA, EvaluationUserAFields);
 		SetEvaluation(caseEvaluation.EvaluationUserB, EvaluationUserBFields);
-
-		LayoutRebuilder.ForceRebuildLayoutImmediate(GetComponent<RectTransform>());
 	}
 
 	private void SetNames(CompleteCaseEvaluation caseEvaluation)

@@ -197,6 +197,14 @@
     <Key>case_challenge</Key>
     <Value>Uitdaging</Value>
   </Keyword>
+  <Keyword>
+    <Key>to_main_menu</Key>
+    <Value>Naar Menu</Value>
+  </Keyword>
+  <Keyword>
+    <Key>loadingevaluationmessage</Key>
+    <Value>Evaluatie aan het laden</Value>
+  </Keyword>
 
   <Keyword>
     <Key>apply_module</Key>

@@ -138,7 +138,7 @@ public class RoleplayController : MonoBehaviour
 		networkClient.SendMessage(evaluationMessage);
 
 		CompleteEvaluationController.RequestCompleteEvaluation(caseEvaluation.Id);
-		ScreenController.SwitchScreenToCompleteEvaluation();
+		ScreenController.SwitchScreenToCompleteEvaluationLoading();
 	}
 
 	public void ForceEndCall()

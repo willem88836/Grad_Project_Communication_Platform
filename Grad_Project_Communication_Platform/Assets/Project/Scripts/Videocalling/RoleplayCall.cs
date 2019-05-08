@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class RoleplayCall : MonoBehaviour
 {
-	public Videocaller Videocaller;
+	//public Videocaller Videocaller;
+	private SkypeLauncher SkypeLauncher = new SkypeLauncher(); // TODO: use an actual videocaller.
 	public ScreenController ScreenController;
 
 	[Space]
@@ -29,26 +30,29 @@ public class RoleplayCall : MonoBehaviour
 		this.self = self;
 		this.other = other;
 
-		Videocaller.Microphone.SampleLength = MicrophoneSampleSize.Value;
 
-		if (isClient)
-			Videocaller.Initialize(Videocaller.PortB, Videocaller.PortA);
-		else
-			Videocaller.Initialize(Videocaller.PortA, Videocaller.PortB);
 
-		ownFootage.material.mainTexture = Videocaller.OwnFootage;
-		otherFootage.material.mainTexture = Videocaller.OtherFootage;
+		//Videocaller.Microphone.SampleLength = MicrophoneSampleSize.Value;
 
-		Videocaller.OnCallEnded += OnCallEnded;
-		Videocaller.OnOtherFootageApplied += OnOtherFootageApplied;
+		//if (isClient)
+		//	Videocaller.Initialize(Videocaller.PortB, Videocaller.PortA);
+		//else
+		//	Videocaller.Initialize(Videocaller.PortA, Videocaller.PortB);
+
+		//ownFootage.material.mainTexture = Videocaller.OwnFootage;
+		//otherFootage.material.mainTexture = Videocaller.OtherFootage;
+
+		//Videocaller.OnCallEnded += OnCallEnded;
+		//Videocaller.OnOtherFootageApplied += OnOtherFootageApplied;
 	}
 
 	public void StartCalling()
 	{
-		return;
+		OnCallEnded();
+		SkypeLauncher.LaunchSkype(other.Id);
 
-		Videocaller.StartCalling(other.IP, StreamingFramerate.Value, StreamingResolutionScale.Value);
-		IsCalling = true;
+		//Videocaller.StartCalling(other.IP, StreamingFramerate.Value, StreamingResolutionScale.Value);
+		//IsCalling = true;
 	}
 
 	public void OnCallEnded()
@@ -66,7 +70,7 @@ public class RoleplayCall : MonoBehaviour
 
 	public void ForceEndCall()
 	{
-		Videocaller.StopCalling(false);
+		//Videocaller.StopCalling(false);
 	}
 
 	public void OnOtherFootageApplied(Texture2D otherFootageTexture)

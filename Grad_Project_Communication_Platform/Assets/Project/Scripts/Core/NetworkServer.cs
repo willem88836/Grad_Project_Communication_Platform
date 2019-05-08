@@ -16,6 +16,16 @@ public sealed class NetworkServer : NetworkManager
 		CompleteEvaluationGenerator.Initialize(this);
 	}
 
+	protected override void Update()
+	{
+		base.Update();
+
+		if (UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.C))
+		{
+			ConnectToServer(new NetworkMessage(NetworkMessageType.ConnectToServer, "live:devm_9874123", "", "Tester B") { SenderIP ="1.1.1.1" });
+			Enqueue(new NetworkMessage(NetworkMessageType.Enqueue, "live:devm_9874123", "", "Paraphrasing") { SenderIP = "1.1.1.1" });
+		}
+	}
 
 	public void ConnectToServer(NetworkMessage message)
 	{

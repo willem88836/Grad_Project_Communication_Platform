@@ -614,7 +614,7 @@ PrefabInstance:
     - target: {fileID: 2900749251505279501, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}
       propertyPath: m_Text
-      value: key_module_openquestions
+      value: key_module_open_questions
       objectReference: {fileID: 0}
     - target: {fileID: 6820823974942272291, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}
@@ -1149,7 +1149,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 450.00003, y: 0}
+  m_AnchoredPosition: {x: 450, y: 0}
   m_SizeDelta: {x: 650, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &178620476
@@ -2018,7 +2018,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 450.00003, y: 0}
+  m_AnchoredPosition: {x: 450, y: 0}
   m_SizeDelta: {x: 650, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &301869847
@@ -5998,7 +5998,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 450.00003, y: 0}
+  m_AnchoredPosition: {x: 450, y: 0}
   m_SizeDelta: {x: 650, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &812748732
@@ -11485,7 +11485,7 @@ PrefabInstance:
     - target: {fileID: 2900749251505279501, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}
       propertyPath: m_Text
-      value: key_module_freeplay
+      value: key_module_free_play
       objectReference: {fileID: 0}
     - target: {fileID: 6820823974942272291, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}
@@ -13294,7 +13294,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 450.00003, y: 0}
+  m_AnchoredPosition: {x: 450, y: 0}
   m_SizeDelta: {x: 650, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1709622125
@@ -14543,7 +14543,7 @@ PrefabInstance:
     - target: {fileID: 2900749251505279501, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}
       propertyPath: m_Text
-      value: key_module_followup
+      value: key_module_follow_up
       objectReference: {fileID: 0}
     - target: {fileID: 6820823974942272291, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}

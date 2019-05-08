@@ -24,11 +24,11 @@
     <Value>Selecteer Module</Value>
   </Keyword>
   <Keyword>
-    <Key>module_openquestions</Key>
+    <Key>module_open_questions</Key>
     <Value>Open Vragen</Value>
   </Keyword>
   <Keyword>
-    <Key>module_followup</Key>
+    <Key>module_follow_up_questions</Key>
     <Value>Doorvragen</Value>
   </Keyword>
   <Keyword>
@@ -36,7 +36,7 @@
     <Value>Parafraseren</Value>
   </Keyword>
   <Keyword>
-    <Key>module_freeplay</Key>
+    <Key>module_free_play</Key>
     <Value>Vrij Oefenen</Value>
   </Keyword>
   <Keyword>

@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using Framework.Utils;
 using JsonUtility = Framework.Features.Json.JsonUtility;
+using Framework.Language;
 
 public class CompleteEvaluationController : MonoBehaviour
 {
@@ -61,7 +62,7 @@ public class CompleteEvaluationController : MonoBehaviour
 	{
 		UserANameField.text = caseEvaluation.RoleplayDescription.UserA.Name;
 		UserBNameField.text = caseEvaluation.RoleplayDescription.UserB.Name;
-		ModuleField.text = caseEvaluation.RoleplayDescription.Case.Module.ToString();
+		ModuleField.text = MultilanguageSupport.GetKeyWord("module_" + caseEvaluation.RoleplayDescription.Case.Module.ToString());
 	}
 
 	private void SetElements(CompleteCaseEvaluation caseEvaluation)

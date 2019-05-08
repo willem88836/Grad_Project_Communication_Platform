@@ -23,7 +23,7 @@ public sealed class NetworkServer : NetworkManager
 		if (UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.C))
 		{
 			ConnectToServer(new NetworkMessage(NetworkMessageType.ConnectToServer, "live:devm_9874123", "", "Tester B") { SenderIP ="1.1.1.1" });
-			Enqueue(new NetworkMessage(NetworkMessageType.Enqueue, "live:devm_9874123", "", "Paraphrasing") { SenderIP = "1.1.1.1" });
+			Enqueue(new NetworkMessage(NetworkMessageType.Enqueue, "live:devm_9874123", "", "paraphrasing") { SenderIP = "1.1.1.1" });
 		}
 	}
 

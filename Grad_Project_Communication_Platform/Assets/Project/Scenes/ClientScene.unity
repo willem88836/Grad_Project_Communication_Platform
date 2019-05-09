@@ -11371,6 +11371,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_Module_Freeplay
       objectReference: {fileID: 0}
+    - target: {fileID: 5537218049556213111, guid: 110742dfec3827743bd8e55d5044c80b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2559760630953407246, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11429,17 +11434,17 @@ PrefabInstance:
     - target: {fileID: 2559760630953407246, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 2559760630953407246, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -720
       objectReference: {fileID: 0}
     - target: {fileID: 2559760630953407246, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 890
       objectReference: {fileID: 0}
     - target: {fileID: 2559760630953407246, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}
@@ -11454,7 +11459,7 @@ PrefabInstance:
     - target: {fileID: 2559760630953407246, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2559760630953407246, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}
@@ -11464,7 +11469,7 @@ PrefabInstance:
     - target: {fileID: 2559760630953407246, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2559760630953407246, guid: 110742dfec3827743bd8e55d5044c80b,
         type: 3}

@@ -39,6 +39,27 @@
     <Key>module_free_play</Key>
     <Value>Vrij Oefenen</Value>
   </Keyword>
+  
+  <!--Subtitles-->
+    
+  <Keyword>
+    <Key>module_subtitle_open_questions</Key>
+    <Value>Vragen voor alle antwoorden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_subtitle_follow_up_questions</Key>
+    <Value>Vragen voor duidelijkheid</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_subtitle_paraphrasing</Key>
+    <Value>Een korte samenvatting</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_subtitle_free_play</Key>
+    <Value>Oefen alles wat je wilt</Value>
+  </Keyword>
+  
+    
   <Keyword>
     <Key>loadingmessage</Key>
     <Value>Zoeken naar Partner</Value>

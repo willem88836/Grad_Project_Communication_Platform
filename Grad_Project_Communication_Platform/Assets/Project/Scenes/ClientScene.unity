@@ -626,6 +626,11 @@ PrefabInstance:
       propertyPath: RoleplayModule
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4863853390822249510, guid: 110742dfec3827743bd8e55d5044c80b,
+        type: 3}
+      propertyPath: m_Text
+      value: key_module_subtitle_open_questions
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 110742dfec3827743bd8e55d5044c80b, type: 3}
 --- !u!224 &46309896 stripped
@@ -4717,6 +4722,11 @@ PrefabInstance:
         type: 3}
       propertyPath: RoleplayModule
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863853390822249510, guid: 110742dfec3827743bd8e55d5044c80b,
+        type: 3}
+      propertyPath: m_Text
+      value: key_module_subtitle_paraphrasing
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 110742dfec3827743bd8e55d5044c80b, type: 3}
@@ -11497,6 +11507,11 @@ PrefabInstance:
       propertyPath: ModuleController
       value: 
       objectReference: {fileID: 1577687968}
+    - target: {fileID: 4863853390822249510, guid: 110742dfec3827743bd8e55d5044c80b,
+        type: 3}
+      propertyPath: m_Text
+      value: module_subtitle_free_play
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 110742dfec3827743bd8e55d5044c80b, type: 3}
 --- !u!224 &1519583742 stripped
@@ -14559,6 +14574,11 @@ PrefabInstance:
         type: 3}
       propertyPath: RoleplayModule
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863853390822249510, guid: 110742dfec3827743bd8e55d5044c80b,
+        type: 3}
+      propertyPath: m_Text
+      value: key_module_subtitle_follow_up_questions
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 110742dfec3827743bd8e55d5044c80b, type: 3}

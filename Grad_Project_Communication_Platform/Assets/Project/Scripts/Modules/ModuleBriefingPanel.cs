@@ -7,6 +7,7 @@ public class ModuleBriefingPanel : MonoBehaviour
 {
 	public Text DescriptionField;
 	public Text ExampleField;
+	public Text ModuleName;
 	public float SwitchTimer = 4;
 
 	public void Prepare(RoleplayModule module)
@@ -14,10 +15,12 @@ public class ModuleBriefingPanel : MonoBehaviour
 		string serializedModule = module.ToString();
 		DescriptionField.text = MultilanguageSupport.GetKeyWord(string.Format("module_description_{0}", serializedModule));
 
+		ModuleName.text = MultilanguageSupport.GetKeyWord(string.Format("module_{0}", serializedModule));
+
 		StopAllCoroutines();
 		StartCoroutine(SwitchExamples(serializedModule));
-
 	}
+
 
 
 	private IEnumerator<YieldInstruction> SwitchExamples(string module)

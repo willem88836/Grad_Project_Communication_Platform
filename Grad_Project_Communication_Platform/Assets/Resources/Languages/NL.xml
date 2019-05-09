@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
+<!--Menu Stuff-->
+
 <Keywords>
   <Keyword>
     <Key>practise</Key>
@@ -22,11 +24,11 @@
     <Value>Selecteer Module</Value>
   </Keyword>
   <Keyword>
-    <Key>module_openquestions</Key>
+    <Key>module_open_questions</Key>
     <Value>Open Vragen</Value>
   </Keyword>
   <Keyword>
-    <Key>module_followup</Key>
+    <Key>module_follow_up_questions</Key>
     <Value>Doorvragen</Value>
   </Keyword>
   <Keyword>
@@ -34,9 +36,30 @@
     <Value>Parafraseren</Value>
   </Keyword>
   <Keyword>
-    <Key>module_freeplay</Key>
+    <Key>module_free_play</Key>
     <Value>Vrij Oefenen</Value>
   </Keyword>
+  
+  <!--Subtitles-->
+    
+  <Keyword>
+    <Key>module_subtitle_open_questions</Key>
+    <Value>Vragen voor alle antwoorden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_subtitle_follow_up_questions</Key>
+    <Value>Vragen voor duidelijkheid</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_subtitle_paraphrasing</Key>
+    <Value>Een korte samenvatting</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_subtitle_free_play</Key>
+    <Value>Oefen alles wat je wilt</Value>
+  </Keyword>
+  
+    
   <Keyword>
     <Key>loadingmessage</Key>
     <Value>Zoeken naar Partner</Value>
@@ -205,7 +228,90 @@
     <Key>loadingevaluationmessage</Key>
     <Value>Evaluatie aan het laden</Value>
   </Keyword>
+  <Keyword>
+    <Key>header_module_description</Key>
+    <Value>Wat is het ook nog maar?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_module_example</Key>
+    <Value>En hoe doe je dat?</Value>
+  </Keyword>
 
+<!--Module Descriptions-->
+
+  <Keyword>
+    <Key>module_description_open_questions</Key>
+    <Value>Bij het stellen van een open vraag draait het om zoveel mogelijk informatie uit de client halen. Hiermee kan je zo dicht mogelijk bij hun verhaal komen. Denk bijvoorbeeld aan de 5-H + W vragen.</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_description_follow_up_questions</Key>
+    <Value>Doorvragen is één van de onderdelen die je helpt een concreter beeld van een probleem te krijgen. Dit kan je doen door te vragen naar een concrete voorbeeld of door vague begrippen te verhelderen.</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_description_paraphrasing</Key>
+    <Value>Parafraseren is een vorm van samenvatten waarbij je in eigen woorden het laatste besproken onderwerp beschrijft. Hiermee kan je controleren of je de client begrijpt en toon je interesse in hun verhaal.</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_description_free_play</Key>
+    <Value>FREEPLAY Description\n;wipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwip</Value>
+  </Keyword>
+
+<!--Module Examples-->
+  
+  <Keyword>
+    <Key>module_example_open_questions_0</Key>
+    <Value>"Wat ervaar je als je door het park loop ten de man met de hond weer langs komt?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_open_questions_1</Key>
+    <Value>"Wat dacht je toen je moeder vertelde dat jullie gingen verhuizen?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_open_questions_2</Key>
+    <Value>"Stel je voor je kat loopt weer weg, hoe zou je dan reageren?"</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>module_example_follow_up_questions_0</Key>
+    <Value>"Wat bedoel je precies met een agressieve houding?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_follow_up_questions_1</Key>
+    <Value>"Kan je een voorbeeld geven van wanneer je zoon niet luistert?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_follow_up_questions_2</Key>
+    <Value>"Zijn er nog andere factoren die meespelen?"</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>module_example_paraphrasing_0</Key>
+    <Value>"Dus als ik het goed begrijp, blijft de kat van de buren continu je planten omgooien."</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_paraphrasing_1</Key>
+    <Value>"Bedoel je te zeggen dat je je aandacht er moeilijk bij kan houden?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_paraphrasing_2</Key>
+    <Value>"Klopt het als ik zeg dat de buurjongen de reden lijkt voor de paniek van je dochter?"</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>module_example_free_play_0</Key>
+    <Value>free_playEXAMPLE1_wipwipwipwipwip</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_free_play_1</Key>
+    <Value>free_playEXAMPLE2_wipwipwipwipwip</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_free_play_2</Key>
+    <Value>free_playEXAMPLE3_wipwipwipwipwip</Value>
+  </Keyword>
+
+  <!--Challenges-->
+  
   <Keyword>
     <Key>apply_module</Key>
     <Value>Voer de module 7 keer uit</Value>
@@ -231,6 +337,8 @@
     <Value>Resultaat wordt geladen</Value>
   </Keyword>
 
+<!--Moods-->
+  
   <Keyword>
     <Key>happy</Key>
     <Value>Vrolijk</Value>
@@ -276,7 +384,8 @@
     <Value>Verward</Value>
   </Keyword>
 
-
+<!--Hobbies-->
+  
   <Keyword>
     <Key>sport</Key>
     <Value>Sport</Value>
@@ -314,6 +423,7 @@
     <Value>Uitgaan</Value>
   </Keyword>
 
+<!--Problems-->
 
   <Keyword>
     <Key>moving_out</Key>
@@ -360,6 +470,8 @@
     <Value>Je hebt een blessure opgelopen en kan nu bijna niks</Value>
   </Keyword>
 
+<!--Occupations-->
+  
   <Keyword>
     <Key>studying</Key>
     <Value>Student</Value>
@@ -409,6 +521,7 @@
     <Value>Geen</Value>
   </Keyword>
 
+<!--Social-->
 
   <Keyword>
     <Key>siblings</Key>

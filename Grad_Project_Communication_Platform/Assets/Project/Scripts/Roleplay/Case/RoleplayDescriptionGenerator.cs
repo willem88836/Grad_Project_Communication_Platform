@@ -1,4 +1,5 @@
 ﻿using Framework.ScriptableObjects.Variables;
+using Framework.Storage;
 using System;
 using UnityEngine;
 using Random = System.Random;
@@ -6,7 +7,7 @@ using Random = System.Random;
 [Serializable]
 public class RoleplayDescriptionGenerator
 {
-	public SharedInt LastCaseId;
+	public string CaseIdName = "LastId";
 	public ProfileContainer ProfileContainer;
 
 	private Random random = new Random();
@@ -18,8 +19,7 @@ public class RoleplayDescriptionGenerator
 
 		RoleplayDescription roleplayDescription;
 
-		string id = LastCaseId.Value.ToString();
-		LastCaseId.Value++;
+		string id = GetCaseId();
 
 		int rnd = random.Next(0, 2);
 		if (rnd % 2 == 0)
@@ -32,6 +32,22 @@ public class RoleplayDescriptionGenerator
 		}
 
 		return roleplayDescription;
+	}
+
+	private string GetCaseId()
+	{
+		if(!SaveLoad.Exists(CaseIdName))
+		{
+			SaveLoad.Save("0", CaseIdName);
+		}
+
+		string id;
+		SaveLoad.Load(CaseIdName, out id);
+
+		int idI = int.Parse(id) + 1;
+		SaveLoad.Save(idI.ToString(), CaseIdName);
+
+		return id;
 	}
 
 	private CaseDescription GenerateCase(RoleplayModule module)

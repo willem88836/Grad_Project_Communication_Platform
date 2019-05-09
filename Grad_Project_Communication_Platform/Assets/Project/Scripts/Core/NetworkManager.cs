@@ -95,7 +95,7 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 				udpMaster.AddListener(this);
 			}
 
-			networkLogger = new NetworkLogger<NetworkMessage>() { LogFileName = "NetworkLogs" };
+			networkLogger = new NetworkLogger<NetworkMessage>() { LogFileName = "NetworkLogs.sprc" };
 			networkLogger.Initialize(udpMaster);
 		}
 		catch(Exception ex)

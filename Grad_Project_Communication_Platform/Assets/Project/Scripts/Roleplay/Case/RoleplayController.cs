@@ -118,6 +118,8 @@ public class RoleplayController : MonoBehaviour
 
 	private void SendEvaluation(InputField[] inputFields)
 	{
+		ScreenController.SwitchScreenToCompleteEvaluationLoading();
+
 		// creates the case evaluation.
 		CaseEvaluation caseEvaluation = new CaseEvaluation()
 		{
@@ -138,7 +140,6 @@ public class RoleplayController : MonoBehaviour
 		networkClient.SendMessage(evaluationMessage);
 
 		CompleteEvaluationController.RequestCompleteEvaluation(caseEvaluation.Id);
-		ScreenController.SwitchScreenToCompleteEvaluationLoading();
 	}
 
 	public void ForceEndCall()

@@ -67,6 +67,8 @@ public class CompleteEvaluationController : MonoBehaviour
 
 	private void SetElements(CompleteCaseEvaluation caseEvaluation)
 	{
+		CaseField.DestroyAllChildren();
+
 		CaseDescription caseDescription = caseEvaluation.RoleplayDescription.Case;
 		ModuleCaseProfile profile = ProfileContainer.GetCaseProfileOfModule(caseDescription.Module);
 

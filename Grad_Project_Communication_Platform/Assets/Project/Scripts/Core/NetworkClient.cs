@@ -28,65 +28,6 @@ public sealed class NetworkClient : NetworkManager
 		CompleteEvaluationController.Initialize(this);
 	}
 
-	//private void Start()
-	//{
-	//	string json;
-	//	Framework.Storage.SaveLoad.Load("Complete_Evaluation_0", out json);
-	//	TransmitCompleteEvaluation(new NetworkMessage(NetworkMessageType.TransmitCompleteEvaluation, "", ClientId, json));
-	//}
-
-	//protected override void Update()
-	//{
-	//	base.Update();
-
-	//	if (Input.GetKeyDown(KeyCode.R))
-	//	{
-	//		RoleplayDescription asdfff = new RoleplayDescription("1", new Participant("steve", "1.1.1.1", "123456789"), new Participant("Stevette", "1.1.1.1", "741852963"), new CaseDescription(new int[6][] { new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 }, new int[1] { 1 } }, RoleplayModule.follow_up_questions));
-	//		string asdfffString = JsonUtility.ToJson(asdfff);
-	//		NetworkMessage asdf = new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", ClientId, asdfffString);
-
-	//		TransmitRoleplayDescription(asdf);
-	//	}
-	//	else if (Input.GetKeyDown(KeyCode.E))
-	//	{
-	//		CompleteCaseEvaluation completeCaseEvaluation = new CompleteCaseEvaluation()
-	//		{
-	//			EvaluationUserA = new CaseEvaluation()
-	//			{
-	//				Id = "asdf",
-	//				EvaluationFields = new string[2] { "something somehthing something", "more something something something" },
-	//				User = new Participant("Name A", "1.1.1.1", "asdf")
-	//			},
-	//			EvaluationUserB = new CaseEvaluation()
-	//			{
-	//				Id = "asdf2",
-	//				EvaluationFields = new string[2] { "something somehthing something", "more something something something" },
-	//				User = new Participant("Name B", "1.1.1.1", "asdf")
-	//			},
-	//			RoleplayDescription = new RoleplayDescription()
-	//			{
-	//				Id = "1",
-	//				UserA = new Participant("Name A", "1.1.1.1", "asdf"),
-	//				UserB = new Participant("Name B", "1.1.1.1", "asdf"),
-	//				Case = new CaseDescription()
-	//				{
-	//					Characteristics = new int[6][]
-	//					{
-	//						new int[1] {1},
-	//						new int[1] {1},
-	//						new int[1] {1},
-	//						new int[1] {1},
-	//						new int[1] {1},
-	//						new int[1] {1}
-	//					},
-	//					Module = RoleplayModule.follow_up_questions
-	//				}
-	//			}
-	//		};
-
-	//		TransmitCompleteEvaluation(new NetworkMessage(NetworkMessageType.TransmitCompleteEvaluation, "", ClientId, JsonUtility.ToJson(completeCaseEvaluation)));
-	//	}
-	//}
 
 	protected override void Initialize()
 	{

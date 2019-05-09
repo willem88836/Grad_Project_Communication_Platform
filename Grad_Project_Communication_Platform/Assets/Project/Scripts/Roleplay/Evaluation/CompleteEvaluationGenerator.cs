@@ -65,13 +65,8 @@ public class CompleteEvaluationGenerator
 
 			SaveLoad.Save(completeEvalJson, string.Format(CompleteEvaluationName.Value, id));
 
-			// Sends the complete evaluation t othe users. 
-			new Thread(new ThreadStart(delegate
-			{
-				SendMessageTo(roleplayDescription.UserA, completeEvalJson);
-				SendMessageTo(roleplayDescription.UserB, completeEvalJson);
-
-			})).Start();
+			SendMessageTo(roleplayDescription.UserA, completeEvalJson);
+			SendMessageTo(roleplayDescription.UserB, completeEvalJson);
 
 			SaveLoad.Remove(fileName);
 		}

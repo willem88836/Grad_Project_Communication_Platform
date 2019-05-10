@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 
 <!--Menu Stuff-->
 
@@ -39,9 +39,9 @@
     <Key>module_free_play</Key>
     <Value>Vrij Oefenen</Value>
   </Keyword>
-  
+
   <!--Subtitles-->
-    
+
   <Keyword>
     <Key>module_subtitle_open_questions</Key>
     <Value>Vragen voor alle antwoorden</Value>
@@ -58,8 +58,8 @@
     <Key>module_subtitle_free_play</Key>
     <Value>Oefen alles wat je wilt</Value>
   </Keyword>
-  
-    
+
+
   <Keyword>
     <Key>loadingmessage</Key>
     <Value>Zoeken naar Partner</Value>
@@ -241,15 +241,15 @@
 
   <Keyword>
     <Key>module_description_open_questions</Key>
-    <Value>Bij het stellen van een open vraag draait het om zoveel mogelijk informatie uit de client halen. Hiermee kan je zo dicht mogelijk bij hun verhaal komen. Denk bijvoorbeeld aan de 5-H + W vragen.</Value>
+    <Value>Bij het stellen van een open vraag draait het om zoveel mogelijk informatie uit de cliënt te halen. Hiermee kan je zo dicht mogelijk bij hun verhaal komen. Denk bijvoorbeeld aan de 5-H + W-vragen.</Value>
   </Keyword>
   <Keyword>
     <Key>module_description_follow_up_questions</Key>
-    <Value>Doorvragen is één van de onderdelen die je helpt een concreter beeld van een probleem te krijgen. Dit kan je doen door te vragen naar een concrete voorbeeld of door vague begrippen te verhelderen.</Value>
+    <Value>Doorvragen is één van de onderdelen die je helpt een concreter beeld van een probleem te krijgen. Dit kan je doen door te vragen naar een concreet voorbeeld of door vage begrippen te verhelderen.</Value>
   </Keyword>
   <Keyword>
     <Key>module_description_paraphrasing</Key>
-    <Value>Parafraseren is een vorm van samenvatten waarbij je in eigen woorden het laatste besproken onderwerp beschrijft. Hiermee kan je controleren of je de client begrijpt en toon je interesse in hun verhaal.</Value>
+    <Value>Parafraseren is een vorm van samenvatten waarbij je in eigen woorden het laatste besproken onderwerp beschrijft. Hiermee kan je controleren of je de cliënt begrijpt en toon je interesse in hun verhaal.</Value>
   </Keyword>
   <Keyword>
     <Key>module_description_free_play</Key>
@@ -257,10 +257,10 @@
   </Keyword>
 
 <!--Module Examples-->
-  
+
   <Keyword>
     <Key>module_example_open_questions_0</Key>
-    <Value>"Wat ervaar je als je door het park loop ten de man met de hond weer langs komt?"</Value>
+    <Value>"Wat ervaar je als je door het park loopt en de man met de hond weer langs komt?"</Value>
   </Keyword>
   <Keyword>
     <Key>module_example_open_questions_1</Key>
@@ -268,7 +268,7 @@
   </Keyword>
   <Keyword>
     <Key>module_example_open_questions_2</Key>
-    <Value>"Stel je voor je kat loopt weer weg, hoe zou je dan reageren?"</Value>
+    <Value>"Stel je voor dat je kat weer wegloopt, hoe zou je dan reageren?"</Value>
   </Keyword>
 
   <Keyword>
@@ -311,7 +311,7 @@
   </Keyword>
 
   <!--Challenges-->
-  
+
   <Keyword>
     <Key>apply_module</Key>
     <Value>Voer de module 7 keer uit</Value>
@@ -338,7 +338,7 @@
   </Keyword>
 
 <!--Moods-->
-  
+
   <Keyword>
     <Key>happy</Key>
     <Value>Vrolijk</Value>
@@ -385,7 +385,7 @@
   </Keyword>
 
 <!--Hobbies-->
-  
+
   <Keyword>
     <Key>sport</Key>
     <Value>Sport</Value>
@@ -471,7 +471,7 @@
   </Keyword>
 
 <!--Occupations-->
-  
+
   <Keyword>
     <Key>studying</Key>
     <Value>Student</Value>
@@ -547,5 +547,5 @@
     <Key>pets</Key>
     <Value>Een huisdier</Value>
   </Keyword>
-  
+
 </Keywords>

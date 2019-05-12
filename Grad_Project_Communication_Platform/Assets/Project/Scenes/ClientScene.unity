@@ -6355,6 +6355,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c25c81d04238343b1ae789e5487478, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ensureFileDirectories:
+    Directories: []
+    Files:
+    - {fileID: 11400000, guid: cc7d8bc0186fd5b4f9495816b8576992, type: 2}
+    - {fileID: 11400000, guid: 35243def872e1fa4b8584d75c07653ed, type: 2}
+    - {fileID: 11400000, guid: 4206d4e6d84e16843be279a824e051ab, type: 2}
   PortIn: 11000
   PortOut: 11001
   AccountName: {fileID: 11400000, guid: 7a8e78cd778edaf4b904211eb7fa3b59, type: 2}

@@ -26,7 +26,7 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 	/// </summary>
 	protected void OnDestroy()
 	{
-			Stop();
+		Stop();
 	}
 
 	protected virtual void Awake()

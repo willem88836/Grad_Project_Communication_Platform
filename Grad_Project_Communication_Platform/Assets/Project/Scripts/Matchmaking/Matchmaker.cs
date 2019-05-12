@@ -6,18 +6,17 @@ using System.Collections.Generic;
 using JsonUtility = Framework.Features.Json.JsonUtility;
 
 [Serializable]
-public class Matchmaker
+public class Matchmaker : ApplicationController<NetworkServer>
 {
 	public RoleplayDescriptionGenerator RoleplayDescriptionGenerator;
 	public SharedString RoleplayFileName;
 
-	private NetworkServer networkServer;
 	private Dictionary<RoleplayModule, List<Participant>> queues;
 
 
-	public void Initialize(NetworkServer networkServer)
+	public override void Initialize(NetworkServer networkServer)
 	{
-		this.networkServer = networkServer;
+		base.Initialize(networkServer);
 
 		queues = new Dictionary<RoleplayModule, List<Participant>>();
 		Array modules = Enum.GetValues(typeof(RoleplayModule));
@@ -73,7 +72,7 @@ public class Matchmaker
 	private void SendRoleplayDescription(string serializedRoleplayDescription, Participant receiver)
 	{
 		NetworkMessage networkMessage = new NetworkMessage(NetworkMessageType.TransmitRoleplayDescription, "", receiver.Id, serializedRoleplayDescription);
-		networkServer.SendMessage(networkMessage, receiver.IP);
+		Manager.SendMessage(networkMessage, receiver.IP);
 	}
 
 

@@ -11,6 +11,8 @@ using UnityEngine;
 /// </summary>
 public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 {
+	[SerializeField] private EnsureFileDirectories ensureFileDirectories;
+
 	[Header("Networking")]
 	public int PortIn = 11000;
 	public int PortOut = 11001;
@@ -87,6 +89,7 @@ public abstract class NetworkManager : MonoBehaviour, IAppliedNetworkListener
 			SaveLoad.SavePath = Application.persistentDataPath;
 			SaveLoad.Extention = ".sprc";
 			SaveLoad.EncryptData = false;
+			ensureFileDirectories.Invoke();
 
 			if (udpMaster == null || !udpMaster.IsInitialized)
 			{

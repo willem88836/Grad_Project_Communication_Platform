@@ -17,7 +17,6 @@ public class ScreenController : MonoBehaviour
 		}
 	}
 
-
 	public void ExitApplication()
 	{
 		Application.Quit();

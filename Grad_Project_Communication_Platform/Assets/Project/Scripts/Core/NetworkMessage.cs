@@ -45,18 +45,13 @@ public enum NetworkMessageType		// Content stored in message field
 	DisconnectFromServer,           // No content in message field
 	Enqueue,                        // Module in message field
 	Dequeue,                        // Module in message field
-	StoreFootage,					// 
     TransmitEvaluationTest,			// Serialized Evaluation/test in message field
-    RemoveConnection,				// No content in message field
 	// Server -> Client
 	TransmitRoleplayDescription,	// RoleplayDescription in message field
-	// Client -> Client
-    TransmitFootage,				// Serialized Footage in message field 
-    ForceEndCall,					// No content in message field
-    ForceDisconnect,				// No content in message field
 	// Client <-> Server
 	ConnectToServer,                // Name and Id in message field (from client) OR nothing (from server
-	TransmitCompleteEvaluation,        // Client has no content OR Final Evaluation in message field
+	TransmitCompleteEvaluation,     // Client has no content OR Final Evaluation in message field
+	RequestHistoryLogs				// log start index when coming from client OR most recent history logs when from server
 }
 
 

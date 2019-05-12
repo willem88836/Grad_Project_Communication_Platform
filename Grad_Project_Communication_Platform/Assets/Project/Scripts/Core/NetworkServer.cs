@@ -1,31 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using Project.History;
+using System.Collections.Generic;
 
 public sealed class NetworkServer : NetworkManager
 {
 	public Matchmaker Matchmaker;
 	public CompleteEvaluationGenerator CompleteEvaluationGenerator;
+	public HistoryManager HistoryManager;
 
 	private List<Participant> activeUsers;
 
 
-	protected override void Awake()
+	protected override void Initialize()
 	{
-		base.Awake();
+		base.Initialize();
+
 		activeUsers = new List<Participant>();
+
 		Matchmaker.Initialize(this);
 		CompleteEvaluationGenerator.Initialize(this);
+		HistoryManager.Initialize(this);
 	}
 
-	protected override void Update()
-	{
-		base.Update();
-
-		if (UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.C))
-		{
-			ConnectToServer(new NetworkMessage(NetworkMessageType.ConnectToServer, "live:devm_9874123", "", "Tester B") { SenderIP ="1.1.1.1" });
-			Enqueue(new NetworkMessage(NetworkMessageType.Enqueue, "live:devm_9874123", "", "paraphrasing") { SenderIP = "1.1.1.1" });
-		}
-	}
 
 	public void ConnectToServer(NetworkMessage message)
 	{
@@ -70,6 +65,12 @@ public sealed class NetworkServer : NetworkManager
 	{
 		Participant participant = SelectParticipant(message);
 		CompleteEvaluationGenerator.SendCompleteEvaluation(message.Message, participant);
+	}
+
+	public void RequestHistoryLogs(NetworkMessage message)
+	{
+		Participant participant = SelectParticipant(message);
+		HistoryManager.OnHistoryLogsRequested(participant, message.Message);
 	}
 
 

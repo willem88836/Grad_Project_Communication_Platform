@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ModuleController : MonoBehaviour
+public class ModuleController : ApplicationController<NetworkClient>
 {
 	// TODO: generate the buttons and load the proper images instead of hard placing them.
 	public ScreenController ScreenController;
@@ -8,14 +8,7 @@ public class ModuleController : MonoBehaviour
 	public ModuleBriefingPanel ModuleBriefingPanel;
 
 	private RoleplayModule selectedModule = RoleplayModule.free_play;
-	private NetworkClient networkClient;
 	private bool inQueue = false;
-
-
-	public void Initialize(NetworkClient networkClient)
-	{
-		this.networkClient = networkClient;
-	}
 
 
 	public void SelectModule(RoleplayModule module)
@@ -31,15 +24,15 @@ public class ModuleController : MonoBehaviour
 	public void LockInModule()
 	{
 		inQueue = true;
-		NetworkMessage queueMessage = new NetworkMessage(NetworkMessageType.Enqueue, networkClient.ClientId, "", selectedModule.ToString());
-		networkClient.SendMessage(queueMessage);
+		NetworkMessage queueMessage = new NetworkMessage(NetworkMessageType.Enqueue, Manager.ClientId, "", selectedModule.ToString());
+		Manager.SendMessage(queueMessage);
 	}
 
 	public void LockOutModule()
 	{
 		inQueue = false;
-		NetworkMessage dequeueMessage = new NetworkMessage(NetworkMessageType.Dequeue, networkClient.ClientId, "", selectedModule.ToString());
-		networkClient.SendMessage(dequeueMessage);
+		NetworkMessage dequeueMessage = new NetworkMessage(NetworkMessageType.Dequeue, Manager.ClientId, "", selectedModule.ToString());
+		Manager.SendMessage(dequeueMessage);
 	}
 
 	public void ToggleLockIn()

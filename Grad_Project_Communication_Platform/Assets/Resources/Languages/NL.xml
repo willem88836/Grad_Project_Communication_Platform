@@ -39,6 +39,10 @@
     <Key>module_free_play</Key>
     <Value>Vrij Oefenen</Value>
   </Keyword>
+  <Keyword>
+    <Key>more_logs</Key>
+    <Value>Meer Laden</Value>
+  </Keyword>
 
   <!--Subtitles-->
 

@@ -42,28 +42,18 @@ namespace Project.History
 		{
 			SerializedHistory serializedHistory = JsonUtility.FromJson<SerializedHistory>(serializedLogs);
 
-			bool noMoreLogs = false;
-
 			for(int i = 0; i < serializedHistory.SerializedHistoryLogs.Length; i++)
 			{
 				string log = serializedHistory.SerializedHistoryLogs[i];
 
 				if (log == null || log == "")
-				{
-					noMoreLogs = true;
 					break;
-				}
 
 				HistoryButton button = Instantiate(ButtonPrefab, ButtonContainer);
 				button.Set(log);
 			}
 
 			LoadMoreButton.SetAsLastSibling();
-
-			if (noMoreLogs)
-			{
-				LoadMoreButton.gameObject.SetActive(false);
-			}
 		}
 	}
 }

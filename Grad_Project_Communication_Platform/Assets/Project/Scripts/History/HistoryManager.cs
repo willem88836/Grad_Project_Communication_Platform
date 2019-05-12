@@ -51,6 +51,8 @@ namespace Project.History
 		private string[] LoadUserLogs(string userId)
 		{
 			SaveLoad.Load(string.Format(UserLogsName.Value, userId), out string data);
+			if (data == null)
+				return new string[0];
 			return data.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
 		}
 	}

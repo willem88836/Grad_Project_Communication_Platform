@@ -50,7 +50,8 @@ public class CompleteEvaluationGenerator : ApplicationController<NetworkServer>
 			{
 				RoleplayDescription = roleplayDescription,
 				EvaluationUserA = isUserA ? caseEvaluation : other,
-				EvaluationUserB = isUserA ? other : caseEvaluation
+				EvaluationUserB = isUserA ? other : caseEvaluation,
+				TimeStamp = DateTime.Now.ToString()
 			};
 
 			string completeEvalJson = JsonUtility.ToJson(completeCaseEvaluation);

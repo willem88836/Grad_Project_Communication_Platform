@@ -1,6 +1,6 @@
 ﻿using Framework.ScriptableObjects.Variables;
+using Project.History;
 using UnityEngine;
-using JsonUtility = Framework.Features.Json.JsonUtility;
 
 public sealed class NetworkClient : NetworkManager
 {
@@ -14,28 +14,25 @@ public sealed class NetworkClient : NetworkManager
 	public RoleplayController RoleplayController;
 	public ModuleController ModuleController;
 	public CompleteEvaluationController CompleteEvaluationController;
+	public HistoryScreen HistoryScreen;
 
 	public string ClientId { get { return AccountPhone.Value; } } 
 	public string ClientName { get { return AccountName.Value; } }
 
 
-	protected override void Awake()
-	{
-		base.Awake();
-
-		ModuleController.Initialize(this);
-		RoleplayController.Initialize(this);
-		CompleteEvaluationController.Initialize(this);
-	}
-
-
 	protected override void Initialize()
 	{
 		base.Initialize();
+
 		udpMaster.LogReceivedMessages = true;
-		udpMaster.UpdateTargetIP(ServerIP.Value);
 		NetworkMessage connectMessage = new NetworkMessage(NetworkMessageType.ConnectToServer, AccountPhone.Value, "", AccountName.Value);
-		SendMessage(connectMessage);
+		SendMessage(connectMessage, ServerIP.Value);
+
+		// Initializes all ApplicationControllers.
+		ModuleController.Initialize(this);
+		RoleplayController.Initialize(this);
+		CompleteEvaluationController.Initialize(this);
+		HistoryScreen.Initialize(this);
 	}
 
 	protected override void Stop()
@@ -69,5 +66,11 @@ public sealed class NetworkClient : NetworkManager
 			CompleteEvaluationController.PrepareScreen(message.Message);
 			ScreenController.SwitchScreenToCompleteEvaluation();
 		}
+	}
+
+	[ExecuteOnMainThread]
+	public void RequestHistoryLogs(NetworkMessage message)
+	{
+		HistoryScreen.OnHistoryLogsAcquired(message.Message);
 	}
 }

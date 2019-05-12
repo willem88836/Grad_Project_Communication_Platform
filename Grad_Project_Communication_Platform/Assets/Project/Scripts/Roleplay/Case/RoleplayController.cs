@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using JsonUtility = Framework.Features.Json.JsonUtility;
 
-public class RoleplayController : MonoBehaviour
+public class RoleplayController : ApplicationController<NetworkClient>
 {
 	public ProfileContainer ProfileContainer;
 
@@ -25,21 +25,15 @@ public class RoleplayController : MonoBehaviour
 	public InputField[] ProfessionalEvaluationFields;
 
 
-	private NetworkClient networkClient;
 	private RoleplayDescription currentRoleplay;
 	private bool isClient; 
-
-	public void Initialize(NetworkClient networkClient)
-	{
-		this.networkClient = networkClient;
-	}
 
 
 	public void OnRoleplayLoaded(string serializedRoleplayDescription)
 	{
 		currentRoleplay = JsonUtility.FromJson<RoleplayDescription>(serializedRoleplayDescription);
 
-		isClient = currentRoleplay.UserA.Id == networkClient.ClientId;
+		isClient = currentRoleplay.UserA.Id == Manager.ClientId;
 
 		Participant other;
 		Participant self;
@@ -136,8 +130,8 @@ public class RoleplayController : MonoBehaviour
 
 		// Sends the evaluation to the server.
 		string json = JsonUtility.ToJson(caseEvaluation);
-		NetworkMessage evaluationMessage = new NetworkMessage(NetworkMessageType.TransmitEvaluationTest, networkClient.ClientId, "", json);
-		networkClient.SendMessage(evaluationMessage);
+		NetworkMessage evaluationMessage = new NetworkMessage(NetworkMessageType.TransmitEvaluationTest, Manager.ClientId, "", json);
+		Manager.SendMessage(evaluationMessage);
 
 		CompleteEvaluationController.RequestCompleteEvaluation(caseEvaluation.Id);
 	}

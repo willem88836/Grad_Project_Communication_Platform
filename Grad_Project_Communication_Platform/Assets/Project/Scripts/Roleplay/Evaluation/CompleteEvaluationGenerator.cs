@@ -8,20 +8,12 @@ using UnityEngine;
 using JsonUtility = Framework.Features.Json.JsonUtility;
 
 [Serializable]
-public class CompleteEvaluationGenerator
+public class CompleteEvaluationGenerator : ApplicationController<NetworkServer>
 {
 	public SharedString RoleplaySaveName;
 	public SharedString CompleteEvaluationName;
 
-	private NetworkServer networkServer;
-
 	private Dictionary<string, CaseEvaluation> acquiredEvaluations = new Dictionary<string, CaseEvaluation>();
-
-
-	public void Initialize(NetworkServer networkServer)
-	{
-		this.networkServer = networkServer;
-	}
 
 
 	public void SendCompleteEvaluation(string id, Participant participant)
@@ -31,7 +23,7 @@ public class CompleteEvaluationGenerator
 		if (json != null)
 		{
 			NetworkMessage message = new NetworkMessage(NetworkMessageType.TransmitCompleteEvaluation, "", participant.Id, json);
-			networkServer.SendMessage(message, participant.IP);
+			Manager.SendMessage(message, participant.IP);
 		}
 	}
 
@@ -79,6 +71,6 @@ public class CompleteEvaluationGenerator
 	private void SendMessageTo(Participant user, string message)
 	{
 		NetworkMessage completeEvalMessage = new NetworkMessage(NetworkMessageType.TransmitCompleteEvaluation, "", user.Id, message);
-		networkServer.SendMessage(completeEvalMessage);
+		Manager.SendMessage(completeEvalMessage);
 	}
 }

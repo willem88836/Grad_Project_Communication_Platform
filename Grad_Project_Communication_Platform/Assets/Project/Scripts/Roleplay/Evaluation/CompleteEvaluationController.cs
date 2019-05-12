@@ -4,7 +4,7 @@ using Framework.Utils;
 using JsonUtility = Framework.Features.Json.JsonUtility;
 using Framework.Language;
 
-public class CompleteEvaluationController : MonoBehaviour
+public class CompleteEvaluationController : ApplicationController<NetworkClient>
 {
 	[Header("Scene References")]
 	public Text ModuleField;
@@ -18,8 +18,6 @@ public class CompleteEvaluationController : MonoBehaviour
 	public ProfileContainer ProfileContainer;
 	public VisualCaseElement ElementObject;
 
-	private NetworkClient networkClient;
-
 	public bool WaitingForCompleteEvaluation { get; private set; } = false;
 
 
@@ -29,16 +27,11 @@ public class CompleteEvaluationController : MonoBehaviour
 	}
 
 
-	public void Initialize(NetworkClient networkClient)
-	{
-		this.networkClient = networkClient;
-	}
-
 	public void RequestCompleteEvaluation(string id)
 	{
 		WaitingForCompleteEvaluation = true;
-		NetworkMessage requestCompleteEvaluation = new NetworkMessage(NetworkMessageType.TransmitCompleteEvaluation, networkClient.ClientId, "", id);
-		networkClient.SendMessage(requestCompleteEvaluation);
+		NetworkMessage requestCompleteEvaluation = new NetworkMessage(NetworkMessageType.TransmitCompleteEvaluation, Manager.ClientId, "", id);
+		Manager.SendMessage(requestCompleteEvaluation);
 	}
 
 

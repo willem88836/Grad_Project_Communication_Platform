@@ -1,5 +1,6 @@
 ﻿using Framework.ScriptableObjects.Variables;
 using Project.History;
+using Project.Social;
 using UnityEngine;
 
 public sealed class NetworkClient : NetworkManager
@@ -15,6 +16,7 @@ public sealed class NetworkClient : NetworkManager
 	public ModuleController ModuleController;
 	public CompleteEvaluationController CompleteEvaluationController;
 	public HistoryScreen HistoryScreen;
+	public SocialScreen SocialScreen;
 
 	public string ClientId { get { return AccountPhone.Value; } } 
 	public string ClientName { get { return AccountName.Value; } }
@@ -33,6 +35,7 @@ public sealed class NetworkClient : NetworkManager
 		RoleplayController.Initialize(this);
 		CompleteEvaluationController.Initialize(this);
 		HistoryScreen.Initialize(this);
+		SocialScreen.Initialize(this);
 	}
 
 	protected override void Stop()
@@ -72,5 +75,11 @@ public sealed class NetworkClient : NetworkManager
 	public void RequestHistoryLogs(NetworkMessage message)
 	{
 		HistoryScreen.OnHistoryLogsAcquired(message.Message);
+	}
+
+	[ExecuteOnMainThread]
+	public void RequestSocialLogs(NetworkMessage message)
+	{
+		SocialScreen.OnSocialAcquired(message.Message);
 	}
 }

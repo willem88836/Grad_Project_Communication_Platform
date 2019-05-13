@@ -1,5 +1,6 @@
 ﻿using Framework.ScriptableObjects.Variables;
 using Framework.Storage;
+using Project.Social;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +13,9 @@ public class CompleteEvaluationGenerator : ApplicationController<NetworkServer>
 {
 	public SharedString RoleplaySaveName;
 	public SharedString CompleteEvaluationName;
-	public SharedString UserLogsName;
+	public SharedString UserConversationLogsName;
+
+	public SocialManager SocialManager;
 
 	private Dictionary<string, CaseEvaluation> acquiredEvaluations = new Dictionary<string, CaseEvaluation>();
 
@@ -75,13 +78,18 @@ public class CompleteEvaluationGenerator : ApplicationController<NetworkServer>
 		AddIdToUserLog(roleplayDescription.UserA.Id, id);
 		AddIdToUserLog(roleplayDescription.UserB.Id, id);
 
+		SocialManager.AddToRecentLog(roleplayDescription.UserA, roleplayDescription.UserB);
+		SocialManager.AddToRecentLog(roleplayDescription.UserB, roleplayDescription.UserA);
+
 		SaveLoad.Remove(fileName);
 	}
 
+
 	private void AddIdToUserLog(string userId, string evaluationId)
 	{
-		SaveLoad.Append(string.Format(UserLogsName.Value, userId), string.Format("{0},", evaluationId));
+		SaveLoad.Append(string.Format(UserConversationLogsName.Value, userId), string.Format("{0},", evaluationId));
 	}
+
 
 	private void SendMessageTo(Participant user, string message)
 	{

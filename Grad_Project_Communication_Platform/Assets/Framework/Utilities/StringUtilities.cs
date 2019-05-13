@@ -23,6 +23,11 @@ namespace Framework.Utils
 		}
 
 
+		public static string Format(this string s, params object[] elements)
+		{
+			return string.Format(s, elements);
+		}
+
 
 		public static string SubString(this string s, int startIndex, int length)
 		{

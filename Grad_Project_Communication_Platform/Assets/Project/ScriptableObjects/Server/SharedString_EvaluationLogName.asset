@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6279564dfaf67b4b9060edc4f301a59, type: 3}
-  m_Name: SharedString_UserLogName
+  m_Name: SharedString_EvaluationLogName
   m_EditorClassIdentifier: 
-  value: UserLogs/Log_{0}
+  value: EvaluationLogs/Log_{0}

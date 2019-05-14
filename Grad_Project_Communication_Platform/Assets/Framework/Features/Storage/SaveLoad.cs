@@ -59,7 +59,7 @@ namespace Framework.Storage
 			if (EncryptData) FileEncryption.Encrypt(ref data);
 			string path = Path.Combine(savePath, name);
 			path = Path.ChangeExtension(path, Extention);
-
+			
 			File.WriteAllText(path, data);
 
 			LoggingUtilities.LogFormat("Saved at: {0}", path);
@@ -141,7 +141,8 @@ namespace Framework.Storage
 			string path = Path.ChangeExtension(Path.Combine(savePath, name), Extention);
 			if (!File.Exists(path))
 			{
-				File.Create(path);
+				File.WriteAllText(path, data);
+				return;
 			}
 
 			File.AppendAllText(path, data);

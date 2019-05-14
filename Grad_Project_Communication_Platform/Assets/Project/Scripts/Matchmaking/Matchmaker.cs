@@ -63,7 +63,8 @@ public class Matchmaker : ApplicationController<NetworkServer>
 		RoleplayDescription roleplayDescription = RoleplayDescriptionGenerator.Generate(participantA, participantB, module);
 		string json = JsonUtility.ToJson(roleplayDescription);
 
-		SaveLoad.Save(json, string.Format(RoleplayFileName.Value, roleplayDescription.Id));
+		string name = string.Format(RoleplayFileName.Value, roleplayDescription.Id);
+		SaveLoad.Save(json, name);
 
 		SendRoleplayDescription(json, participantA);
 		SendRoleplayDescription(json, participantB);

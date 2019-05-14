@@ -2,7 +2,7 @@
 using Project.Social;
 using System.Collections.Generic;
 
-public sealed class NetworkServer : NetworkManager
+public sealed class NetworkServer  : NetworkManager
 {
 	public Matchmaker Matchmaker;
 	public CompleteEvaluationGenerator CompleteEvaluationGenerator;

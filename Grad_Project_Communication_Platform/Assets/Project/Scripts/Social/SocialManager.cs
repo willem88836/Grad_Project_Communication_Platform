@@ -34,7 +34,7 @@ namespace Project.Social
 			if (log == null)
 			{
 				string json = JsonUtility.ToJson(new SerializedSocial() {Recent = new Participant[RecentCount] });
-				SaveLoad.Save(name, json);
+				SaveLoad.Save(json, name);
 				AddToRecentLog(userA, userB);
 				return;
 			}

@@ -296,8 +296,9 @@ MonoBehaviour:
   RoleplaySaveName: {fileID: 11400000, guid: cc7d8bc0186fd5b4f9495816b8576992, type: 2}
   CompleteEvaluationName: {fileID: 11400000, guid: 35243def872e1fa4b8584d75c07653ed,
     type: 2}
-  UserConversationLogsName: {fileID: 0}
-  SocialManager: {fileID: 0}
+  UserConversationLogsName: {fileID: 11400000, guid: 4206d4e6d84e16843be279a824e051ab,
+    type: 2}
+  SocialManager: {fileID: 780326811}
 --- !u!1 &730176243
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
+<!--Menu Stuff-->
+
 <Keywords>
   <Keyword>
     <Key>practise</Key>
@@ -22,24 +24,49 @@
     <Value>Select Module</Value>
   </Keyword>
   <Keyword>
-    <Key>module_openquestions</Key>
-    <Value>Open Question</Value>
+    <Key>module_open_questions</Key>
+    <Value>Open Questions</Value>
   </Keyword>
   <Keyword>
-    <Key>module_followup</Key>
-    <Value>Follow Up</Value>
+    <Key>module_follow_up_questions</Key>
+    <Value>Follow-up Questions</Value>
   </Keyword>
   <Keyword>
     <Key>module_paraphrasing</Key>
     <Value>Paraphrasing</Value>
   </Keyword>
   <Keyword>
-    <Key>module_freeplay</Key>
+    <Key>module_free_play</Key>
     <Value>Free Practise</Value>
   </Keyword>
   <Keyword>
+    <Key>more_logs</Key>
+    <Value>Load More</Value>
+  </Keyword>
+
+  <!--Subtitles-->
+
+  <Keyword>
+    <Key>module_subtitle_open_questions</Key>
+    <Value>Questions for all the answers</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_subtitle_follow_up_questions</Key>
+    <Value>Questions for clarity</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_subtitle_paraphrasing</Key>
+    <Value>A short summary</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_subtitle_free_play</Key>
+    <Value>Practise anything you want</Value>
+  </Keyword>
+
+
+  <Keyword>
     <Key>loadingmessage</Key>
-    <Value>Searching for Partner</Value>
+    <Value>Looking for Partner</Value>
   </Keyword>
   <Keyword>
     <Key>leave_queue</Key>
@@ -55,7 +82,7 @@
   </Keyword>
   <Keyword>
     <Key>enqueue</Key>
-    <Value>Enqueue</Value>
+    <Value>Connect</Value>
   </Keyword>
   <Keyword>
     <Key>continue</Key>
@@ -87,7 +114,7 @@
   </Keyword>
   <Keyword>
     <Key>enter_ip</Key>
-    <Value>Enter IP...</Value>
+    <Value>Fill in IP...</Value>
   </Keyword>
   <Keyword>
     <Key>confirm</Key>
@@ -99,7 +126,7 @@
   </Keyword>
   <Keyword>
     <Key>enter_name</Key>
-    <Value>Enter Name...</Value>
+    <Value>Fill in name...</Value>
   </Keyword>
   <Keyword>
     <Key>phone</Key>
@@ -107,10 +134,421 @@
   </Keyword>
   <Keyword>
     <Key>enter_phone</Key>
-    <Value>Enter Phone...</Value>
+    <Value>Fill in phone...</Value>
   </Keyword>
   <Keyword>
     <Key>language</Key>
     <Value>Language</Value>
+  </Keyword>
+  <Keyword>
+    <Key>complete_evaluation</Key>
+    <Value>Results</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case</Key>
+    <Value>Case</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_feedback_client</Key>
+    <Value>Client Evaluation</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_feedback_self</Key>
+    <Value>Own Evaluation</Value>
+  </Keyword>
+  <Keyword>
+    <Key>watch_replay</Key>
+    <Value>Watch Replay</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_positive</Key>
+    <Value>What did you partner do right?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_self</Key>
+    <Value>How did it go?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_challenge</Key>
+    <Value>How did completing the challenge go?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_improvements</Key>
+    <Value>Are there things your partner can still improve in?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>fill_in</Key>
+    <Value>Fill in...</Value>
+  </Keyword>
+  <Keyword>
+    <Key>submit</Key>
+    <Value>Submit</Value>
+  </Keyword>
+  <Keyword>
+    <Key>evaluation</Key>
+    <Value>Evaluation</Value>
+  </Keyword>
+  <Keyword>
+    <Key>label_client_name</Key>
+    <Value>Client:</Value>
+  </Keyword>
+  <Keyword>
+    <Key>label_professional_name</Key>
+    <Value>Coach:</Value>
+  </Keyword>
+  <Keyword>
+    <Key>label_module</Key>
+    <Value>Module:</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_current_mood</Key>
+    <Value>Current Mood</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_hobbies</Key>
+    <Value>Hobbies</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_social_network</Key>
+    <Value>Sociale Characteristics</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_occupation</Key>
+    <Value>Occupation</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_issue</Key>
+    <Value>Issue</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_challenge</Key>
+    <Value>Challenge</Value>
+  </Keyword>
+  <Keyword>
+    <Key>to_main_menu</Key>
+    <Value>To Menu</Value>
+  </Keyword>
+  <Keyword>
+    <Key>loadingevaluationmessage</Key>
+    <Value>Loading Evaluation</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_module_description</Key>
+    <Value>What is it?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_module_example</Key>
+    <Value>How do you do that?</Value>
+  </Keyword>
+
+  <!--Module Descriptions-->
+
+  <Keyword>
+    <Key>module_description_open_questions</Key>
+    <Value>Asking open questions revolves around getting as much information from your client as possible. Using this can help you get as close to their story as possible. Think of the 5-H + W questions.</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_description_follow_up_questions</Key>
+    <Value>Follow-up Questions is one of the methods to get a more concrete perspective of someone's issue. You can do this by asking about a specific example or by clearing up vague concepts.</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_description_paraphrasing</Key>
+    <Value>Paraphrasing is a version of summarising in which the emphasis lies on the most recently discussed topic. With this you can test whether you understand the client and you show you are interested in their story.</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_description_free_play</Key>
+    <Value>FREEPLAY Description\n;wipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwip</Value>
+  </Keyword>
+
+  <!--Module Examples-->
+
+  <Keyword>
+    <Key>module_example_open_questions_0</Key>
+    <Value>"What do you experience when you walk through the park and the man with the dog walks by again?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_open_questions_1</Key>
+    <Value>"What did you think when your mother told you you were moving houses?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_open_questions_2</Key>
+    <Value>"Imagine your cat would run away again, how would you respond?"</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>module_example_follow_up_questions_0</Key>
+    <Value>"What exactly do you mean with an aggressive pose?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_follow_up_questions_1</Key>
+    <Value>"Could you give me an example of when your son doesn't listen?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_follow_up_questions_2</Key>
+    <Value>"Are there any other factors that might play a role?"</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>module_example_paraphrasing_0</Key>
+    <Value>"So if I understand it correctly, your neighbour's cat keeps tipping over your plants?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_paraphrasing_1</Key>
+    <Value>"Are you trying to say that you find it difficult to focus?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_paraphrasing_2</Key>
+    <Value>"Am I right if I say that it looks like your neighbour is the reason for your daughter's panicing?"</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>module_example_free_play_0</Key>
+    <Value>free_playEXAMPLE1_wipwipwipwipwip</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_free_play_1</Key>
+    <Value>free_playEXAMPLE2_wipwipwipwipwip</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_free_play_2</Key>
+    <Value>free_playEXAMPLE3_wipwipwipwipwip</Value>
+  </Keyword>
+
+  <!--Challenges-->
+
+  <Keyword>
+    <Key>apply_module</Key>
+    <Value>Apply your module 7 times</Value>
+  </Keyword>
+  <Keyword>
+    <Key>guess_mood</Key>
+    <Value>Guess your client's current mood</Value>
+  </Keyword>
+  <Keyword>
+    <Key>explore_hobbies</Key>
+    <Value>Discover everything about the client's hobbies</Value>
+  </Keyword>
+  <Keyword>
+    <Key>explore_social_network</Key>
+    <Value>Discover everything about the client's social life</Value>
+  </Keyword>
+  <Keyword>
+    <Key>explore_occupation</Key>
+    <Value>Discover everything about the client's occupation</Value>
+  </Keyword>
+  <Keyword>
+    <Key>loadingcompleteevaluationmessage</Key>
+    <Value>Loading Results</Value>
+  </Keyword>
+
+  <!--Moods-->
+
+  <Keyword>
+    <Key>happy</Key>
+    <Value>Happy</Value>
+  </Keyword>
+  <Keyword>
+    <Key>sad</Key>
+    <Value>Sad</Value>
+  </Keyword>
+  <Keyword>
+    <Key>angry</Key>
+    <Value>Angry</Value>
+  </Keyword>
+  <Keyword>
+    <Key>disgusted</Key>
+    <Value>Disgusted</Value>
+  </Keyword>
+  <Keyword>
+    <Key>stressed</Key>
+    <Value>Stressed</Value>
+  </Keyword>
+  <Keyword>
+    <Key>meh</Key>
+    <Value>Mehh</Value>
+  </Keyword>
+  <Keyword>
+    <Key>curious</Key>
+    <Value>Curious</Value>
+  </Keyword>
+  <Keyword>
+    <Key>energetic</Key>
+    <Value>Energetic</Value>
+  </Keyword>
+  <Keyword>
+    <Key>stoic</Key>
+    <Value>Stoic</Value>
+  </Keyword>
+  <Keyword>
+    <Key>tired</Key>
+    <Value>Tired</Value>
+  </Keyword>
+  <Keyword>
+    <Key>confused</Key>
+    <Value>Confused</Value>
+  </Keyword>
+
+  <!--Hobbies-->
+
+  <Keyword>
+    <Key>sport</Key>
+    <Value>Sports</Value>
+  </Keyword>
+  <Keyword>
+    <Key>art</Key>
+    <Value>Art</Value>
+  </Keyword>
+  <Keyword>
+    <Key>music</Key>
+    <Value>Music</Value>
+  </Keyword>
+  <Keyword>
+    <Key>games</Key>
+    <Value>Games</Value>
+  </Keyword>
+  <Keyword>
+    <Key>cycling</Key>
+    <Value>Cycling</Value>
+  </Keyword>
+  <Keyword>
+    <Key>walking</Key>
+    <Value>Walking</Value>
+  </Keyword>
+  <Keyword>
+    <Key>travelling</Key>
+    <Value>Travelling</Value>
+  </Keyword>
+  <Keyword>
+    <Key>reading</Key>
+    <Value>Reading</Value>
+  </Keyword>
+  <Keyword>
+    <Key>going_out</Key>
+    <Value>Going out</Value>
+  </Keyword>
+
+  <!--Problems-->
+
+  <Keyword>
+    <Key>moving_out</Key>
+    <Value>You are not sure whether you should move out</Value>
+  </Keyword>
+  <Keyword>
+    <Key>neighbours_noise</Key>
+    <Value>Your neighbours make a lot of noise</Value>
+  </Keyword>
+  <Keyword>
+    <Key>planning_activities</Key>
+    <Value>You are having difficulty planning</Value>
+  </Keyword>
+  <Keyword>
+    <Key>passing_pet</Key>
+    <Value>Your pet passed away</Value>
+  </Keyword>
+  <Keyword>
+    <Key>babysitting_stress</Key>
+    <Value>The child you are babysitting is very annoying</Value>
+  </Keyword>
+  <Keyword>
+    <Key>motivation_exercise</Key>
+    <Value>You find it difficult to motivate yourself to work out</Value>
+  </Keyword>
+  <Keyword>
+    <Key>motivation_occupation</Key>
+    <Value>You find it difficult to motivate yourself to go to school/work</Value>
+  </Keyword>
+  <Keyword>
+    <Key>job_offer</Key>
+    <Value>You don't know how to respond to a job offer you just acquired</Value>
+  </Keyword>
+  <Keyword>
+    <Key>currently_moving</Key>
+    <Value>You find it difficult to maintain a overview while moving houses</Value>
+  </Keyword>
+  <Keyword>
+    <Key>finance_struggle</Key>
+    <Value>You are having difficulties with your finances</Value>
+  </Keyword>
+  <Keyword>
+    <Key>physical_injury</Key>
+    <Value>You injured yourself and are barely capable of doing anything</Value>
+  </Keyword>
+
+  <!--Occupations-->
+
+  <Keyword>
+    <Key>studying</Key>
+    <Value>Student</Value>
+  </Keyword>
+  <Keyword>
+    <Key>psychologist</Key>
+    <Value>Psychologist</Value>
+  </Keyword>
+  <Keyword>
+    <Key>coach</Key>
+    <Value>Coach</Value>
+  </Keyword>
+  <Keyword>
+    <Key>social_worker</Key>
+    <Value>Social Worker</Value>
+  </Keyword>
+  <Keyword>
+    <Key>doctor</Key>
+    <Value>Doctor</Value>
+  </Keyword>
+  <Keyword>
+    <Key>secretary</Key>
+    <Value>Secretary</Value>
+  </Keyword>
+  <Keyword>
+    <Key>mechanic</Key>
+    <Value>Mechanic</Value>
+  </Keyword>
+  <Keyword>
+    <Key>teacher</Key>
+    <Value>Teacher</Value>
+  </Keyword>
+  <Keyword>
+    <Key>cop</Key>
+    <Value>Police Officer</Value>
+  </Keyword>
+  <Keyword>
+    <Key>construction_worker</Key>
+    <Value>Construction Worker</Value>
+  </Keyword>
+  <Keyword>
+    <Key>fire_martial</Key>
+    <Value>Fireman</Value>
+  </Keyword>
+  <Keyword>
+    <Key>none</Key>
+    <Value>None</Value>
+  </Keyword>
+
+  <!--Social-->
+
+  <Keyword>
+    <Key>siblings</Key>
+    <Value>Siblings</Value>
+  </Keyword>
+  <Keyword>
+    <Key>school</Key>
+    <Value>Friends from school</Value>
+  </Keyword>
+  <Keyword>
+    <Key>clubs</Key>
+    <Value>Clubs</Value>
+  </Keyword>
+  <Keyword>
+    <Key>work</Key>
+    <Value>Friends from work</Value>
+  </Keyword>
+  <Keyword>
+    <Key>neighbours</Key>
+    <Value>Neighbours</Value>
+  </Keyword>
+  <Keyword>
+    <Key>pets</Key>
+    <Value>A pet</Value>
   </Keyword>
 </Keywords>

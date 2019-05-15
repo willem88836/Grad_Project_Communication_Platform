@@ -51,6 +51,14 @@
     <Key>header_recent</Key>
     <Value>Recent</Value>
   </Keyword>
+  <Keyword>
+    <Key>online</Key>
+    <Value>Online</Value>
+  </Keyword>
+  <Keyword>
+    <Key>offline</Key>
+    <Value>Offline</Value>
+  </Keyword>
 
   <!--Subtitles-->
 

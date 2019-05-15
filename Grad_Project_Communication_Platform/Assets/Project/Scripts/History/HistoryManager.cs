@@ -39,23 +39,32 @@ namespace Project.History
 					Debug.LogWarning("Missing Evaluation Entry: " + id);
 					break;
 				}
-				
-				serializedHistory.SerializedHistoryLogs[i - index] = log;
+
+				CompleteCaseEvaluation caseEvaluation = JsonUtility.FromJson<CompleteCaseEvaluation>(log);
+
+				char c = (char)124;
+
+				string serializedCase = caseEvaluation.RoleplayDescription.Case.Module.ToString() + c
+					+ caseEvaluation.EvaluationUserA.User.Name + c
+					+ caseEvaluation.EvaluationUserB.User.Name + c
+					+ caseEvaluation.TimeStamp + c
+					+ caseEvaluation.RoleplayDescription.Id;
+
+				serializedHistory.SerializedHistoryLogs[i - index] = serializedCase;
 			}
 
 			string json = JsonUtility.ToJson(serializedHistory);
 			NetworkMessage message = new NetworkMessage(NetworkMessageType.RequestHistoryLogs, "", participant.Id, json);
 			Manager.SendMessage(message, participant.IP);
+
+			
 		}
 
 
 		private string[] LoadUserLogs(string userId)
 		{
-			Debug.Log("asdf1: " + userId);
 			string name = HistoryLogsName.Value.Format(userId);
-			Debug.Log("asdf2: " + name);
 			SaveLoad.Load(name, out string data);
-			Debug.Log("asdf3: " + data);
 
 			if (data == null)
 				return new string[0];

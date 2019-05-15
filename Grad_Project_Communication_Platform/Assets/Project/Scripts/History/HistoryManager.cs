@@ -1,5 +1,6 @@
 ﻿using Framework.ScriptableObjects.Variables;
 using Framework.Storage;
+using Framework.Utils;
 using UnityEngine;
 using JsonUtility = Framework.Features.Json.JsonUtility;
 
@@ -9,7 +10,7 @@ namespace Project.History
 	{
 		public int ChunkSize = 5;
 		public SharedString CompleteEvaluationName;
-		public SharedString UserLogsName;
+		public SharedString HistoryLogsName;
 
 
 		public void OnHistoryLogsRequested(Participant participant, string serializedIndex)
@@ -50,10 +51,17 @@ namespace Project.History
 
 		private string[] LoadUserLogs(string userId)
 		{
-			SaveLoad.Load(string.Format(UserLogsName.Value, userId), out string data);
+			Debug.Log("asdf1: " + userId);
+			string name = HistoryLogsName.Value.Format(userId);
+			Debug.Log("asdf2: " + name);
+			SaveLoad.Load(name, out string data);
+			Debug.Log("asdf3: " + data);
+
 			if (data == null)
 				return new string[0];
-			return data.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+			string[] indices = data.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
+			return indices;
 		}
 	}
 }

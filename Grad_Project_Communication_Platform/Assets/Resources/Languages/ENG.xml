@@ -43,6 +43,14 @@
     <Key>more_logs</Key>
     <Value>Load More</Value>
   </Keyword>
+  <Keyword>
+    <Key>header_friends</Key>
+    <Value>Friends</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_recent</Key>
+    <Value>Recent</Value>
+  </Keyword>
 
   <!--Subtitles-->
 

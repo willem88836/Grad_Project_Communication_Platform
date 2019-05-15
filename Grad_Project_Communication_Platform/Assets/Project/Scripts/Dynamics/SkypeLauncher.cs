@@ -18,7 +18,7 @@ public class SkypeLauncher
 			launchIntent = packageManager.Call<AndroidJavaObject>("getLaunchIntentForPackage", bundleId);
 
 			launchIntent.Call<AndroidJavaObject>("setAction", "android.intent.action.VIEW");
-			launchIntent.Call<AndroidJavaObject>("setData", JavaUriParse(string.Format("Skype:{0}?call&video=true", skypeName)));
+			launchIntent.Call<AndroidJavaObject>("setData", JavaUriParse(string.Format("Skype:{0}?call&video=true", "live:" + skypeName)));
 
 			currentActivity.Call("startActivity", launchIntent);
 		}

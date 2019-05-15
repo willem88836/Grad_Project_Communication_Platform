@@ -2,6 +2,8 @@
 using Framework.Storage;
 using UnityEngine;
 using Framework.Utils;
+using JsonUtility = Framework.Features.Json.JsonUtility;
+using System.Collections.Generic;
 
 namespace Project.Social
 {
@@ -33,7 +35,7 @@ namespace Project.Social
 			SaveLoad.Load(name, out string log);
 			if (log == null)
 			{
-				string json = JsonUtility.ToJson(new SerializedSocial() {Recent = new Participant[RecentCount] });
+				string json = JsonUtility.ToJson(new SerializedSocial() {Recent = new Participant[0], Friends = new Participant[0]});
 				SaveLoad.Save(json, name);
 				AddToRecentLog(userA, userB);
 				return;
@@ -41,11 +43,9 @@ namespace Project.Social
 
 			SerializedSocial serializedSocial = JsonUtility.FromJson<SerializedSocial>(log);
 
-			for (int i = serializedSocial.Recent.Length - 2; i >= 0; i--)
-			{
-				serializedSocial.Recent[i + 1] = serializedSocial.Recent[i];
-			}
-			serializedSocial.Recent[0] = userB;
+			List<Participant> newRecent = new List<Participant>(serializedSocial.Recent);
+			newRecent.Insert(0, userB);
+			serializedSocial.Recent = newRecent.ToArray();
 
 			string updatedLog = JsonUtility.ToJson(serializedSocial);
 			SaveLoad.Save(updatedLog, name);

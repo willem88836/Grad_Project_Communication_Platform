@@ -43,6 +43,22 @@
     <Key>more_logs</Key>
     <Value>Meer Laden</Value>
   </Keyword>
+  <Keyword>
+    <Key>header_friends</Key>
+    <Value>Vrienden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_recent</Key>
+    <Value>Recent</Value>
+  </Keyword>
+  <Keyword>
+    <Key>online</Key>
+    <Value>Online</Value>
+  </Keyword>
+  <Keyword>
+    <Key>offline</Key>
+    <Value>Offline</Value>
+  </Keyword>
 
   <!--Subtitles-->
 
@@ -400,7 +416,7 @@
   </Keyword>
   <Keyword>
     <Key>music</Key>
-    <Value>Music</Value>
+    <Value>Muziek</Value>
   </Keyword>
   <Keyword>
     <Key>games</Key>
@@ -551,5 +567,4 @@
     <Key>pets</Key>
     <Value>Een huisdier</Value>
   </Keyword>
-
 </Keywords>

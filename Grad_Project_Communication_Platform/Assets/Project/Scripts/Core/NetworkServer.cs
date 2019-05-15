@@ -1,11 +1,13 @@
 ﻿using Project.History;
+using Project.Social;
 using System.Collections.Generic;
 
-public sealed class NetworkServer : NetworkManager
+public sealed class NetworkServer  : NetworkManager
 {
 	public Matchmaker Matchmaker;
 	public CompleteEvaluationGenerator CompleteEvaluationGenerator;
 	public HistoryManager HistoryManager;
+	public SocialManager SocialManager;
 
 	private List<Participant> activeUsers;
 
@@ -19,6 +21,7 @@ public sealed class NetworkServer : NetworkManager
 		Matchmaker.Initialize(this);
 		CompleteEvaluationGenerator.Initialize(this);
 		HistoryManager.Initialize(this);
+		SocialManager.Initialize(this);
 	}
 
 
@@ -73,6 +76,11 @@ public sealed class NetworkServer : NetworkManager
 		HistoryManager.OnHistoryLogsRequested(participant, message.Message);
 	}
 
+	public void RequestSocialLogs(NetworkMessage message)
+	{
+		Participant participant = SelectParticipant(message);
+		SocialManager.OnRequestAcquired(participant);
+	}
 
 	private Participant SelectParticipant(NetworkMessage message)
 	{

@@ -1,5 +1,6 @@
 ﻿using Framework.ScriptableObjects.Variables;
 using Framework.Storage;
+using Framework.Utils;
 using UnityEngine;
 using JsonUtility = Framework.Features.Json.JsonUtility;
 
@@ -9,7 +10,7 @@ namespace Project.History
 	{
 		public int ChunkSize = 5;
 		public SharedString CompleteEvaluationName;
-		public SharedString UserLogsName;
+		public SharedString HistoryLogsName;
 
 
 		public void OnHistoryLogsRequested(Participant participant, string serializedIndex)
@@ -38,22 +39,38 @@ namespace Project.History
 					Debug.LogWarning("Missing Evaluation Entry: " + id);
 					break;
 				}
-				
-				serializedHistory.SerializedHistoryLogs[i - index] = log;
+
+				CompleteCaseEvaluation caseEvaluation = JsonUtility.FromJson<CompleteCaseEvaluation>(log);
+
+				char c = (char)124;
+
+				string serializedCase = caseEvaluation.RoleplayDescription.Case.Module.ToString() + c
+					+ caseEvaluation.EvaluationUserA.User.Name + c
+					+ caseEvaluation.EvaluationUserB.User.Name + c
+					+ caseEvaluation.TimeStamp + c
+					+ caseEvaluation.RoleplayDescription.Id;
+
+				serializedHistory.SerializedHistoryLogs[i - index] = serializedCase;
 			}
 
 			string json = JsonUtility.ToJson(serializedHistory);
 			NetworkMessage message = new NetworkMessage(NetworkMessageType.RequestHistoryLogs, "", participant.Id, json);
 			Manager.SendMessage(message, participant.IP);
+
+			
 		}
 
 
 		private string[] LoadUserLogs(string userId)
 		{
-			SaveLoad.Load(string.Format(UserLogsName.Value, userId), out string data);
+			string name = HistoryLogsName.Value.Format(userId);
+			SaveLoad.Load(name, out string data);
+
 			if (data == null)
 				return new string[0];
-			return data.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+			string[] indices = data.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
+			return indices;
 		}
 	}
 }

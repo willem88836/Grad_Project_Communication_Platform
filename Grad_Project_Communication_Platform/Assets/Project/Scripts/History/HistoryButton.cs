@@ -11,24 +11,46 @@ namespace Project.History
 		public Text Header;
 		public Text SubHeader;
 		public Text DateField;
-		
+		public Text IconField;
+
+		private string id;
 
 		public void Set(string log)
 		{
-			CompleteCaseEvaluation caseEvaluation = JsonUtility.FromJson<CompleteCaseEvaluation>(log);
+			Debug.Log(log);
 
-			string key = string.Format("module_{0}", caseEvaluation.RoleplayDescription.Case.Module.ToString());
-			Header.text = MultilanguageSupport.GetKeyWord(key);
+			// HACK: JSON is broken.
+			string[] splittedDetails = log.Split(new char[1] { (char)124 });
 
-			SubHeader.text = string.Format("{0} and {1}",
-				caseEvaluation.EvaluationUserA.User.Name,
-				caseEvaluation.EvaluationUserB.User.Name);
+			Debug.Log(splittedDetails.Length);
 
-			DateField.text = DateTime.Parse(caseEvaluation.TimeStamp).ToShortDateString();
+			Debug.Log(splittedDetails[0]);
+			Debug.Log(splittedDetails[1]);
+			Debug.Log(splittedDetails[2]);
+			Debug.Log(splittedDetails[3]);
+			Debug.Log(splittedDetails[4]);
+			
+
+			string module = splittedDetails[0];
+			string nameUserA = splittedDetails[1];
+			string nameUserB = splittedDetails[2];
+			string date = splittedDetails[3];
+			string id = splittedDetails[4];
+
+			string key = string.Format("module_{0}", module);
+			string moduleName = MultilanguageSupport.GetKeyWord(key);
+			Header.text = moduleName;
+			IconField.text = moduleName[0].ToString();
+			SubHeader.text = string.Format("{0} and {1}", nameUserA, nameUserB);
+
+			DateField.text = DateTime.Parse(date).ToShortDateString();
+
+			this.id = id;
 		}
 
 		public void OnClick()
 		{
+			// do something With id.
 			throw new NotImplementedException();
 		}
 	}

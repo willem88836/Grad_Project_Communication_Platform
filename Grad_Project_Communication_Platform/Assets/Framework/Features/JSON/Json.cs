@@ -10,6 +10,7 @@ namespace Framework.Features.Json
 	// TODO: Serializing Arrays does not work. 
 	// TODO: Serializing Arrays with multiple dimensions does not work. 
 	// TODO: Arrays with no content doesn't work.
+	// TODO: Nested strings do not work.
 	public static class JsonUtility
 	{
 		private class Json
@@ -422,9 +423,19 @@ namespace Framework.Features.Json
 				int i = 0;
 				return (T)jsonDeserializer.DeserializeObject(json, ref i, typeof(T));
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				throw new Exception(string.Format("Json deserialization halted with error message: ({0})\nStackTrace: ({1})", e.Message, e.StackTrace));
+				LoggingUtilities.LogFormat(
+					"Json deserialization halted with error message: ({0})\nInner Exception: ({1})\nData: ({2})\nHelplink: ({3})\nHResult: ({4})\nSource: ({5})\nTargetSite: ({6})\nStack Trace: ({7})",
+					ex.Message,
+					ex.InnerException,
+					ex.Data,
+					ex.HelpLink,
+					ex.HResult,
+					ex.Source,
+					ex.TargetSite,
+					ex.StackTrace);
+				throw ex;
 			}
 		}
 
@@ -436,9 +447,19 @@ namespace Framework.Features.Json
 				int i = 0;
 				return jsonDeserializer.DeserializeObject(json, ref i, t);
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				throw new Exception(string.Format("Json deserialization halted with error message: ({0})\nStackTrace: ({1})", e.Message, e.StackTrace));
+				LoggingUtilities.LogFormat(
+					"Json deserialization halted with error message: ({0})\nInner Exception: ({1})\nData: ({2})\nHelplink: ({3})\nHResult: ({4})\nSource: ({5})\nTargetSite: ({6})\nStack Trace: ({7})",
+					ex.Message,
+					ex.InnerException,
+					ex.Data,
+					ex.HelpLink,
+					ex.HResult,
+					ex.Source,
+					ex.TargetSite,
+					ex.StackTrace);
+				throw ex;
 			}
 		}
 
@@ -449,9 +470,19 @@ namespace Framework.Features.Json
 				JsonSerializer jsonSerializer = new JsonSerializer();
 				return jsonSerializer.ToJson(obj, typeof(T));
 			}
-			catch(Exception e)
+			catch(Exception ex)
 			{
-				throw new Exception(string.Format("Json deserialization halted with error message: ({0})\nStackTrace: ({1})", e.Message, e.StackTrace));
+				LoggingUtilities.LogFormat(
+					"Json serialization halted with error message: ({0})\nInner Exception: ({1})\nData: ({2})\nHelplink: ({3})\nHResult: ({4})\nSource: ({5})\nTargetSite: ({6})\nStack Trace: ({7})",
+					ex.Message,
+					ex.InnerException,
+					ex.Data,
+					ex.HelpLink,
+					ex.HResult,
+					ex.Source,
+					ex.TargetSite,
+					ex.StackTrace);
+				throw ex;
 			}
 		}
 
@@ -462,9 +493,19 @@ namespace Framework.Features.Json
 				JsonSerializer jsonSerializer = new JsonSerializer();
 				return jsonSerializer.ToJson(obj, t);
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				throw new Exception(string.Format("Json deserialization halted with error message: ({0})\nStackTrace: ({1})", e.Message, e.StackTrace));
+				LoggingUtilities.LogFormat(
+					"Json serialization halted with error message: ({0})\nInner Exception: ({1})\nData: ({2})\nHelplink: ({3})\nHResult: ({4})\nSource: ({5})\nTargetSite: ({6})\nStack Trace: ({7})",
+					ex.Message,
+					ex.InnerException,
+					ex.Data,
+					ex.HelpLink,
+					ex.HResult,
+					ex.Source,
+					ex.TargetSite,
+					ex.StackTrace);
+				throw ex;
 			}
 		}
 	}

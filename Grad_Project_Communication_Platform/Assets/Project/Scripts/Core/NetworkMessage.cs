@@ -51,7 +51,8 @@ public enum NetworkMessageType		// Content stored in message field
 	// Client <-> Server
 	ConnectToServer,                // Name and Id in message field (from client) OR nothing (from server
 	TransmitCompleteEvaluation,     // Client has no content OR Final Evaluation in message field
-	RequestHistoryLogs				// log start index when coming from client OR most recent history logs when from server
+	RequestHistoryLogs,				// log start index when coming from client OR most recent history logs when from server
+	RequestSocialLogs				// nothing from client OR participant info when from server
 }
 
 

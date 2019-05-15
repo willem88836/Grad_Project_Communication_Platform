@@ -10,6 +10,7 @@ namespace Framework.Features.Json
 	// TODO: Serializing Arrays does not work. 
 	// TODO: Serializing Arrays with multiple dimensions does not work. 
 	// TODO: Arrays with no content doesn't work.
+	// TODO: Nested strings do not work.
 	public static class JsonUtility
 	{
 		private class Json

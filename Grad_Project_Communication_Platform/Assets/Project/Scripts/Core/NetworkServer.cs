@@ -11,6 +11,32 @@ public sealed class NetworkServer  : NetworkManager
 
 	private List<Participant> activeUsers;
 
+	protected override void Update()
+	{
+		base.Update();
+
+		if (UnityEngine.Input.GetKeyDown(UnityEngine.KeyCode.C) && UnityEngine.Application.isEditor)
+		{
+			Participant userA = new Participant("TesterA", "1.1.1.1", "devm_9874123");
+			Participant userB = new Participant("TesterB", "1.1.1.1", "devm_651089");
+
+			ConnectToServer(new NetworkMessage(NetworkMessageType.ConnectToServer, userA.Id, "", userA.Name) { SenderIP = userA.IP });
+			ConnectToServer(new NetworkMessage(NetworkMessageType.ConnectToServer, userB.Id, "", userB.Name) { SenderIP = userB.IP });
+
+			Framework.Storage.SaveLoad.Load("LastId", out string id);
+
+			RoleplayModule module = (RoleplayModule)UnityEngine.Random.Range(0, 1 + (int)RoleplayModule.open_questions);
+
+			Enqueue(new NetworkMessage(NetworkMessageType.Enqueue, userA.Id, "", module.ToString()) { SenderIP = userA.IP });
+			Enqueue(new NetworkMessage(NetworkMessageType.Enqueue, userB.Id, "", module.ToString()) { SenderIP = userB.IP });
+
+			CaseEvaluation caseEvaluationA = new CaseEvaluation() { User = userA, Id = id, EvaluationFields = new string[2] { "", "" } };
+			CaseEvaluation caseEvaluationB = new CaseEvaluation() { User = userB, Id = id, EvaluationFields = new string[2] { "", "" } };
+
+			TransmitEvaluationTest(new NetworkMessage(NetworkMessageType.TransmitEvaluationTest, userA.Id, "", Framework.Features.Json.JsonUtility.ToJson(caseEvaluationA)) { SenderIP = userA.IP });
+			TransmitEvaluationTest(new NetworkMessage(NetworkMessageType.TransmitEvaluationTest, userB.Id, "", Framework.Features.Json.JsonUtility.ToJson(caseEvaluationB)) { SenderIP = userB.IP });
+		}
+	}
 
 	protected override void Initialize()
 	{

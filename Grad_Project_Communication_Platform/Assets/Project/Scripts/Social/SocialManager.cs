@@ -20,7 +20,7 @@ namespace Project.Social
 
 			if (data == null)
 			{
-				data = JsonUtility.ToJson(new SerializedSocial());
+				data = JsonUtility.ToJson(new SerializedSocial() { Friends = new Participant[0], Recent = new Participant[0] });
 			}
 
 			NetworkMessage message = new NetworkMessage(NetworkMessageType.RequestSocialLogs, "", participant.Id, data);

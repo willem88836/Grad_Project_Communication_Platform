@@ -50,7 +50,7 @@ public class RoleplayDescriptionGenerator
 		return id;
 	}
 
-	private CaseDescription GenerateCase(RoleplayModule module)
+	public CaseDescription GenerateCase(RoleplayModule module)
 	{
 		ModuleCaseProfile profile = ProfileContainer.GetCaseProfileOfModule(module);
 

@@ -42,5 +42,6 @@ public class VisualCaseElement : MonoBehaviour
 		Text c = Instantiate(Characteristic, transform);
 		c.gameObject.SetActive(true);
 		c.text = MultilanguageSupport.GetKeyWord(characteristic);
+		Debug.Log(c.text);
 	}
 }

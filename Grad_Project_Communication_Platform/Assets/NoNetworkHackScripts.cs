@@ -31,9 +31,9 @@ public class NoNetworkHackScripts : MonoBehaviour
 
 	private IEnumerator<YieldInstruction> QueueSim()
 	{
-		yield return new WaitForSeconds(5);
+		yield return new WaitForSeconds(0);
 
-		isClient = userPhone.Value == "devm_9874123";
+		isClient = userPhone.Value == "devm_9874123" || true;
 
 		Participant user1 = new Participant(userName.Value, "1.1.1.1", userPhone.Value);
 		Participant user2 = new Participant("TesterA", "1.1.1.1", "devm_651089");
@@ -44,7 +44,15 @@ public class NoNetworkHackScripts : MonoBehaviour
 			"1",
 			isClient ? user1 : user2,
 			isClient ? user2 : user1,
-			RoleplayDescriptionGenerator.GenerateCase(RoleplayModule.open_questions));
+			RoleplayDescriptionGenerator.GenerateCase(RoleplayModule.paraphrasing));
+
+		for (int i = 0; i < roleplayDescription.Case.Characteristics.Length; i++)
+		{
+			for (int j = 0; j < roleplayDescription.Case.Characteristics[i].Length; j++)
+			{
+				roleplayDescription.Case.Characteristics[i][j] = 2;
+			}
+		}
 		currentRoleplayDescription = roleplayDescription;
 		string json = Framework.Features.Json.JsonUtility.ToJson(roleplayDescription);
 		RoleplayController.OnRoleplayLoaded(json);

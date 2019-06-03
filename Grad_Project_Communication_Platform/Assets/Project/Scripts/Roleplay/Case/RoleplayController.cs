@@ -89,8 +89,9 @@ public class RoleplayController : ApplicationController<NetworkClient>
 
 			for (int j = 0; j < characteristics.Length; j++)
 			{
-				string option = element.OptionPool[j];
-
+				int k = characteristics[j];
+				string option = element.OptionPool[k];
+				
 				if (element.VisibleUserA)
 				{
 					visualCaseUserA.AddCharacteristic(option);

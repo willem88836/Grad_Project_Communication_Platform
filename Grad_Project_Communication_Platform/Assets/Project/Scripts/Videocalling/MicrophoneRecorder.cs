@@ -38,14 +38,14 @@ namespace Project.Videocalling
 			AudioMixer.SetFloat(AudioMixerMicrophoneVolumeName, MicrophoneVolume);
 
 			// Prepares the AudioSource to play Microphone sounds.
-			outputClip = Microphone.Start(null, true, RecordingLength, RecordingFrequency);
+			outputClip = null;//Microphone.Start(null, true, RecordingLength, RecordingFrequency);
 			AudioSource.clip = outputClip;
 			AudioSource.loop = true;
 
 			samples = new float[SampleLength];
 
 			// Waits until the Microphone has start to avoid stutter.
-			while (Microphone.GetPosition(null) <= 0) { }
+			//while (Microphone.GetPosition(null) <= 0) { }
 		}
 
 		/// <summary>

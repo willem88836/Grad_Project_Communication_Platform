@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91126089cd0b9a64c9b594ed47dccfe6, type: 3}
+  m_Name: CaseProfile_Paraphrasing
+  m_EditorClassIdentifier: 
+  Module: 1
+  Elements:
+  - {fileID: 11400000, guid: 4b081f60eda2cd748851f0a79648f4da, type: 2}
+  - {fileID: 11400000, guid: 7582a37f48229b34b90da5cc41180db2, type: 2}
+  - {fileID: 11400000, guid: 57e32b978c9b5624abc973cfb61e925d, type: 2}
+  - {fileID: 11400000, guid: 41d26d3882fbb1b409178ee40d881bc4, type: 2}
+  - {fileID: 11400000, guid: b041c08febc418d4bb3f7011e4a145dc, type: 2}
+  - {fileID: 11400000, guid: de12810a60501044ea2ff095e552178c, type: 2}

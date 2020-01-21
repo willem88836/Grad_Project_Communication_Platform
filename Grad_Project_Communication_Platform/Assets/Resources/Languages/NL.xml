@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--Menu Stuff-->
+
+<Keywords>
+  <Keyword>
+    <Key>practise</Key>
+    <Value>Oefenen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>history</Key>
+    <Value>Geschiedenis</Value>
+  </Keyword>
+  <Keyword>
+    <Key>social</Key>
+    <Value>Social</Value>
+  </Keyword>
+  <Keyword>
+    <Key>settings</Key>
+    <Value>Instellingen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_selectmodule</Key>
+    <Value>Selecteer Module</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_open_questions</Key>
+    <Value>Open Vragen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_follow_up_questions</Key>
+    <Value>Doorvragen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_paraphrasing</Key>
+    <Value>Parafraseren</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_free_play</Key>
+    <Value>Vrij Oefenen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>more_logs</Key>
+    <Value>Meer Laden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_friends</Key>
+    <Value>Vrienden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_recent</Key>
+    <Value>Recent</Value>
+  </Keyword>
+  <Keyword>
+    <Key>online</Key>
+    <Value>Online</Value>
+  </Keyword>
+  <Keyword>
+    <Key>offline</Key>
+    <Value>Offline</Value>
+  </Keyword>
+
+  <!--Subtitles-->
+
+  <Keyword>
+    <Key>module_subtitle_open_questions</Key>
+    <Value>Vragen voor alle antwoorden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_subtitle_follow_up_questions</Key>
+    <Value>Vragen voor duidelijkheid</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_subtitle_paraphrasing</Key>
+    <Value>Een korte samenvatting</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_subtitle_free_play</Key>
+    <Value>Oefen alles wat je wilt</Value>
+  </Keyword>
+
+
+  <Keyword>
+    <Key>loadingmessage</Key>
+    <Value>Zoeken naar Partner</Value>
+  </Keyword>
+  <Keyword>
+    <Key>leave_queue</Key>
+    <Value>Verlaat Rij</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_modulebriefing</Key>
+    <Value>Module Beschrijving</Value>
+  </Keyword>
+  <Keyword>
+    <Key>back</Key>
+    <Value>Terug</Value>
+  </Keyword>
+  <Keyword>
+    <Key>enqueue</Key>
+    <Value>Verbinden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>continue</Key>
+    <Value>Verder</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_history</Key>
+    <Value>Geschiedenis</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_social</Key>
+    <Value>Social</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_settings</Key>
+    <Value>Instellingen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>reset</Key>
+    <Value>Reset</Value>
+  </Keyword>
+  <Keyword>
+    <Key>credits</Key>
+    <Value>Credits</Value>
+  </Keyword>
+  <Keyword>
+    <Key>server_ip</Key>
+    <Value>Server IP</Value>
+  </Keyword>
+  <Keyword>
+    <Key>enter_ip</Key>
+    <Value>Vul IP in...</Value>
+  </Keyword>
+  <Keyword>
+    <Key>confirm</Key>
+    <Value>Bevestigen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>name</Key>
+    <Value>Naam</Value>
+  </Keyword>
+  <Keyword>
+    <Key>enter_name</Key>
+    <Value>Vul naam in...</Value>
+  </Keyword>
+  <Keyword>
+    <Key>phone</Key>
+    <Value>Telefoon</Value>
+  </Keyword>
+  <Keyword>
+    <Key>enter_phone</Key>
+    <Value>Vul telefoon in...</Value>
+  </Keyword>
+  <Keyword>
+    <Key>language</Key>
+    <Value>Taal</Value>
+  </Keyword>
+  <Keyword>
+    <Key>complete_evaluation</Key>
+    <Value>Resultaat</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case</Key>
+    <Value>Casus</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_feedback_client</Key>
+    <Value>Evaluatie Cliënt</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_feedback_self</Key>
+    <Value>Zelf Evaluatie</Value>
+  </Keyword>
+  <Keyword>
+    <Key>watch_replay</Key>
+    <Value>Bekijk Herhaling</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_positive</Key>
+    <Value>Wat deed je gesprekspartner goed?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_self</Key>
+    <Value>Hoe vond je dit gaan?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_challenge</Key>
+    <Value>Hoe ging het behalen van de uitdaging?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>feedback_improvements</Key>
+    <Value>Zijn er dingen waarin je gesprekspartner nog kan verbeteren?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>fill_in</Key>
+    <Value>Vul in...</Value>
+  </Keyword>
+  <Keyword>
+    <Key>submit</Key>
+    <Value>Verzenden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>evaluation</Key>
+    <Value>Evaluatie</Value>
+  </Keyword>
+  <Keyword>
+    <Key>label_client_name</Key>
+    <Value>Cliënt:</Value>
+  </Keyword>
+  <Keyword>
+    <Key>label_professional_name</Key>
+    <Value>Coach:</Value>
+  </Keyword>
+  <Keyword>
+    <Key>label_module</Key>
+    <Value>Module:</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_current_mood</Key>
+    <Value>Huidig Humeur</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_hobbies</Key>
+    <Value>Hobby's</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_social_network</Key>
+    <Value>Sociale Kenmerken</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_occupation</Key>
+    <Value>Beroep</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_issue</Key>
+    <Value>Probleem</Value>
+  </Keyword>
+  <Keyword>
+    <Key>case_challenge</Key>
+    <Value>Uitdaging</Value>
+  </Keyword>
+  <Keyword>
+    <Key>to_main_menu</Key>
+    <Value>Naar Menu</Value>
+  </Keyword>
+  <Keyword>
+    <Key>loadingevaluationmessage</Key>
+    <Value>Evaluatie aan het laden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_module_description</Key>
+    <Value>Wat is het ook nog maar?</Value>
+  </Keyword>
+  <Keyword>
+    <Key>header_module_example</Key>
+    <Value>En hoe doe je dat?</Value>
+  </Keyword>
+
+<!--Module Descriptions-->
+
+  <Keyword>
+    <Key>module_description_open_questions</Key>
+    <Value>Bij het stellen van een open vraag draait het om zoveel mogelijk informatie uit de cliënt te halen. Hiermee kan je zo dicht mogelijk bij hun verhaal komen. Denk bijvoorbeeld aan de 5-H + W-vragen.</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_description_follow_up_questions</Key>
+    <Value>Doorvragen is één van de onderdelen die je helpt een concreter beeld van een probleem te krijgen. Dit kan je doen door te vragen naar een concreet voorbeeld of door vage begrippen te verhelderen.</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_description_paraphrasing</Key>
+    <Value>Parafraseren is een vorm van samenvatten waarbij je in eigen woorden het laatste besproken onderwerp beschrijft. Hiermee kan je controleren of je de cliënt begrijpt en toon je interesse in hun verhaal.</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_description_free_play</Key>
+    <Value>FREEPLAY Description\n;wipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwipwip</Value>
+  </Keyword>
+
+<!--Module Examples-->
+
+  <Keyword>
+    <Key>module_example_open_questions_0</Key>
+    <Value>"Wat ervaar je als je door het park loopt en de man met de hond weer langs komt?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_open_questions_1</Key>
+    <Value>"Wat dacht je toen je moeder vertelde dat jullie gingen verhuizen?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_open_questions_2</Key>
+    <Value>"Stel je voor dat je kat weer wegloopt, hoe zou je dan reageren?"</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>module_example_follow_up_questions_0</Key>
+    <Value>"Wat bedoel je precies met een agressieve houding?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_follow_up_questions_1</Key>
+    <Value>"Kan je een voorbeeld geven van wanneer je zoon niet luistert?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_follow_up_questions_2</Key>
+    <Value>"Zijn er nog andere factoren die meespelen?"</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>module_example_paraphrasing_0</Key>
+    <Value>"Dus als ik het goed begrijp, blijft de kat van de buren continu je planten omgooien."</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_paraphrasing_1</Key>
+    <Value>"Bedoel je te zeggen dat je je aandacht er moeilijk bij kan houden?"</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_paraphrasing_2</Key>
+    <Value>"Klopt het als ik zeg dat de buurjongen de reden lijkt voor de paniek van je dochter?"</Value>
+  </Keyword>
+
+  <Keyword>
+    <Key>module_example_free_play_0</Key>
+    <Value>free_playEXAMPLE1_wipwipwipwipwip</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_free_play_1</Key>
+    <Value>free_playEXAMPLE2_wipwipwipwipwip</Value>
+  </Keyword>
+  <Keyword>
+    <Key>module_example_free_play_2</Key>
+    <Value>free_playEXAMPLE3_wipwipwipwipwip</Value>
+  </Keyword>
+
+  <!--Challenges-->
+
+  <Keyword>
+    <Key>apply_module</Key>
+    <Value>Voer de module 7 keer uit</Value>
+  </Keyword>
+  <Keyword>
+    <Key>guess_mood</Key>
+    <Value>Raad het humeur van de cliënt</Value>
+  </Keyword>
+  <Keyword>
+    <Key>explore_hobbies</Key>
+    <Value>Zoek alles uit over de cliënt zijn hobbies</Value>
+  </Keyword>
+  <Keyword>
+    <Key>explore_social_network</Key>
+    <Value>Zoek alles uit over de cliënt zijn sociale leven</Value>
+  </Keyword>
+  <Keyword>
+    <Key>explore_occupation</Key>
+    <Value>Zoek alles uit over de cliënt zijn beroep</Value>
+  </Keyword>
+  <Keyword>
+    <Key>loadingcompleteevaluationmessage</Key>
+    <Value>Resultaat wordt geladen</Value>
+  </Keyword>
+
+<!--Moods-->
+
+  <Keyword>
+    <Key>happy</Key>
+    <Value>Vrolijk</Value>
+  </Keyword>
+  <Keyword>
+    <Key>sad</Key>
+    <Value>Verdrietig</Value>
+  </Keyword>
+  <Keyword>
+    <Key>angry</Key>
+    <Value>Boos</Value>
+  </Keyword>
+  <Keyword>
+    <Key>disgusted</Key>
+    <Value>Walgend</Value>
+  </Keyword>
+  <Keyword>
+    <Key>stressed</Key>
+    <Value>Gestrest</Value>
+  </Keyword>
+  <Keyword>
+    <Key>meh</Key>
+    <Value>Mehh</Value>
+  </Keyword>
+  <Keyword>
+    <Key>curious</Key>
+    <Value>Nieuwsgierig</Value>
+  </Keyword>
+  <Keyword>
+    <Key>energetic</Key>
+    <Value>Energiek</Value>
+  </Keyword>
+  <Keyword>
+    <Key>stoic</Key>
+    <Value>Onverschillig</Value>
+  </Keyword>
+  <Keyword>
+    <Key>tired</Key>
+    <Value>Moe</Value>
+  </Keyword>
+  <Keyword>
+    <Key>confused</Key>
+    <Value>Verward</Value>
+  </Keyword>
+
+<!--Hobbies-->
+
+  <Keyword>
+    <Key>sport</Key>
+    <Value>Sport</Value>
+  </Keyword>
+  <Keyword>
+    <Key>art</Key>
+    <Value>Kunst</Value>
+  </Keyword>
+  <Keyword>
+    <Key>music</Key>
+    <Value>Muziek</Value>
+  </Keyword>
+  <Keyword>
+    <Key>games</Key>
+    <Value>Spelletjes</Value>
+  </Keyword>
+  <Keyword>
+    <Key>cycling</Key>
+    <Value>Fietsen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>walking</Key>
+    <Value>Wandelen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>travelling</Key>
+    <Value>Reizen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>reading</Key>
+    <Value>Lezen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>going_out</Key>
+    <Value>Uitgaan</Value>
+  </Keyword>
+
+<!--Problems-->
+
+  <Keyword>
+    <Key>moving_out</Key>
+    <Value>Je weet niet zo goed of je uit huis moet gaan</Value>
+  </Keyword>
+  <Keyword>
+    <Key>neighbours_noise</Key>
+    <Value>Je buren maken ontzettend veel lawaai</Value>
+  </Keyword>
+  <Keyword>
+    <Key>planning_activities</Key>
+    <Value>Je hebt moeite met plannen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>passing_pet</Key>
+    <Value>Je huisdier is net overleden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>babysitting_stress</Key>
+    <Value>Je oppaskindje werkt je ontzettend op de zenuwen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>motivation_exercise</Key>
+    <Value>Je kan jezelf moeilijk motiveren om te gaan sporten</Value>
+  </Keyword>
+  <Keyword>
+    <Key>motivation_occupation</Key>
+    <Value>Je kan jezelf moeilijk motiveren om naar school/werk te gaan</Value>
+  </Keyword>
+  <Keyword>
+    <Key>job_offer</Key>
+    <Value>Je bent gevraagd voor een vacature</Value>
+  </Keyword>
+  <Keyword>
+    <Key>currently_moving</Key>
+    <Value>Je hebt moeite met overzicht houden tijdens je verhuizing</Value>
+  </Keyword>
+  <Keyword>
+    <Key>finance_struggle</Key>
+    <Value>Je hebt moeite met je financiën</Value>
+  </Keyword>
+  <Keyword>
+    <Key>physical_injury</Key>
+    <Value>Je hebt een blessure opgelopen en kan nu bijna niks</Value>
+  </Keyword>
+
+<!--Occupations-->
+
+  <Keyword>
+    <Key>studying</Key>
+    <Value>Student</Value>
+  </Keyword>
+  <Keyword>
+    <Key>psychologist</Key>
+    <Value>Psycholoog</Value>
+  </Keyword>
+  <Keyword>
+    <Key>coach</Key>
+    <Value>Coach</Value>
+  </Keyword>
+  <Keyword>
+    <Key>social_worker</Key>
+    <Value>Sociaal Werker</Value>
+  </Keyword>
+  <Keyword>
+    <Key>doctor</Key>
+    <Value>Dokter</Value>
+  </Keyword>
+  <Keyword>
+    <Key>secretary</Key>
+    <Value>Secretaris</Value>
+  </Keyword>
+  <Keyword>
+    <Key>mechanic</Key>
+    <Value>Monteur</Value>
+  </Keyword>
+  <Keyword>
+    <Key>teacher</Key>
+    <Value>Docent</Value>
+  </Keyword>
+  <Keyword>
+    <Key>cop</Key>
+    <Value>Politie agent</Value>
+  </Keyword>
+  <Keyword>
+    <Key>construction_worker</Key>
+    <Value>Bouwvakker</Value>
+  </Keyword>
+  <Keyword>
+    <Key>fire_martial</Key>
+    <Value>Brandweerman</Value>
+  </Keyword>
+  <Keyword>
+    <Key>none</Key>
+    <Value>Geen</Value>
+  </Keyword>
+
+<!--Social-->
+
+  <Keyword>
+    <Key>siblings</Key>
+    <Value>Broers en zussen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>school</Key>
+    <Value>School vrienden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>clubs</Key>
+    <Value>Verenigingen</Value>
+  </Keyword>
+  <Keyword>
+    <Key>work</Key>
+    <Value>Werk vrienden</Value>
+  </Keyword>
+  <Keyword>
+    <Key>neighbours</Key>
+    <Value>Buren</Value>
+  </Keyword>
+  <Keyword>
+    <Key>pets</Key>
+    <Value>Een huisdier</Value>
+  </Keyword>
+</Keywords>
